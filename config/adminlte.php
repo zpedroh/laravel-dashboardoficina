@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'Oficina',
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Oficina</b>OFC',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '<b>O</b>FC',
 
     /*
     |--------------------------------------------------------------------------
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'blue',
+    'skin' => 'black',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '',
 
     'logout_url' => 'logout',
 
@@ -110,18 +110,12 @@ return [
     'menu' => [
         'MAIN NAVIGATION',        
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
+            'text'        => 'Notificações',
+            'url'         => '',
             'icon'        => 'file',
-            'label'       => 4,
+            'label'       => 1,
             'label_color' => 'success',
-        ],
-        'Usuario',
-        [
-            'text' => 'Perfil',
-            'url'  => 'admin/settings',
-            'icon' => 'user', 
-        ],        
+        ], 
 
         'Produtos',
         [
@@ -130,70 +124,29 @@ return [
             'icon' => 'user',
             'submenu'=>[
                 [
-                'text' => 'Cadastrar',
-                'url'  => 'admin/item/register',
-                'icon' => 'lock',
-                ],
-                [
-                'text' => 'Alterar/Excluir',
+                'text' => 'Produtos',
                 'url'  => 'admin/item/search',
                 'icon' => 'lock',
                 ],
-            ],
-
-        ],
-        [
-            'text' => 'Marcas',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
-            'submenu'=>[
                 [
-                'text' => 'Cadastrar',
-                'url'  => 'admin/brand/register',
-                'icon' => 'lock',
-                ],
-                [
-                'text' => 'Alterar/Excluir',
+                'text' => 'Marcas',
                 'url'  => 'admin/brand/search',
                 'icon' => 'lock',
                 ],
-            ],
-        ],
-        [
-            'text' => 'Categorias',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
-            'submenu'=>[
                 [
-                'text' => 'Cadastrar',
-                'url'  => 'admin/category/register',
-                'icon' => 'lock',
-                ],
-                [
-                'text' => 'Alterar/Excluir',
+                'text' => 'Categorias',
                 'url'  => 'admin/category/search',
                 'icon' => 'lock',
                 ],
-            ],
-        ],
-        'Serviços',
-        [
-            'text' => 'Serviços',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
-            'submenu'=>[
                 [
-                'text' => 'Cadastrar',
-                'url'  => 'admin/service/register',
-                'icon' => 'lock',
-                ],
-                [
-                'text' => 'Alterar/Excluir',
-                'url'  => 'admin/settings',
+                'text' => 'Serviços',
+                'url'  => 'admin/service/search',
                 'icon' => 'lock',
                 ],
             ],
         ],
+
+
         'Clientes',
         [
             'text' => 'Clientes',
@@ -201,18 +154,36 @@ return [
             'icon' => 'lock',
             'submenu'=>[
                 [
-                'text' => 'Cadastrar',
-                'url'  => 'admin/client/register',
+                'text' => 'Clientes',
+                'url'  => 'admin/client/search',
                 'icon' => 'lock',
                 ],
                 [
-                'text' => 'Alterar/Excluir',
-                'url'  => 'admin/client/search',
+                'text' => 'Notas',
+                'url'  => 'admin/record/search',
                 'icon' => 'lock',
                 ],
             ],
         ],
-        
+
+        'Relatorios',
+        [
+            'text' => 'Relatorios',
+            'url'  => 'admin/settings',
+            'icon' => 'lock',
+            'submenu'=>[
+                [
+                'text' => 'X',
+                'url'  => 'admin/client/register',
+                'icon' => 'lock',
+                ],
+                [
+                'text' => 'Y',
+                'url'  => 'admin/client/search',
+                'icon' => 'lock',
+                ],
+            ],
+        ],             
     ],
 
     /*

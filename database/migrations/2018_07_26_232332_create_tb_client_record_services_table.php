@@ -18,7 +18,7 @@ class CreateTbClientRecordServicesTable extends Migration
             $table->integer('service_id')->unsigned();
             $table->integer('client_record_id')->unsigned();
             $table->integer('quantity');
-            $table->double('service-total', 10, 2);
+            $table->double('service_total', 10, 2);
             $table->timestamps();
         });
 

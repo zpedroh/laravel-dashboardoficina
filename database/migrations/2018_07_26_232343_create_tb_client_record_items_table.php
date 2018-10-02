@@ -17,14 +17,14 @@ class CreateTbClientRecordItemsTable extends Migration
             $table->increments('id');
             $table->integer('item_id')->unsigned();
             $table->integer('client_record_id')->unsigned();
-            $table->double('quantity', 10, 2);
-            $table->double('item-total', 10, 2);
+            $table->integer('quantity', 2);
+            $table->double('item_total', 10, 2);
             $table->timestamps();
         });
 
         Schema::table('tb_client_record_items', function ( $table) {            
             $table->foreign('item_id')->references('id')->on('tb_items');
-            $table->foreign('client_record_id')->references('id')->on('tb_client_records');            
+            $table->foreign('client_record_id')->references('id')->on('tb_client_records')->onDelete('cascade');            
         });
     }
 

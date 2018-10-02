@@ -29,9 +29,7 @@ class ClientController extends Controller
             $client = $this->client->create($request->all());
 
             return redirect()->route('clients.register')->with('success', 'Information has been added');  
-        }    
-                
-              
+        }  
     } 
 
     public function clientsGet()
@@ -39,30 +37,26 @@ class ClientController extends Controller
         $client = $this->client->all();
 
         return view('admin.client.search', compact('client'));        
-    }
+    }    
 
-    /*
-    
-
-    public function brandsEdit($id)
+    public function clientsEdit($id)
     {        
-        $brand = \App\Models\Brand::find($id);
-        return view('admin.brand.edit',compact('brand','id'));        
+        $client = $this->client->find($id);
+        return view('admin.client.edit',compact('client','id'));        
     }
 
-    public function brandsUpdate(Request $request, $id)
+    public function clientsUpdate(Request $request, $id)
     {
-        $brand= \App\Models\Brand::find($id);
-        $brand->name=$request->get('name');        
-        $brand->save();
+        $client = $this->client->find($id);
+        $client->name = $request->get('name');        
+        $client->save();
         return redirect('admin/home');
     }
 
-    public function brandsDestroy($id)
+    public function clientsDestroy($id)
     {
-        $brand = \App\Models\Brand::find($id);
-        $brand->delete();
+        $client = $this->client->find($id);
+        $client->delete();
         return redirect('admin/home')->with('success','Information has been  deleted');
-    }
-    */
+    }   
 }

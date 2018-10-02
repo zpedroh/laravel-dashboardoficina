@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     protected $table = 'tb_items';
-    protected $fillable = ['name', 'price', 'brand_id', 'category_id', 'item_stock_id'];    
+    protected $fillable = ['name', 'price', 'brand_id', 'category_id'];    
     protected $primaryKey = 'id';
 
     public function getBrand()
@@ -23,7 +23,8 @@ class Item extends Model
 
     public function getItemStock()
     {
-        return $this->hasOne('App\Models\ItemStock', 'id', 'item_stock_id');
+        return $this->hasOne('App\Models\ItemStock', 'item_id', 'id');
     }   
+    
 }
 

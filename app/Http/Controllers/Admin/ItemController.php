@@ -15,12 +15,16 @@ class ItemController extends Controller
 {    
 
     protected $item;
+    protected $item_stock;
+    protected $brands;
+    protected $categories;
 
-    public function __construct(Item $item,ItemStock $item_stock)
+    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands)
     {
-        $this->item = $item;
-
+        $this->item       = $item;
         $this->item_stock = $item_stock; 
+        $this->category   = $categories;
+        $this->brand      = $brands;
     }    
 
     public function index()
@@ -30,67 +34,95 @@ class ItemController extends Controller
 
     public function itemsRegister()
     {
-        $brands = Brand::orderBy('name', 'asc')->get();
-        $categories = Category::orderBy('name', 'asc')->get();
+        $brands = $this->brand->orderBy('name', 'asc')->get();
+        $categories = $this->category->orderBy('name', 'asc')->get();
 
         return view('admin.item.register', compact('brands', 'categories'));
     }
 
     public function itemsCreate(Request $request)
     {
-        $dataStock = [
-            'quantity' => $request->quantity
-        ];
+        
+        if($request->quantity > 0 and $request->price > 0){
 
-        $item_stock = $this->item_stock->create($dataStock);
+            $testeitem = $this->item->find($request->name,  $request->brand_id);
 
-        $dataItem = [
-            'name'          => $request->name,
-            'price'         => $request->price,
-            'brand_id'      => $request->brand,
-            'category_id'   => $request->category,
-            'item_stock_id' => $item_stock->id
-        ];
+            dd($testeitem);
 
-        $item = $this->item->create($dataItem);       
+            if($testeitem = 'null'){
                 
-        return redirect()->route('items.home')->with('success', 'Information has been added');        
+                dd($request->all());
+
+                $dataItem = [
+                    'name'          => $request->name,
+                    'price'         => $request->price,
+                    'brand_id'      => $request->brand,
+                    'category_id'   => $request->category
+                ];
+        
+                $item = $this->item->create($dataItem);
+        
+                $dataStock = [
+                    'quantity' => $request->quantity,
+                    'item_id'  => $item->id
+                ];
+        
+                $item_stock = $this->item_stock->create($dataStock);
+           
+                return redirect()->route('items.home')->with('success', 'Information has been added'); 
+
+            }
+            else{
+                dd($request->name);
+                //mensagem de erro
+            }
+        }
+
+        else{
+            //mensagem de erro
+        }       
     }
            
     public function itemsGet()
     {
+        $brands = $this->brand->orderBy('name', 'asc')->get();
+        $categories = $this->category->orderBy('name', 'asc')->get();
+
+
         $item = $this->item->all();
 
-        //$brands = Brand::all();
-        
-        //->sortBy('name', 'asc');
-
-        return view('admin.item.search', compact('item', 'brands'));        
+        return view('admin.item.search', compact('item', 'brands', 'categories'));        
     }
-
-
-    /*
 
     public function itemsEdit($id)
-    {        
-        $category = \App\Models\Category::find($id);
-        return view('admin.category.edit',compact('category','id'));        
+    {   
+        $brands = $this->brand->orderBy('name', 'asc')->get();
+        $categories = $this->category->orderBy('name', 'asc')->get();
+        
+        $item = $this->item->find($id);   
+        
+        return view('admin.item.edit')->with(compact('brands'))->with(compact('categories'))->with(compact('item'));
     }
 
-    public function items(Request $request, $id)
+    public function itemsUpdate(Request $request, $id)
     {
-        $category= \App\Models\Category::find($id);
-        $category->name=$request->get('name');        
-        $category->save();
+        $item = $this->item->find($id);
+ 
+        $item->update($request->all());  
+        $item->save();
+
+        $item_stock = $this->$item_stock->where('item_id', $item->id)->first();
+        $item_stock->quantity = $request->quantity;
+        $item_stock->save();
+
         return redirect('admin/home');
     }
 
     public function itemsDestroy($id)
     {
-        $category = \App\Models\Category::find($id);
-        $category->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
-    }
-    */
+        $item = $this->item->find($id);
 
+        $item->delete();
+        return redirect()->route('items.home')->with('success','Information has been  deleted');
+    }
 }

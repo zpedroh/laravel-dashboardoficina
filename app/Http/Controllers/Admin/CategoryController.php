@@ -17,7 +17,6 @@ class CategoryController extends Controller
         $this->category = $category;
     }
 
-
     public function categoriesRegister()
     {
         return view('admin.category.register');
@@ -35,20 +34,20 @@ class CategoryController extends Controller
     
     public function categoriesGet()
     {
-        $category=\App\Models\Category::all();
+        $category = $this->category->all();
 
         return view('admin.category.search', compact('category'));        
     }
 
     public function categoriesEdit($id)
     {        
-        $category = \App\Models\Category::find($id);
+        $category = $this->category->find($id);
         return view('admin.category.edit',compact('category','id'));        
     }
 
     public function categoriesUpdate(Request $request, $id)
     {
-        $category= \App\Models\Category::find($id);
+        $category = $this->category->find($id);
         $category->name=$request->get('name');        
         $category->save();
         return redirect('admin/home');
@@ -56,7 +55,7 @@ class CategoryController extends Controller
 
     public function categoriesDestroy($id)
     {
-        $category = \App\Models\Category::find($id);
+        $category = $this->category->find($id);
         $category->delete();
         return redirect('admin/home')->with('success','Information has been  deleted');
     }

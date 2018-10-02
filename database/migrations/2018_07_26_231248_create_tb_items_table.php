@@ -18,15 +18,10 @@ class CreateTbItemsTable extends Migration
             $table->string('name', 20);
             $table->double('price', 10, 2);
             $table->integer('brand_id')->unsigned();
-            $table->integer('category_id')->unsigned();
-            $table->integer('item_stock_id')->unsigned();
-            $table->timestamps();
-        });
-
-        Schema::table('tb_items', function ( $table) {
             $table->foreign('brand_id')->references('id')->on('tb_brands');
+            $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('tb_categories');
-            $table->foreign('item_stock_id')->references('id')->on('tb_item_stocks');
+            $table->timestamps();
         });
     }
 

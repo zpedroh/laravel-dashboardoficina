@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class ItemStock extends Model
 {
     protected $table = 'tb_item_stocks';
-    protected $fillable = ['quantity'];    
+    protected $fillable = ['quantity', 'item_id'];    
     protected $primaryKey = 'id';
+
+    public function getItem()
+    {
+        return $this->hasOne('App\Models\Item', 'id', 'item_id');
+    } 
 }

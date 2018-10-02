@@ -16,10 +16,10 @@ class CreateTbClientRecordsTable extends Migration
         Schema::create('tb_client_records', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('client_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->double('record-total', 10, 2);
-            $table->integer('status');
-            $table->string('plaque', 7);
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->double('record_total', 10, 2)->default('0');
+            $table->integer('status')->default('1');
+            $table->string('plaque', 7)->nullable();
             $table->timestamps();
         });
 

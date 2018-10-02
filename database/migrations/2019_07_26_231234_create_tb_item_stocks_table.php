@@ -16,7 +16,12 @@ class CreateTbItemStocksTable extends Migration
         Schema::create('tb_item_stocks', function ( $table) {
             $table->increments('id');            
             $table->integer('quantity');
+            $table->integer('item_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('tb_item_stocks', function ( $table) {
+            $table->foreign('item_id')->references('id')->on('tb_items')->onDelete('cascade');
         });
     }
 

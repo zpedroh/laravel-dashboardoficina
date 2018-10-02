@@ -12,81 +12,102 @@
 */
 //'middleware' => ['auth'],
 
-$this->group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 {
     //Clientes
 
-    $this->get('/client/register', 'ClientController@clientsRegister')->name('clients.register');
+    Route::get('/client/register', 'ClientController@clientsRegister')->name('clients.register');
 
-    $this->post('/client/register', 'ClientController@clientsCreate')->name('clients.create');
+    Route::post('/client/register', 'ClientController@clientsCreate')->name('clients.create');
 
-    $this->get('/client/search', 'ClientController@clientsGet')->name('clients.search');
+    Route::get('/client/search', 'ClientController@clientsGet')->name('clients.search');
 
-    $this->get('/client/edit/{id}', 'ClientController@clientsEdit')->name('clients.edit');//falta resolver
+    Route::get('/client/edit/{id}', 'ClientController@clientsEdit')->name('clients.edit');
 
-    $this->get('/brand/update/{id}', 'ClientController@clientsUpdate')->name('clients.update');//falta resolver
+    Route::get('/client/update/{id}', 'ClientController@clientsUpdate')->name('clients.update');
 
-    $this->get('/client/destroy/{id}', 'ClientController@clientsDestroy')->name('clients.destroy');//falta resolver
+    Route::get('/client/destroy/{id}', 'ClientController@clientsDestroy')->name('clients.destroy');
     
+    //Notas
 
-    //item
+    Route::get('/record/register', 'ClientRecordController@recordsRegister')->name('records.register');
 
-    $this->get('/home', 'ItemController@index')->name('items.home');
+    Route::post('/record/register', 'ClientRecordController@recordsCreate')->name('records.create');
 
-    $this->get('/item/register', 'ItemController@itemsRegister')->name('items.register');
+    Route::get('/record/search', 'ClientRecordController@recordsGet')->name('records.search');
 
-    $this->post('/item/register', 'ItemController@itemsCreate')->name('items.create');
+    Route::get('/record/edit/{id}', 'ClientRecordController@recordsEdit')->name('records.edit');
 
-    $this->get('/item/search', 'ItemController@itemsGet')->name('items.search');
+    Route::get('/record/update/{id}', 'ClientRecordController@recordsUpdate')->name('records.update');
 
-    $this->get('/item/edit/{id}', 'ItemController@itemsEdit')->name('items.edit');//falta resolver
+    Route::get('/record/destroy/{id}', 'RecordController@recordsDestroy')->name('records.destroy');
 
-    $this->get('/brand/update/{id}', 'BrandController@brandsUpdate')->name('brands.update');//falta resolver
 
-    $this->get('/item/destroy/{id}', 'ItemController@itemsDestroy')->name('items.destroy');//falta resolver
+    //Conteudo Notas
+    Route::get('/recorditem/register', 'ClientRecordController@recorditemsRegister')->name('recorditems.register');
+    //Itens Notas
+    Route::post('/recorditem/register', 'ClientRecordController@recorditemsCreate')->name('recorditems.create');
+    //Serviços Notas
+    Route::post('/recordservice/register', 'ClientRecordController@recordservicesCreate')->name('recordservices.create');
+
+    //itens
+
+    Route::get('/home', 'ItemController@index')->name('items.home');
+
+    Route::get('/item/register', 'ItemController@itemsRegister')->name('items.register');
+
+    Route::post('/item/register', 'ItemController@itemsCreate')->name('items.create');
+
+    Route::get('/item/search', 'ItemController@itemsGet')->name('items.search');
+
+    Route::get('/item/edit/{id}', 'ItemController@itemsEdit')->name('items.edit');
+
+    Route::get('/item/update/{id}', 'ItemController@itemsUpdate')->name('items.update');
+
+    Route::get('/item/destroy/{id}', 'ItemController@itemsDestroy')->name('items.destroy');
 
     //servicos
 
-    $this->get('/service/register', 'ServiceController@servicesRegister')->name('services.register');
+    Route::get('/service/register', 'ServiceController@servicesRegister')->name('services.register');
 
-    $this->post('/service/register', 'ServiceController@servicesCreate')->name('services.create');
+    Route::post('/service/register', 'ServiceController@servicesCreate')->name('services.create');
 
-    $this->get('/service/search', 'ServiceController@servicesGet')->name('services.search');
+    Route::get('/service/search', 'ServiceController@servicesGet')->name('services.search');
 
-    $this->get('/service/edit/{id}', 'ServiceController@servicesEdit')->name('services.edit');//falta resolver
+    Route::get('/service/edit/{id}', 'ServiceController@servicesEdit')->name('services.edit');
 
-    $this->get('/service/update/{id}', 'ServiceController@servicesUpdate')->name('services.update');//falta resolver
+    Route::get('/service/update/{id}', 'ServiceController@servicesUpdate')->name('services.update');
 
-    $this->get('/service/destroy/{id}', 'ServiceController@servicesDestroy')->name('services.destroy');//falta resolver
+    Route::get('/service/destroy/{id}', 'ServiceController@servicesDestroy')->name('services.destroy');
 
-    //marca
+    //marcas
 
-    $this->get('/brand/register', 'BrandController@brandsRegister')->name('brands.register');
+    Route::get('/brand/register', 'BrandController@brandsRegister')->name('brands.register');
 
-    $this->post('/brand/register', 'BrandController@brandsCreate')->name('brands.create');
+    Route::post('/brand/register', 'BrandController@brandsCreate')->name('brands.create');
 
-    $this->get('/brand/search', 'BrandController@brandsGet')->name('brands.search');
+    Route::get('/brand/search', 'BrandController@brandsGet')->name('brands.search');
 
-    $this->get('/brand/edit/{id}', 'BrandController@brandsEdit')->name('brands.edit');   
+    Route::get('/brand/edit/{id}', 'BrandController@brandsEdit')->name('brands.edit');   
 
-    $this->get('/brand/update/{id}', 'BrandController@brandsUpdate')->name('brands.update');
+    Route::get('/brand/update/{id}', 'BrandController@brandsUpdate')->name('brands.update');
 
-    $this->get('/brand/destroy/{id}', 'BrandController@brandsDestroy')->name('brands.destroy');
+    Route::get('/brand/destroy/{id}', 'BrandController@brandsDestroy')->name('brands.destroy');
     
 
-    //categoria
+    //categorias
 
-    $this->get('/category/register', 'CategoryController@categoriesRegister')->name('categories.register');
+    Route::get('/category/register', 'CategoryController@categoriesRegister')->name('categories.register');
 
-    $this->post('/category/register', 'CategoryController@categoriesCreate')->name('categories.create');
+    Route::post('/category/register', 'CategoryController@categoriesCreate')->name('categories.create');
 
-    $this->get('/category/search', 'CategoryController@categoriesGet')->name('categories.search');
+    Route::get('/category/search', 'CategoryController@categoriesGet')->name('categories.search');
 
-    $this->get('/category/edit/{id}', 'CategoryController@categoriesEdit')->name('categories.edit');   
+    Route::get('/category/edit/{id}', 'CategoryController@categoriesEdit')->name('categories.edit');   
 
-    $this->get('/category/update/{id}', 'CategoryController@categoriesUpdate')->name('categories.update');
+    Route::get('/category/update/{id}', 'CategoryController@categoriesUpdate')->name('categories.update');
 
-    $this->get('/category/destroy/{id}', 'CategoryController@categoriesDestroy')->name('categories.destroy');
+    Route::get('/category/destroy/{id}', 'CategoryController@categoriesDestroy')->name('categories.destroy');
 
     
 });
@@ -95,9 +116,9 @@ $this->group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 
 
 /*
-$this->group(['namespace' => 'Site', 'prefix' => 'home'], function()
+Route::group(['namespace' => 'Site', 'prefix' => 'home'], function()
 {
-    $this->get('/', 'SiteController@index')->name('site.home');
+    Route::get('/', 'SiteController@index')->name('site.home');
 });
 */
 
