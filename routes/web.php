@@ -12,7 +12,7 @@
 */
 //'middleware' => ['auth'],
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
+Route::group(['namespace' => 'Admin','middleware' => ['auth'], 'prefix' => 'admin'], function()
 {
     //Clientes
 
@@ -40,7 +40,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 
     Route::get('/record/update/{id}', 'ClientRecordController@recordsUpdate')->name('records.update');
 
-    Route::get('/record/destroy/{id}', 'RecordController@recordsDestroy')->name('records.destroy');
+    Route::get('/record/destroy/{id}', 'ClientRecordController@recordsDestroy')->name('records.destroy');
 
 
     //Conteudo Notas
@@ -109,9 +109,31 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 
     Route::get('/category/destroy/{id}', 'CategoryController@categoriesDestroy')->name('categories.destroy');
 
+    //relatorios
+
+    Route::get('/report/bs', 'ReportController@bestsellerReport')->name('reports.bs');
+    Route::get('/report/bc', 'ReportController@bestclientReport')->name('reports.bc');
+
+
     
 });
 
+
+//testes
+
+Route::get('/teste', function () {
+    // Simply shows the blade view resources/home.blade.php
+    return view('admin.site.teste');
+});
+
+Route::post('/justapage', function() {
+
+    // This is the message that will show in the sweetalert-popup:
+    alert()->success('It worked!', 'The form was submitted');
+
+    // Redirect back to the page you were looking at
+    return back();
+});
 
 
 

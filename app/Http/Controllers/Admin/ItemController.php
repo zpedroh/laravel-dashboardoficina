@@ -43,44 +43,25 @@ class ItemController extends Controller
     public function itemsCreate(Request $request)
     {
         
-        if($request->quantity > 0 and $request->price > 0){
+        $dataItem = [
+            'name'          => $request->name,
+            'price'         => $request->price,
+            'brand_id'      => $request->brand,
+            'category_id'   => $request->category
+        ];
 
-            $testeitem = $this->item->find($request->name,  $request->brand_id);
+        $item = $this->item->create($dataItem);
 
-            dd($testeitem);
+        $dataStock = [
+            'quantity' => $request->quantity,
+            'item_id'  => $item->id
+        ];
 
-            if($testeitem = 'null'){
-                
-                dd($request->all());
+        $item_stock = $this->item_stock->create($dataStock);
 
-                $dataItem = [
-                    'name'          => $request->name,
-                    'price'         => $request->price,
-                    'brand_id'      => $request->brand,
-                    'category_id'   => $request->category
-                ];
-        
-                $item = $this->item->create($dataItem);
-        
-                $dataStock = [
-                    'quantity' => $request->quantity,
-                    'item_id'  => $item->id
-                ];
-        
-                $item_stock = $this->item_stock->create($dataStock);
-           
-                return redirect()->route('items.home')->with('success', 'Information has been added'); 
+        return redirect()->route('items.search'); 
+        //->with('success', 'Information has been added')
 
-            }
-            else{
-                dd($request->name);
-                //mensagem de erro
-            }
-        }
-
-        else{
-            //mensagem de erro
-        }       
     }
            
     public function itemsGet()
@@ -111,11 +92,11 @@ class ItemController extends Controller
         $item->update($request->all());  
         $item->save();
 
-        $item_stock = $this->$item_stock->where('item_id', $item->id)->first();
+        $item_stock = $this->item_stock->where('item_id', $item->id)->first();
         $item_stock->quantity = $request->quantity;
         $item_stock->save();
 
-        return redirect('admin/home');
+        return redirect('admin/item/search');
     }
 
     public function itemsDestroy($id)

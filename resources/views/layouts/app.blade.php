@@ -5,13 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{-- SweetAlert2  
+
+    <script src="public/vendor/sweetalert2/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="public/vendor/sweetalert2-css/sweetalert2.min.css">
+
+    <script src="sweetalert2/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2-css/sweetalert2.css">
+    
+    --}}
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -19,6 +26,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sweetalert/sweetalert.css') }}" rel="stylesheet">    
 </head>
 <body>
     <div id="app">
@@ -75,5 +83,61 @@
             @yield('content')
         </main>
     </div>
+
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('js/alert.js') }}"></script>
+
+<script>
+    @if(Session::has('message'))
+    var type = "{{Session::get('alert-type') }}"
+
+    $(document).ready(function () {
+        switch (type) {
+            case 'success':
+                toastr.success("{{ Session::get('message') }}", 'Sucesso', {
+                    timeOut: 5000,
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "tapToDismiss": false
+                })
+                break;
+            case 'error':
+                toastr.error("{{ Session::get('message') }}", 'Erro', {
+                    timeOut: 5000,
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "tapToDismiss": false
+                })
+            break;
+        }
+    });
+    @endif
+</script>
+
 </body>
 </html>

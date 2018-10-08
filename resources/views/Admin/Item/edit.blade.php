@@ -12,7 +12,7 @@
     <h2>Edit A Form</h2><br/>
     <form method="get" action="{{route('items.update', $item->id)}}">
         @csrf
-        <input name="_method" type="hidden" value="PATCH">
+        {{--<input name="_method" type="hidden" value="PATCH">--}}
         <div class="row">
             <div class="form-group">
                 <label for="name">Name:</label>

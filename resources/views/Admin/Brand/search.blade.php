@@ -7,45 +7,9 @@
 @stop
 
 @section('content')
-<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+<button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
   Adicionar Marca
 </button>
-
-<div class="modal fade" id="modal-default">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Default Modal</h4>
-          </div>
-
-          <div class="modal-body">
-
-            <form method="POST" action="{{ route('brands.create') }}">      
-
-                {!! csrf_field() !!} 
-    
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Nome da Marca" class="form-control">
-                </div>                 
-    
-                <div class="modal-footer">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Cadastrar</button>
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </form>
-            </div>
-      </div>
-      <!-- /.modal-content -->
-  </div>
-<!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-
 
    <table class="table table-striped">
     <thead>
@@ -61,27 +25,93 @@
       <tr>
         <td>{{$brand['id']}}</td>
         <td>{{$brand['name']}}</td> 
-
-
         <td>
-          <form action="{{ route('brands.edit', $brand['id'])}}" method="get">
-            @csrf
-            <input name="_method" type="hidden" value="EDIT">        
-            <button class="btn btn-success" type="submit">Edit</button>        
-          </form>
+                   {{--action="{{ route('brands.edit', $brand['id'])}}" method="get"--}}
+            <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('brands.edit', $brand['id'])}}">Editar</button>        
         </td>
-
         <td>
-          <form action="{{ route('brands.destroy', $brand['id'])}}" method="get">
-            @csrf
-            <input name="_method" type="hidden" value="DELETE">
-            <button class="btn btn-danger" type="submit">Delete</button>
-          </form>
+            <button class="btn btn-danger delete-confirm" value="{{ route('brands.destroy', $brand['id']) }}" type="button">Deletar</button>
         </td>
       </tr>
       @endforeach
     </tbody>
   </table>
+
+
+
+{{--Modais--}}
+
+  <div class="modal fade" id="modal-default">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Nova Marca</h4>
+              </div>
+    
+              <div class="modal-body">
+    
+                <form method="POST" action="{{ route('brands.create') }}">      
+    
+                    {!! csrf_field() !!} 
+        
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Nome da Marca" class="form-control">
+                    </div>                 
+        
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+          </div>
+          <!-- /.modal-content -->
+      </div>
+    <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <div class="modal fade" id="modal-edit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+      
+                <div class="modal-body">
+                  <form method="get" action="{{route('brands.update', $brand->id)}}">
+                    @csrf
+                    <input name="_method" type="hidden" value="PATCH">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="form-group col-md-4">
+                        <label for="name">Nome da Marca:</label>
+                        <input type="text" class="form-control" name="name" value="{{$brand->name}}">
+                        </div>
+                    </div>        
+                    
+                    <div class="row">
+                        <div class="modal-footer">
+                          <div class="form-group">
+                          <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
+                          </div>
+                        </div>
+                    </div>
+                </form>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+      <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
 
 @stop
 

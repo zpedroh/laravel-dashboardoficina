@@ -103,16 +103,16 @@ return [
     | Specify your menu items to display in the left sidebar. Each menu item
     | should have a text and and a URL. You can also specify an icon from
     | Font Awesome. A string instead of an array represents a header in sidebar
-    | layout. The 'can' is a filter on Laravel's built in Gate functionality.
+    | layout. The 'can' is a filter on Laravels built in Gate functionality.
     |
     */
 
     'menu' => [
         'MAIN NAVIGATION',        
         [
-            'text'        => 'Notificações',
-            'url'         => '',
-            'icon'        => 'file',
+            'text'        => 'Inicio',
+            'url'         => 'admin/home',
+            'icon'        => 'home',
             'label'       => 1,
             'label_color' => 'success',
         ], 
@@ -121,7 +121,7 @@ return [
         [
             'text' => 'Produto',
             'url'  => 'admin/settings',
-            'icon' => 'user',
+            'icon' => 'lock',
             'submenu'=>[
                 [
                 'text' => 'Produtos',
@@ -149,17 +149,36 @@ return [
 
         'Clientes',
         [
-            'text' => 'Clientes',
+            'text' => 'Pessoas',
             'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'icon' => 'user',
             'submenu'=>[
                 [
                 'text' => 'Clientes',
                 'url'  => 'admin/client/search',
+                'icon' => 'address-book',
+                ],
+            /*    [
+                'text' => 'Fornecedores',
+                'url'  => 'admin/record/search',
+                'icon' => 'address-book',
+                ],*/
+            ],
+        ],
+
+        'Notas',
+        [
+            'text' => 'Notas',
+            'url'  => 'admin/settings',
+            'icon' => 'lock',
+            'submenu'=>[
+                [
+                'text' => 'Nova',
+                'url'  => 'admin/record/search',
                 'icon' => 'lock',
                 ],
                 [
-                'text' => 'Notas',
+                'text' => 'Lista',
                 'url'  => 'admin/record/search',
                 'icon' => 'lock',
                 ],
@@ -170,17 +189,17 @@ return [
         [
             'text' => 'Relatorios',
             'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'icon' => 'parachute-box',
             'submenu'=>[
                 [
-                'text' => 'X',
-                'url'  => 'admin/client/register',
-                'icon' => 'lock',
+                'text' => 'Mais vendidos',
+                'url'  => 'admin/report/bs',
+                'icon' => 'money-bill-wave',
                 ],
                 [
-                'text' => 'Y',
-                'url'  => 'admin/client/search',
-                'icon' => 'lock',
+                'text' => 'Maiores clientes',
+                'url'  => 'admin/report/bc',
+                'icon' => 'money-bill-wave',
                 ],
             ],
         ],             

@@ -63,8 +63,8 @@ class ClientRecordController extends Controller
     {
         $clientrecord        = $this->clientrecord->all();
         $client              = $this->client->all();
-        //$clientrecorditem    = $this->clientrecorditem->all()->where('client_record_id','=','id');
-        //$clientrecordservice = $this->clientrecordservice->all()->where('client_record_id','=','id');
+        $clientrecorditem    = $this->clientrecorditem->all();//->where('client_record_id','=','id');
+        $clientrecordservice = $this->clientrecordservice->all();//->where('client_record_id','=','id');
         
         return view('admin.record.search', compact('clientrecord', 'client', 'clientrecorditem', 'clientrecordservice'));        
     }
@@ -83,14 +83,13 @@ class ClientRecordController extends Controller
         return redirect('admin/home');
     }
 
-    /*
     public function recordsDestroy($id)
     {
-        $record = $this->record->find($id);
+        
+        $record = $this->clientrecord->find($id);
         $record->delete();
         return redirect('admin/home')->with('success','Information has been  deleted');
     }
-    */
 
 
 

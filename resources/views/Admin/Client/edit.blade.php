@@ -12,7 +12,7 @@
     <h2>Edit A Form</h2><br/>
     <form method="get" action="{{route('clients.update', $id)}}">
         @csrf
-        <input name="_method" type="hidden" value="PATCH">
+        {{--<input name="_method" type="hidden" value="PATCH">--}}
         <div class="row">
             <div class="col-md-4"></div>
             <div class="form-group col-md-4">

@@ -30,7 +30,7 @@ class BrandController extends Controller
         {
             $brand = $this->brand->create($request->all());
 
-            return redirect()->route('brands.register')->with('success', 'Information has been added');  
+            return redirect()->route('brands.search')->with('success', 'Information has been added');  
         }         
     } 
 
@@ -44,7 +44,7 @@ class BrandController extends Controller
     public function brandsEdit($id)
     {        
         $brand = $this->brand->find($id);
-        return view('admin.brand.edit',compact('brand','id'));        
+        //return view('admin.brand.edit',compact('brand','id'));        
     }
 
     public function brandsUpdate(Request $request, $id)
@@ -52,13 +52,13 @@ class BrandController extends Controller
         $brand = $this->brand->find($id);
         $brand->name = $request->get('name');        
         $brand->save();
-        return redirect('admin/home');
+        return redirect('admin/brand/search');
     }
 
     public function brandsDestroy($id)
     {
         $brand = $this->brand->find($id);
         $brand->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
+        return redirect('admin/brand/search')->with('success','Information has been  deleted');
     }
 }

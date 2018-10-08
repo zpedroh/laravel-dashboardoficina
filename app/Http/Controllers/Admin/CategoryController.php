@@ -29,7 +29,7 @@ class CategoryController extends Controller
             $category = $this->category->create($request->all());
         }    
                 
-        return redirect()->route('categories.register')->with('success', 'Information has been added');        
+        return redirect()->route('categories.search')->with('success', 'Information has been added');        
     }
     
     public function categoriesGet()
@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $category = $this->category->find($id);
         $category->name=$request->get('name');        
         $category->save();
-        return redirect('admin/home');
+        return redirect('admin/category/search');
     }
 
     public function categoriesDestroy($id)

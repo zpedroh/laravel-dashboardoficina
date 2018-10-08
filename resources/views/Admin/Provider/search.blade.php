@@ -18,7 +18,7 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Ciente</th>
+        <th>Nome</th>
         <th>Data</th>
       </tr>
     </thead>
@@ -30,12 +30,12 @@
     @endif
     --}}
     
-      @foreach($clientrecord as $clientrecord)
+      @foreach($provider as $provider)
       
       <tr>
-        <td>{{$clientrecord->id}}</td>
-        <td>{{$clientrecord->getClient->name}}</td>
-        <td>{{$clientrecord->created_at}}</td>
+        <td>{{$provider->id}}</td>
+        <td>{{$provider->name}}</td>
+        <td>{{$provider->created_at}}</td>
 
         <td>
             <a class="btn-warning btn-xs" data-toggle="modal" data-target="#modal-content">
@@ -58,9 +58,7 @@
     </tbody>
   </table>
 
-
   {{--Modais--}}
-
 
   <div class="modal fade" id="modal-default">
       <div class="modal-dialog">
@@ -118,32 +116,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach($clientrecorditem as $clientrecorditem)      
+                    @foreach($provideritem as $provideritem)      
                     <tr>
-                      <td>{{$clientrecorditem->id}}</td>
-                      <td>{{$clientrecorditem->getItem->name}}</td>
-                      <td>{{$clientrecorditem->quantity}}</td>
+                      <td>{{$provideritem->id}}</td>
+                      <td>{{$provideritem->getItem->name}}</td>
+                      <td>{{$provideritem->price}}</td>
 
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
-
-                <table class="table table-bordered table-dark">
-
-                    <tbody>
-                        @foreach($clientrecordservice as $clientrecordservice)      
-                        <tr>
-                          <td>{{$clientrecordservice->id}}</td>
-                          <td>{{$clientrecordservice->getService->name}}</td>
-                          <td>{{$clientrecordservice->quantity}}</td>
-    
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-
-
         </div>
       </div>
     <!-- /.modal-content -->

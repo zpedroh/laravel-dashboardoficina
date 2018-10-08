@@ -10,9 +10,8 @@ class ClientRecordService extends Model
     protected $fillable = ['service_id', 'client_record_id', 'quantity', 'service_total'];    
     protected $primaryKey = 'id'; 
 
-    public function getClientRecord()
+    public function getService()
     {
-        return $this->hasOne('App\Models\CientRecord', 'client_id', 'id');
-        //$item->getBrand()->name;
+        return $this->hasOne('App\Models\Service', 'id', 'service_id');
     }
 }

@@ -50,11 +50,11 @@ class ServiceController extends Controller
         $service->name=$request->get('name'); 
         $service->price=$request->get('price');       
         $service->save();
-        return redirect('admin/home');
+        return redirect('admin/service/search');
     }
 
     public function servicesDestroy($id)
-    {
+    {        
         $service = \App\Models\Service::find($id);
         $service->delete();
         return redirect('admin/home')->with('success','Information has been  deleted');
