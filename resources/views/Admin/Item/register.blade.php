@@ -9,12 +9,10 @@
 @section('content')
 
     <div class="box-body">
-
-
+        
         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
                 Launch Default Modal
         </button>
-
 {{--
         <form method="POST" action="{{ route('items.create') }}">    
 

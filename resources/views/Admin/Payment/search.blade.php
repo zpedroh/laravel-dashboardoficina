@@ -12,11 +12,47 @@
   Adicionar Serviço
 </button>
 
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Default Modal</h4>
+          </div>
 
+          <div class="modal-body">
+
+            <form method="POST" action="{{ route('services.create') }}">    
+
+              {!! csrf_field() !!}                 
+            
+              <div class="form-group">
+                  <input type="text" name="name" placeholder="Nome" class="form-control" required>
+              </div>
+            
+              <div class="form-group">
+                  <input type="text" name="price" placeholder="Preço" class="form-control" required>
+              </div>     
+            
+              <div class="modal-footer">
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-success">Cadastrar</button>
+                      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                  </div>
+              </div>
+            </form>
+          </div>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 <div class="div-box">
     <div class="box-header with-border">
-        <h3 class="box-title"></h3>
+        <h3 class="box-title">Bordered Table</h3>
       </div>
     <div class="box-body">
   <div class="table-responsive">
@@ -40,12 +76,11 @@
           <td>
           </td>
           <td>
-              <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('services.edit', $service['id'])}}">Editar</button>        
-            {{--<form action="{{ route('services.edit', $service['id'])}}" method="get">
+            <form action="{{ route('services.edit', $service['id'])}}" method="get">
               @csrf
               <input name="_method" type="hidden" value="EDIT">        
               <button class="btn btn-edit" type="submit">Editar</button>        
-            </form>--}}
+            </form>
           </td>
           
           <td>
@@ -60,10 +95,9 @@
 </div>
 </div>
 
-{{--Modais--}}
 
-
-<div class="modal fade" id="modal-default">
+<button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('brands.edit', $brand['id'])}}">Editar</button>        
+<div class="modal fade" id="modal-edit">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -73,26 +107,26 @@
             </div>
   
             <div class="modal-body">
-  
-              <form method="POST" action="{{ route('services.create') }}">    
-  
-                {!! csrf_field() !!}                 
-              
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Nome" class="form-control" required>
-                </div>
-              
-                <div class="form-group">
-                    <input type="text" name="price" placeholder="Preço" class="form-control" required>
-                </div>     
-              
-                <div class="modal-footer">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Cadastrar</button>
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+              <form method="get" action="{{route('brands.update', $brand->id)}}">
+                @csrf
+                <input name="_method" type="hidden" value="PATCH">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="form-group col-md-4">
+                    <label for="name">Nome da Marca:</label>
+                    <input type="text" class="form-control" name="name" value="{{$brand->name}}">
+                    </div>
+                </div>        
+                
+                <div class="row">
+                    <div class="modal-footer">
+                      <div class="form-group">
+                      <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
+                      </div>
                     </div>
                 </div>
-              </form>
+            </form>
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -100,46 +134,6 @@
   <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-
-  <div class="modal fade" id="modal-edit">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Editar</h4>
-              </div>
-    
-              <div class="modal-body">
-                  <form method="get" action="{{route('services.update',$service->id)}}">
-                      @csrf
-                      {{--<input name="_method" type="hidden" value="PATCH">--}}
-                      <div class="row">
-                          <div class="col-md-4"></div>
-                          <div class="form-group col-md-4">
-                          <label for="name">Name:</label>
-                          <input type="text" class="form-control" name="name" value="{{$service->name}}">
-                          <label for="name">Preço:</label>
-                          <input type="text" class="form-control" name="price" value="{{$service->price}}">
-                          </div>
-                      </div>        
-                      
-                      <div class="row">
-                          <div class="col-md-4"></div>
-                          <div class="form-group col-md-4" style="margin-top:60px">
-                          <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
-                          </div>
-                      </div>
-                  </form>
-              </div>
-          </div>
-          <!-- /.modal-content -->
-      </div>
-    <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-
 @stop
 
 {{--

@@ -3,62 +3,77 @@
 @section('title', 'Item')
 
 @section('content_header')
-    <h1>Notas</h1>
+    <h1>Fornecedor</h1>
 @stop
 
 @section('content')
+<form>
 
-<div class="container">
-    <h2>Edit A Form</h2><br/>
-    <form method="get" action="{{route('items.update', $item->id)}}">
-        @csrf
-        {{--<input name="_method" type="hidden" value="PATCH">--}}
-        <div class="row">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" name="name" value="{{$item->name}}">
-            </div>
-        </div>   
-        <div class="row">
-            <div class="form-group">
-                <select class="form-control" name="category" required>
-                    <option value="">Selecione uma Categoria</option>
-                    @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach                   
-                </select>
-            </div>     
-        </div>
-        <div class="row">
-            <div class="form-group">
-                <select class="form-control" name="brand" required>
-                    <option value="">Selecione uma Marca</option>
-                    @foreach($brands as $brand)
-                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                    @endforeach                   
-                </select>
-            </div>     
-        </div>
-        <div class="row">
-            <div class="form-group">
-                <label for="name">Quantidade:</label>
-                <input type="text" class="form-control" name="quantity" value="{{$item->getItemStock->quantity}}">
-            </div>
-        </div>  
-        <div class="row">
-            <div class="form-group">
-                <label for="name">Preço:</label>
-                <input type="text" class="form-control" name="price" value="{{$item->price}}">
-            </div>
+        {!! csrf_field() !!} 
+        <div class="form-group">
+            <input type="text" name="name" placeholder="Nome" class="form-control">
+        </div>                
+        <div class="form-group">
+            <input type="text" name="cpf" placeholder="CPF" class="form-control">
         </div> 
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="form-group col-md-4" style="margin-top:60px">
-                <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
-            </div>
-        </div>
-    </form>
-</div> 
+        <div class="form-group">
+            <input type="text" name="country" placeholder="País" class="form-control">
+        </div> 
+        <div class="form-group">
+            <input type="text" name="state" placeholder="Estado" class="form-control">
+        </div> 
+        <div class="form-group">
+            <input type="text" name="zipcode" placeholder="CEP" class="form-control">
+        </div> 
+        <div class="form-group">
+            <input type="text" name="city" placeholder="Cidade" class="form-control">
+        </div> 
+        <div class="form-group">
+            <input type="text" name="district" placeholder="Bairro" class="form-control">
+        </div> 
+        <div class="form-group">
+            <input type="text" name="street" placeholder="Rua" class="form-control">
+        </div> 
+        <div class="form-group">
+            <input type="text" name="number" placeholder="Nº" class="form-control">
+        </div> 
+
+
+    <div class="table-responsive">
+        <div class="col-lg-6">
+    <table class="table table-striped">
+        <thead>
+            <h3> Itens do Fornecedor </h1>
+            <tr>
+            <th></th>    
+            <th>ID</th>
+            <th>Nome</th>       
+            <th>Categoria</th>
+            <th>Marca</th>
+            <th>Estoque</th>
+            <th>Preço Forn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($item as $item)  
+            <tr>
+                <td><input type="checkbox" name="sell"></td>
+                <td>{{$item->id}}</td>
+                <td>{{$item->name}}</td>
+                <td>{{$item->getCategory->name}}</td> 
+                <td>{{$item->getBrand->name}}</td> 
+                <td>{{$item->getItemStock->quantity}}</td> 
+                <td><input type="text" name="provider_price"></td>       
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    </div>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success">Salvar</button>
+    </div>
+</form>
 
 @stop
 

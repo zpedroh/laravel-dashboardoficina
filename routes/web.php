@@ -27,6 +27,20 @@ Route::group(['namespace' => 'Admin','middleware' => ['auth'], 'prefix' => 'admi
     Route::get('/client/update/{id}', 'ClientController@clientsUpdate')->name('clients.update');
 
     Route::get('/client/destroy/{id}', 'ClientController@clientsDestroy')->name('clients.destroy');
+
+    //fornecedores
+
+    //Route::get('/provider/register', 'ProviderController@providersRegister')->name('providers.register');
+
+    //Route::post('/provider/register', 'ProviderController@providersCreate')->name('providers.create');
+
+    Route::get('/provider/search', 'ProviderController@providersGet')->name('providers.search');
+
+    Route::get('/provider/edit', 'ProviderController@providersEdit')->name('providers.edit');
+
+    //Route::get('/provider/update/{id}', 'ProviderController@providersUpdate')->name('providers.update');
+
+    //Route::get('/provider/destroy/{id}', 'ProviderController@providersDestroy')->name('providers.destroy');
     
     //Notas
 

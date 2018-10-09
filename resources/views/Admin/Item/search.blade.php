@@ -12,8 +12,9 @@
 <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
   Adicionar Produto
 </button>
-
-   <table class="table table-striped">
+<div class="table-responsive">
+        <div class="col-lg-6">
+   <table id="tabela" class="table table-hover">
     <thead>
       <tr>
         <th>ID</th>
@@ -43,11 +44,14 @@
         <td>{{$item->getItemStock->quantity}}</td>        
 
         <td>
+            <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('items.edit', $item['id'])}}">Editar</button>        
+            {{--
           <form action="{{ route('items.edit', $item['id'])}}" method="get">
             @csrf
             <input name="_method" type="hidden" value="EDIT">        
             <button class="btn btn-edit" type="submit">Editar</button>        
           </form>
+          --}}
         </td>
 
         <td>  
@@ -57,6 +61,8 @@
       @endforeach
     </tbody>
   </table>
+        </div>
+</div>
 
   {{--Modais--}}
 
@@ -66,7 +72,7 @@
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Default Modal</h4>
+                  <h4 class="modal-title">Adicionar Item</h4>
               </div>
     
               <div class="modal-body">
@@ -125,24 +131,71 @@
     </div>
     <!-- /.modal -->
 
-
-  <div class="modal fade" id="modal-edit">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Default Modal</h4>
-              </div>
-    
-              <div class="modal-body">
+    <div class="modal fade" id="modal-edit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Editar</h4>
+                </div>
+      
+                <div class="modal-body">
+                    <form method="get" action="{{route('items.update', $item->id)}}">
+                        @csrf
+                        {{--<input name="_method" type="hidden" value="PATCH">--}}
                 
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" value="{{$item->name}}">         
+                        <label for="category">Categoria:</label>
+                        <select class="form-control" name="category" required>
+                            <option value="">Selecione uma Categoria</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach                   
+                        </select>
+                        <label for="brand">Marca:</label>        
+                        <select class="form-control" name="brand" required>
+                            <option value="">Selecione uma Marca</option>
+                            @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            @endforeach                   
+                        </select>
+                                     
+                        <label for="quantity">Quantidade:</label>
+                        <input type="text" class="form-control" name="quantity" value="{{$item->getItemStock->quantity}}">
+                                       
+                        <label for="price">Preço:</label>
+                        <input type="text" class="form-control" name="price" value="{{$item->price}}">
 
-              </div>
-          </div>
-          <!-- /.modal-content -->
+                        <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
+                    
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+      <!-- /.modal-dialog -->
       </div>
-    <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+      <!-- /.modal -->
+
+        
+{{--
+<script>
+        $(document).ready(function () {
+          //$('#databela').DataTable()
+          $('#tabela').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+          })
+        })
+</script>
+
+--}}
+
 @stop

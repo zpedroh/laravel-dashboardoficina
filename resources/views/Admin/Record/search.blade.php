@@ -4,16 +4,15 @@
 
 @section('content_header')
     <h1>Notas</h1>
-
-
 @stop
 
 @section('content')
 
-<button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
+{{--<button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
     Adicionar Nota
-  </button>
-
+  </button>--}}
+  <div class="table-responsive">
+  <div class="col-lg-6">
   <table class="table table-bordered table-dark">
     <thead>
       <tr>
@@ -25,7 +24,7 @@
     <tbody>
     
     {{--
-    @if(Auth::user()->type_id == 1)
+    @if(Auth::user()->autorith == 1)
       Menu
     @endif
     --}}
@@ -49,7 +48,6 @@
             <button class="btn btn-edit" type="submit">Editar</button>        
           </form>
         </td>
-
         <td>
             <button class="btn btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button">Deletar</button>
         </td>
@@ -57,7 +55,8 @@
       @endforeach
     </tbody>
   </table>
-
+  </div>
+  </div>
 
   {{--Modais--}}
 
@@ -123,6 +122,7 @@
                       <td>{{$clientrecorditem->id}}</td>
                       <td>{{$clientrecorditem->getItem->name}}</td>
                       <td>{{$clientrecorditem->quantity}}</td>
+                      <td>{{$clientrecorditem->item_total}}
 
                     </tr>
                     @endforeach
@@ -137,6 +137,7 @@
                           <td>{{$clientrecordservice->id}}</td>
                           <td>{{$clientrecordservice->getService->name}}</td>
                           <td>{{$clientrecordservice->quantity}}</td>
+                          <td>{{$clientrecordservice->service_total}}
     
                         </tr>
                         @endforeach

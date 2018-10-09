@@ -119,7 +119,7 @@ return [
 
         'Produtos',
         [
-            'text' => 'Produto',
+            'text' => 'Produtos',
             'url'  => 'admin/settings',
             'icon' => 'lock',
             'submenu'=>[
@@ -158,11 +158,11 @@ return [
                 'url'  => 'admin/client/search',
                 'icon' => 'address-book',
                 ],
-            /*    [
+               [
                 'text' => 'Fornecedores',
-                'url'  => 'admin/record/search',
+                'url'  => 'admin/provider/search',
                 'icon' => 'address-book',
-                ],*/
+                ],
             ],
         ],
 
@@ -174,7 +174,7 @@ return [
             'submenu'=>[
                 [
                 'text' => 'Nova',
-                'url'  => 'admin/record/search',
+                'url'  => 'admin/record/register',
                 'icon' => 'lock',
                 ],
                 [

@@ -9,7 +9,6 @@
 @section('content')
 
     <div class="box-body">
-
         <form method="POST" action="{{ route('records.create') }}">    
 
             {!! csrf_field() !!}                 

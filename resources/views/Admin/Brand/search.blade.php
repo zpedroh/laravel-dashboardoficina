@@ -10,7 +10,8 @@
 <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
   Adicionar Marca
 </button>
-
+<div class="table-responsive">
+<div class="col-lg-6">
    <table class="table table-striped">
     <thead>
       <tr>
@@ -36,8 +37,8 @@
       @endforeach
     </tbody>
   </table>
-
-
+</div>
+</div>
 
 {{--Modais--}}
 
@@ -47,7 +48,7 @@
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Nova Marca</h4>
+                  <h4 class="modal-title">Adicionar Marca</h4>
               </div>
     
               <div class="modal-body">
@@ -74,14 +75,14 @@
     <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-
+    
     <div class="modal fade" id="modal-edit">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Default Modal</h4>
+                    <h4 class="modal-title">Editar</h4>
                 </div>
       
                 <div class="modal-body">

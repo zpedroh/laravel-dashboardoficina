@@ -122,6 +122,14 @@ class ClientRecordController extends Controller
         ];
         
         $clientrecorditem = $this->clientrecorditem->create($recorditem);
+
+
+        $clientrecord = $this->clientrecord->find($request->clientrecord_id);
+
+        $items = $this->item->orderBy('name', 'asc')->get();
+        $services = $this->service->orderBy('name', 'asc')->get();
+        
+        return view('admin.recorditens.register', compact('clientrecord', 'items', 'services'));
         
         //return redirect()->route('items.home')->with('success', 'Information has been added');      
     }
@@ -139,7 +147,14 @@ class ClientRecordController extends Controller
         ];
 
         $clientrecordservice = $this->clientrecordservice->create($recordservice);
+
+        $clientrecord = $this->clientrecord->find($request->clientrecord_id);
+
+        $items = $this->item->orderBy('name', 'asc')->get();
+        $services = $this->service->orderBy('name', 'asc')->get();
         
-        //return redirect()->route('items.home')->with('success', 'Information has been added');      
+        return view('admin.recorditens.register', compact('clientrecord', 'items', 'services'));
+        
+        //return redirect()->route('admin.recorditens.register')->with('success', 'Information has been added');      
     }
 }
