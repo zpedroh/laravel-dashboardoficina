@@ -27,7 +27,7 @@ class ServiceController extends Controller
         {
             $service = $this->service->create($request->all());
 
-            return redirect()->route('services.register')->with('success', 'Information has been added');  
+            return redirect()->route('services.search')->with('success', 'Information has been added');  
         }             
     } 
 

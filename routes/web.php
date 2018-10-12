@@ -42,6 +42,12 @@ Route::group(['namespace' => 'Admin','middleware' => ['auth'], 'prefix' => 'admi
 
     //Route::get('/provider/destroy/{id}', 'ProviderController@providersDestroy')->name('providers.destroy');
     
+    //Formas de pagamento
+
+    Route::get('/payment/search', 'PaymentController@paymentsGet')->name('payments.search');
+
+
+
     //Notas
 
     Route::get('/record/register', 'ClientRecordController@recordsRegister')->name('records.register');

@@ -58,13 +58,14 @@
                     {!! csrf_field() !!} 
         
                     <div class="form-group">
+                        <label for="name">Nome:</label>
                         <input type="text" name="name" placeholder="Nome da Marca" class="form-control">
                     </div>                 
         
                     <div class="modal-footer">
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">Cadastrar</button>
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                         </div>
                     </div>
                 </form>
@@ -87,24 +88,20 @@
       
                 <div class="modal-body">
                   <form method="get" action="{{route('brands.update', $brand->id)}}">
-                    @csrf
-                    <input name="_method" type="hidden" value="PATCH">
-                    <div class="row">
-                        <div class="col-md-4"></div>
-                        <div class="form-group col-md-4">
-                        <label for="name">Nome da Marca:</label>
-                        <input type="text" class="form-control" name="name" value="{{$brand->name}}">
-                        </div>
-                    </div>        
-                    
-                    <div class="row">
+                        {!! csrf_field() !!} 
+        
+                        <div class="form-group">
+                            <label for="name">Nome:</label>
+                            <input type="text" name="name" placeholder="Nome da Marca" class="form-control">
+                        </div>                 
+            
                         <div class="modal-footer">
-                          <div class="form-group">
-                          <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
-                          </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Salvar</button>
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
 
                 </div>
             </div>

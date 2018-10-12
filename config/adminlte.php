@@ -170,17 +170,22 @@ return [
         [
             'text' => 'Notas',
             'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'icon' => 'book',
             'submenu'=>[
                 [
                 'text' => 'Nova',
                 'url'  => 'admin/record/register',
-                'icon' => 'lock',
+                'icon' => 'sticky-note',
                 ],
                 [
                 'text' => 'Lista',
                 'url'  => 'admin/record/search',
-                'icon' => 'lock',
+                'icon' => 'book',
+                ],
+                [
+                'text' => 'Formas de Pagamento',
+                'url'  => 'admin/payment/search',
+                'icon' => 'cc-mastercard',
                 ],
             ],
         ],

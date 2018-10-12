@@ -74,55 +74,49 @@
                   <span aria-hidden="true">&times;</span></button>
                   <h4 class="modal-title">Adicionar Item</h4>
               </div>
+
+                                        <!--
+                              <span class="select2-selection__rendered" id="select2-m7mq-container" title="Alabama">Alabama</span>
+              
+                              col-md-6
+                          -->  
     
               <div class="modal-body">
     
                   <form method="POST" action="{{ route('items.create') }}"> 
-                          {!! csrf_field() !!}
-              
-                          <div class="form-group">
-                              <input type="text" name="name" placeholder="Nome do Item" class="form-control" required>
-                          </div>
-              
-                          <div class="form-group">
-                              <select class="form-control" name="category" required>
-                              <option value="">Selecione uma Categoria</option>
-                              @foreach($categories as $category)
-                                  <option value="{{ $category->id }}">{{ $category->name }}</option>
-                              @endforeach                   
-                              </select>
-                          </div>
-              
-                          <!--
-                              <span class="select2-selection__rendered" id="select2-m7mq-container" title="Alabama">Alabama</span>
-              
-                              col-md-6
-                          -->            
-              
-                          <div class="form-group">
-                              <select class="form-control" name="brand" required>
-                              <option value="">Selecione uma Marca</option>
-                              @foreach($brands as $brand)
-                                  <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                              @endforeach                   
-                              </select>
-                          </div>
-              
-                          <div class="form-group">
-                              <input type="text" name="quantity" placeholder="Quantidade Atual" class="form-control" required>
-                          </div>
-              
-                          <div class="form-group">
-                              <input type="text" name="price" placeholder="Preço" class="form-control" required>
-                          </div>            
-              
-                          <div class="modal-footer">
-                              <div class="form-group">
-                                  <button type="submit" class="btn btn-success">Cadastrar</button>
-                                  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                              </div>
-                            </div>
-                      </form>
+                        @csrf
+                        {{--<input name="_method" type="hidden" value="PATCH">--}}
+                
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" value="{{$item->name}}">         
+                        <label for="category">Categoria:</label>
+                        <select class="form-control" name="category" required>
+                            <option value="">Selecione uma Categoria</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach                   
+                        </select>
+                        <label for="brand">Marca:</label>        
+                        <select class="form-control" name="brand" required>
+                            <option value="">Selecione uma Marca</option>
+                            @foreach($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            @endforeach                   
+                        </select>
+                                     
+                        <label for="quantity">Quantidade:</label>
+                        <input type="text" class="form-control" name="quantity" value="{{$item->getItemStock->quantity}}">
+                                       
+                        <label for="price">Preço:</label>
+                        <input type="text" class="form-control" name="price" value="{{$item->price}}">
+
+                        <div class="modal-footer">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                                </div>
+                              </div>                    
+                    </form>
               </div>
           </div>
           <!-- /.modal-content -->
@@ -168,9 +162,12 @@
                         <label for="price">Preço:</label>
                         <input type="text" class="form-control" name="price" value="{{$item->price}}">
 
-                        <button type="submit" class="btn btn-success" style="margin-left:38px">Update</button>
-                    
-                        </div>
+                        <div class="modal-footer">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                                </div>
+                              </div>                    
                     </form>
                 </div>
             </div>

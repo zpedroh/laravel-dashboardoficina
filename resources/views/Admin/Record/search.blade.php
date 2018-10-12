@@ -19,6 +19,7 @@
         <th>ID</th>
         <th>Ciente</th>
         <th>Data</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
@@ -35,6 +36,7 @@
         <td>{{$clientrecord->id}}</td>
         <td>{{$clientrecord->getClient->name}}</td>
         <td>{{$clientrecord->created_at}}</td>
+        <td>{{$clientrecord->record_total}}</td>
 
         <td>
             <a class="btn-warning btn-xs" data-toggle="modal" data-target="#modal-content">

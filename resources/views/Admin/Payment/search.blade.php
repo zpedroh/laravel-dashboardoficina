@@ -3,56 +3,20 @@
 @section('title', 'Serviços')
 
 @section('content_header')
-    <h1>Serviços</h1>    
+    <h1>Formas de Pagamento</h1>    
 @stop
 
 @section('content')
 
 <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
-  Adicionar Serviço
+  Adicionar Forma de Pagamento
 </button>
 
-<div class="modal fade" id="modal-default">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Default Modal</h4>
-          </div>
 
-          <div class="modal-body">
-
-            <form method="POST" action="{{ route('services.create') }}">    
-
-              {!! csrf_field() !!}                 
-            
-              <div class="form-group">
-                  <input type="text" name="name" placeholder="Nome" class="form-control" required>
-              </div>
-            
-              <div class="form-group">
-                  <input type="text" name="price" placeholder="Preço" class="form-control" required>
-              </div>     
-            
-              <div class="modal-footer">
-                  <div class="form-group">
-                      <button type="submit" class="btn btn-success">Cadastrar</button>
-                      <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                  </div>
-              </div>
-            </form>
-          </div>
-      </div>
-      <!-- /.modal-content -->
-  </div>
-<!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
 <div class="div-box">
     <div class="box-header with-border">
-        <h3 class="box-title">Bordered Table</h3>
+        <h3 class="box-title"></h3>
       </div>
     <div class="box-body">
   <div class="table-responsive">
@@ -67,27 +31,27 @@
       </thead>
       <tbody>
         
-        @foreach($service as $service)
+       
         
         <tr>
-          <td>{{$service->id}}</td>
-          <td>{{$service->name}}</td>
-          <td>{{$service->price}}</td> 
+          
           <td>
           </td>
           <td>
-            <form action="{{ route('services.edit', $service['id'])}}" method="get">
+
+              <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit">Editar</button>        
+            {{--<form action="" method="get">
               @csrf
               <input name="_method" type="hidden" value="EDIT">        
               <button class="btn btn-edit" type="submit">Editar</button>        
-            </form>
+            </form>--}}
           </td>
           
           <td>
-            <button class="btn btn-danger delete-confirm" value="{{ route('services.destroy', $service->id) }}" type="button">Deletar</button>
+            <button class="btn btn-danger delete-confirm" type="button">Deletar</button>
           </td>
         </tr>
-        @endforeach
+       
       </tbody>
     </table>
     </div>
@@ -95,28 +59,77 @@
 </div>
 </div>
 
+{{--Modais--}}
 
-<button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('brands.edit', $brand['id'])}}">Editar</button>        
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Adicionar Forma de Pagamento</h4>
+            </div>
+  
+            <div class="modal-body">
+  
+              <form>    
+  
+                {!! csrf_field() !!}                 
+              
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Nome" class="form-control">
+                </div>                
+                <div class="form-group">
+                    <input type="text" name="type" placeholder="Tipo" class="form-control">
+                </div> 
+                <div class="form-group">
+                    <input type="text" name="time" placeholder="Prazo em Meses" class="form-control">
+                </div> 
+                <div class="form-group">
+                    <input type="text" name="plots" placeholder="Parcelas" class="form-control">
+                </div>  
+              
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+  <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
 <div class="modal fade" id="modal-edit">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Default Modal</h4>
+                <h4 class="modal-title">Editar</h4>
             </div>
   
             <div class="modal-body">
-              <form method="get" action="{{route('brands.update', $brand->id)}}">
+              <form method="get">
                 @csrf
                 <input name="_method" type="hidden" value="PATCH">
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="form-group col-md-4">
-                    <label for="name">Nome da Marca:</label>
-                    <input type="text" class="form-control" name="name" value="{{$brand->name}}">
-                    </div>
-                </div>        
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Nome" class="form-control">
+                </div>                
+                <div class="form-group">
+                    <input type="text" name="type" placeholder="Tipo" class="form-control">
+                </div> 
+                <div class="form-group">
+                    <input type="text" name="time" placeholder="Prazo em Meses" class="form-control">
+                </div> 
+                <div class="form-group">
+                    <input type="text" name="plots" placeholder="Parcelas" class="form-control">
+                </div>    
                 
                 <div class="row">
                     <div class="modal-footer">

@@ -10,33 +10,68 @@
 <form>
 
         {!! csrf_field() !!} 
-        <div class="form-group">
-            <input type="text" name="name" placeholder="Nome" class="form-control">
-        </div>                
-        <div class="form-group">
-            <input type="text" name="cpf" placeholder="CPF" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="country" placeholder="País" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="state" placeholder="Estado" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="zipcode" placeholder="CEP" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="city" placeholder="Cidade" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="district" placeholder="Bairro" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="street" placeholder="Rua" class="form-control">
-        </div> 
-        <div class="form-group">
-            <input type="text" name="number" placeholder="Nº" class="form-control">
-        </div> 
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" name="name" placeholder="Nome" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="cpf">CPF:</label>
+                    <input type="text" name="cpf" placeholder="CPF" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="zipcode">CEP:</label>
+                    <input type="text" name="zipcode" placeholder="CEP" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="street">Rua:</label>
+                    <input type="text" name="street" placeholder="Rua" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label for="number">Nº:</label>
+                    <input type="text" name="number" placeholder="Nº" class="form-control">
+                </div>
+            </div>  
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="country">Complemento:</label>
+                    <input type="text" name="country" placeholder="" class="form-control">
+                </div>
+            </div>                    
+        </div>
+     
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="district">Bairro:</label>
+                    <input type="text" name="district" placeholder="Bairro" class="form-control">
+                </div>
+
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="city">Cidade:</label>
+                    <input type="text" name="city" placeholder="Cidade" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="state">Estado:</label>
+                    <input type="text" name="state" placeholder="Estado" class="form-control">
+                </div>
+            </div>
+        </div>
 
 
     <div class="table-responsive">

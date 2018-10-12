@@ -12,19 +12,26 @@
         <form method="POST" action="{{ route('records.create') }}">    
 
             {!! csrf_field() !!}                 
+            <div class="row" >
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                  
+                        <div class="col-md-4 form-group">
+                                <select class="form-control" name="client_id" required>
+                                @foreach($client as $client)
+                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                @endforeach                   
+                                </select>
+                            </div>                 
+                
+                            <div class="col-md-2 form-group">
+                                <button type="submit" class="btn btn-success">Criar</button>
+                            </div>
 
-            <div class="form-group">
-                <select class="form-control" name="client_id" required>
-                <option value="">Selecione um Cliente</option>
-                @foreach($client as $client)
-                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                @endforeach                   
-                </select>
-            </div>                 
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Criar</button>
+                </div>
+                 <div class="col-md-3"></div>
             </div>
+          
         </form>
     </div>
 
