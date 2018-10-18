@@ -12,7 +12,7 @@
 */
 //'middleware' => ['auth'],
 
-Route::group(['namespace' => 'Admin','middleware' => ['auth'], 'prefix' => 'admin'], function()
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 {
     //Clientes
 
