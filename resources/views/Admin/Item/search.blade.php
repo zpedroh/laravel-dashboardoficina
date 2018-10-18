@@ -72,7 +72,7 @@
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Adicionar Item</h4>
+                  <h4 class="modal-title">Adicionar Produto</h4>
               </div>
 
                                         <!--
@@ -88,7 +88,7 @@
                         {{--<input name="_method" type="hidden" value="PATCH">--}}
                 
                         <label for="name">Name:</label>
-                        <input type="text" class="form-control" name="name" value="{{$item->name}}">         
+                        <input type="text" name="name" placeholder="Nome do Item" class="form-control" required>        
                         <label for="category">Categoria:</label>
                         <select class="form-control" name="category" required>
                             <option value="">Selecione uma Categoria</option>
@@ -105,10 +105,10 @@
                         </select>
                                      
                         <label for="quantity">Quantidade:</label>
-                        <input type="text" class="form-control" name="quantity" value="{{$item->getItemStock->quantity}}">
+                        <input type="text" name="quantity" placeholder="Quantidade Atual" class="form-control" required>
                                        
                         <label for="price">Preço:</label>
-                        <input type="text" class="form-control" name="price" value="{{$item->price}}">
+                        <input type="text" name="price" placeholder="Preço" class="form-control" required>
 
                         <div class="modal-footer">
                                 <div class="form-group">

@@ -30,7 +30,7 @@ class BrandController extends Controller
         {
             $brand = $this->brand->create($request->all());
 
-            return redirect()->route('brands.search')->with('success', 'Information has been added');  
+            return redirect()->route('brands.search');  
         }         
     } 
 

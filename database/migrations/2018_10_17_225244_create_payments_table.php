@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTbProviderTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTbProviderTable extends Migration
      */
     public function up()
     {
-        Schema::create('tb_provider', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateTbProviderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_provider');
+        Schema::dropIfExists('payments');
     }
 }

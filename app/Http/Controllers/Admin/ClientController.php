@@ -28,7 +28,7 @@ class ClientController extends Controller
         {
             $client = $this->client->create($request->all());
 
-            return redirect()->route('clients.register')->with('success', 'Information has been added');  
+            return redirect()->route('clients.search');  
         }  
     } 
 

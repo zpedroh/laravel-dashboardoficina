@@ -29,7 +29,7 @@ class CategoryController extends Controller
             $category = $this->category->create($request->all());
         }    
                 
-        return redirect()->route('categories.search')->with('success', 'Information has been added');        
+        return redirect()->route('categories.search');        
     }
     
     public function categoriesGet()
