@@ -10,34 +10,37 @@
 <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
   Adicionar Marca
 </button>
-<div class="table-responsive">
-<div class="col-lg-6">
-   <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>        
-      </tr>
-    </thead>
-    <tbody>
-      
-      @foreach($brand as $brand)
-      
-      <tr>
-        <td>{{$brand['id']}}</td>
-        <td>{{$brand['name']}}</td> 
-        <td>
-                   {{--action="{{ route('brands.edit', $brand['id'])}}" method="get"--}}
-            <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('brands.edit', $brand['id'])}}">Editar</button>        
-        </td>
-        <td>
-            <button class="btn btn-danger delete-confirm" value="{{ route('brands.destroy', $brand['id']) }}" type="button">Deletar</button>
-        </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+<div class="container" >
+    <div class="col-md-3"></div>
+   
+    <div class="col-lg-6">
+    <table class="table table-striped table-responsive">
+        <thead>
+        <tr>
+            <th>Codigo</th>
+            <th>Nome</th>        
+        </tr>
+        </thead>
+        <tbody>
+        
+        @foreach($brand as $brand)
+        
+        <tr>
+            <td>{{$brand['id']}}</td>
+            <td>{{$brand['name']}}</td> 
+            <td>
+                    {{--action="{{ route('brands.edit', $brand['id'])}}" method="get"--}}
+                <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('brands.edit', $brand['id'])}}">Editar</button>        
+            </td>
+            <td>
+                <button class="btn btn-danger delete-confirm" value="{{ route('brands.destroy', $brand['id']) }}" type="button">Deletar</button>
+            </td>
+        </tr>
+        @endforeach
+        </tbody>
+    </table>
+    </div>
+    <div class="col-md-3"></div>
 </div>
 
 {{--Modais--}}
@@ -63,10 +66,10 @@
                     </div>                 
         
                     <div class="modal-footer">
-                        <div class="form-group">
+                      
                             <button type="submit" class="btn btn-success">Cadastrar</button>
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                        </div>
+                
                     </div>
                 </form>
                 </div>

@@ -1,20 +1,18 @@
 @extends('adminlte::page') 
 @section('title', 'Cliente') 
 @section('content_header')
-<h1>Cliente</h1>
+<h1>Clientes</h1>
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <!-- Adicionando JQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+<!-- Adicionando JQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
 
-    <!-- Adicionando Javascript -->
-    <script type="text/javascript" >
-
-        $(document).ready(function() {
+<!-- Adicionando Javascript -->
+<script type="text/javascript">
+    $(document).ready(function() {
 
             function limpa_formulário_cep() {
                 // Limpa valores do formulário de cep.
@@ -78,7 +76,10 @@
             });
         });
 
-    </script>
+</script>
+
+
+
 
 @stop 
 @section('content')
@@ -87,15 +88,14 @@
     Adicionar Cliente
   </button>
 
-<div class="table-responsive">
-    <div class="col-lg-6">
-        <table class="table table-striped">
+<div class="container" style="text-align:center;">
+    <div class="col-md-10">
+        <table class="table table-striped table-responsive">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Código</th>
                     <th>Name</th>
                     <th>CPF</th>
-                    <th>País</th>
                     <th>Estado</th>
                     <th>CEP</th>
                     <th>Cidade</th>
@@ -138,7 +138,6 @@
         </table>
     </div>
 </div>
-
 {{--Modais--}}
 
 <div class="modal fade" id="modal-default">
@@ -158,13 +157,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Nome:</label>
                                 <input type="text" name="name" placeholder="Nome" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cpf">CPF:</label>
                                 <input type="text" name="cpf" placeholder="CPF" class="form-control">
                             </div>
                         </div>
@@ -172,58 +169,49 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="zipcode">CEP:</label>
-                                <input type="text" name="zipcode" id="cep" placeholder="CEP" class="form-control">
+                                <input type="text" name="zipcode" placeholder="CEP" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="street">Rua:</label>
-                                <input type="text" name="street" id="rua" placeholder="Rua" class="form-control">
+                                <input type="text" name="street" placeholder="Rua" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="number">Nº:</label>
-                                <input type="text" name="number" placeholder="Nº" class="form-control">
+                                <input type="text" name="number" placeholder="Número" class="form-control">
                             </div>
-                        </div>                      
+                        </div>
+
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="country">Complemento:</label>
-                                <input type="text" name="country" placeholder="País" class="form-control">
+                                <input type="text" name="complement" placeholder="Complemento" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="district">Bairro:</label>
-                                <input type="text" name="district" id="bairro" placeholder="Bairro" class="form-control">
+                                <input type="text" name="district" placeholder="Bairro" class="form-control">
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="city">Cidade:</label>
-                                <input type="text" name="city" id="cidade" placeholder="Cidade" class="form-control">
+                                <input type="text" name="city" placeholder="Cidade" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="state">Estado:</label>
-                                <input type="text" name="state" id="uf" placeholder="Estado" class="form-control">
+                                <input type="text" name="state" placeholder="Estado" class="form-control">
                             </div>
                         </div>
                     </div>
-
                     <div class="modal-footer">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Cadastrar</button>
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                        </div>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                     </div>
 
                 </form>
@@ -241,7 +229,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Editar</h4>
+                <h4 class="modal-title">Editar Cliente</h4>
             </div>
 
             <div class="modal-body">
@@ -252,13 +240,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Nome:</label>
                                 <input type="text" name="name" placeholder="Nome" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cpf">CPF:</label>
                                 <input type="text" name="cpf" placeholder="CPF" class="form-control">
                             </div>
                         </div>
@@ -266,59 +252,49 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="zipcode">CEP:</label>
                                 <input type="text" name="zipcode" placeholder="CEP" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="street">Rua:</label>
                                 <input type="text" name="street" placeholder="Rua" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="number">Nº:</label>
-                                <input type="text" name="number" placeholder="Nº" class="form-control">
+                                <input type="text" name="number" placeholder="Número" class="form-control">
                             </div>
-                        </div>                      
+                        </div>
+
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="country">Complemento:</label>
-                                <input type="text" name="country" placeholder="País" class="form-control">
+                                <input type="text" name="complement" placeholder="Complemento" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="district">Bairro:</label>
                                 <input type="text" name="district" placeholder="Bairro" class="form-control">
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="city">Cidade:</label>
                                 <input type="text" name="city" placeholder="Cidade" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="state">Estado:</label>
                                 <input type="text" name="state" placeholder="Estado" class="form-control">
                             </div>
                         </div>
                     </div>
-
-
                     <div class="modal-footer">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Salvar</button>
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                        </div>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                     </div>
                 </form>
             </div>
@@ -328,6 +304,9 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+
+
 
 
 @stop

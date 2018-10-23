@@ -41,40 +41,53 @@
         </div>
     </div>
 </div>
-<div class="row"><div class="col-sm-12">
-            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
-        <thead>
-            <tr role="row">
-                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 182px;">Cliente</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 224px;">Notas</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 199px;">Valor Medio</th>
-                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 156px;">Valor Total</th>
-            </tr>
-        </thead>
-        <tbody>        
-  
-        </tr><tr role="row" class="even">
-          <td class="sorting_1">Cliente X</td>
-          <td>15</td>
-          <td>$69,73</td>
-          <td>$1290,00</td>
-        </tr><tr role="row" class="odd">
-            <td class="sorting_1">Cliente X</td>
-            <td>15</td>
-            <td>$69,73</td>
-            <td>$1290,00</td>
-        </tr><tr role="row" class="even">
-            <td class="sorting_1">Cliente X</td>
-            <td>15</td>
-            <td>$69,73</td>
-            <td>$1290,00</td>
-
-        </tr></tbody>
-      </table>
+<div class="row">
+    <div class="col-sm-12">
+            <table class="table" id="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">First Name</th>
+                            <th class="text-center">Last Name</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center">Country</th>
+                            <th class="text-center">Salary ($)</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @foreach($data as $item)
+                            <tr class="item{{$item->id}}">
+                                <td>{{$item->id}}</td>
+                                <td>{{$item->first_name}}</td>
+                                <td>{{$item->last_name}}</td>
+                                <td>{{$item->email}}</td>
+                                <td>{{$item->gender}}</td>
+                                <td>{{$item->country}}</td>
+                                <td>{{$item->salary}}</td>
+                                <td><button class="edit-modal btn btn-info"
+                                        data-info="{{$item->id}},{{$item->first_name}},{{$item->last_name}},{{$item->email}},{{$item->gender}},{{$item->country}},{{$item->salary}}">
+                                        <span class="glyphicon glyphicon-edit"></span> Edit
+                                    </button>
+                                    <button class="delete-modal btn btn-danger"
+                                        data-info="{{$item->id}},{{$item->first_name}},{{$item->last_name}},{{$item->email}},{{$item->gender}},{{$item->country}},{{$item->salary}}">
+                                        <span class="glyphicon glyphicon-trash"></span> Delete
+                                    </button></td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                </table> 
     </div>
 
-    </div>
-    <!-- /.box-body -->
-  </div>
+</div>
+<!-- /.box-body -->
+</div>
 
 @stop
+
+<script>
+        $(document).ready(function() {
+          $('#table').DataTable();
+      } );
+       </script>
