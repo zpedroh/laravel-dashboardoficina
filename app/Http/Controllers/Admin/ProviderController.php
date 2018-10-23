@@ -4,63 +4,75 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-//use App\Models\Provider;
+use App\Models\Provider;
 use App\Models\Item;
+use App\Models\Adress;
 use DB;
 
 class ProviderController extends Controller
 {
 
-    protected $item;
+    protected $provider;
+    protected $adress;
 
-    public function __construct(Item $item)
+    public function __construct(Provider $provider, Adress $adress)
     {
-        $this->item = $item;
-    }
-    /*protected $provider;
-
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
+        $this->provider = $provider;
+        $this->adress = $adress;
     }
 
     public function providersRegister()
     {
-        return view('admin.client.register');
+        return view('admin.provider.register');
     }
-    
+
     public function providersCreate(Request $request)
     {
         if($request->name != null)
         {
-            $client = $this->client->create($request->all());
+            $newprovider = [
+                'name'  => $request->name,
+                'cnpj'  => $request->cnpj
+            ];
 
-            return redirect()->route('providers.register')->with('success', 'Information has been added');  
+            $provider = $this->provider->create($newprovider);
+            								
+            $provideradress = [
+                'provider_id' => $provider->id,
+                'complement'  => $request->country,
+                'state'       => $request->state,
+                'zipcode'     => $request->zipcode,
+                'city'        => $request->city,
+                'district'    => $request->district,
+                'street'      => $request->street,
+                'number'      => $request->number            
+            ];
+
+            $adress = $this->adress->create($provideradress);
+
+            return redirect()->route('providers.search');  
         }  
     } 
-    */
+
     public function providersGet()
     {
-        //$client = $this->client->all();
+        $provider = $this->provider->all();
 
-        return view('admin.provider.search', compact('client'));        
+        return view('admin.provider.search');        
     }    
 
-    public function providersEdit()
+    public function providersEdit($id)
     {        
-        //$client = $this->client->find($id);
-
-        $item = $this->item->all();
-        
-        return view('admin.provider.edit',compact('item'));       
+        $provider = $this->provider->find($id);
+        return view('admin.provider.edit',compact('provider','id'));        
     }
-/*,compact('provider','id')
+
     public function providersUpdate(Request $request, $id)
     {
         $provider = $this->provider->find($id);
         $provider->name = $request->get('name');        
         $provider->save();
-        return redirect('admin/provider/search');
+        return redirect('admin/home');
     }
 
     public function providersDestroy($id)
@@ -68,5 +80,5 @@ class ProviderController extends Controller
         $provider = $this->provider->find($id);
         $provider->delete();
         return redirect('admin/home')->with('success','Information has been  deleted');
-    } */  
+    }   
 }

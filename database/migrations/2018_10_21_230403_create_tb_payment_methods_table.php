@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTbClientsTable extends Migration
+class CreateTbPaymentMethodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateTbClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tb_clients', function ( $table) {
+        Schema::create('tb_payment_methods', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 45);
-            $table->string('cpf', 11);
+            $table->string('type');
+            $table->integer('parcel');
+            $table->integer('period');
+            $table->date('duedate');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateTbClientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_clients');
+        Schema::dropIfExists('tb_payment_methods');
     }
 }

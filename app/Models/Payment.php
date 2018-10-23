@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use DB;
 
-class Category extends Model
+class Payment extends Model
 {
-    protected $table = 'tb_categories';
+    protected $table = 'tb_payments';
     protected $fillable = ['name'];
     protected $primaryKey = 'id';
-};
+}

@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use App\Models\Client;
+use App\Models\Adress;
 
 
 class ClientController extends Controller
 {
     protected $client;
+    protected $adress;
 
-    public function __construct(Client $client)
+    public function __construct(Client $client, Adress $adress)
     {
         $this->client = $client;
+        $this->adress = $adress;
     }
 
     public function clientsRegister()
@@ -26,7 +29,25 @@ class ClientController extends Controller
     {
         if($request->name != null)
         {
-            $client = $this->client->create($request->all());
+            $newclient = [
+                'name' => $request->name,
+                'cpf'  => $request->cpf
+            ];
+
+            $client = $this->client->create($newclient);
+            								
+            $clientadress = [
+                'client_id'   => $client->id,
+                'complement'  => $request->country,
+                'state'       => $request->state,
+                'zipcode'     => $request->zipcode,
+                'city'        => $request->city,
+                'district'    => $request->district,
+                'street'      => $request->street,
+                'number'      => $request->number            
+            ];
+
+            $adress = $this->adress->create($clientadress);
 
             return redirect()->route('clients.search');  
         }  
@@ -35,7 +56,7 @@ class ClientController extends Controller
     public function clientsGet()
     {
         $client = $this->client->all();
-
+        
         return view('admin.client.search', compact('client'));        
     }    
 
@@ -48,9 +69,31 @@ class ClientController extends Controller
     public function clientsUpdate(Request $request, $id)
     {
         $client = $this->client->find($id);
-        $client->name = $request->get('name');        
+
+        $adress = $this->adress->all()->where('client_id','=','client->id');
+
+        $clientupdate = [
+            'name' => $request->name,
+            'cpf'  => $request->cpf
+        ];
+
+        $adressupdate = [
+            'complement'  => $request->country,
+            'state'       => $request->state,
+            'zipcode'     => $request->zipcode,
+            'city'        => $request->city,
+            'district'    => $request->district,
+            'street'      => $request->street,
+            'number'      => $request->number            
+        ];
+
+        $client->update($clientupdate);        
         $client->save();
-        return redirect('admin/home');
+
+        //$adress->update($adressupdate);  
+        //$adress->save();
+        
+        return redirect('admin/client/search');
     }
 
     public function clientsDestroy($id)
