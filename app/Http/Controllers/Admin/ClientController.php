@@ -63,6 +63,7 @@ class ClientController extends Controller
     public function clientsEdit($id)
     {        
         $client = $this->client->find($id);
+
         return view('admin.client.edit',compact('client','id'));        
     }
 
@@ -70,7 +71,7 @@ class ClientController extends Controller
     {
         $client = $this->client->find($id);
 
-        $adress = $this->adress->all()->where('client_id','=','client->id');
+        $adress = $this->adress->all()->where('client_id','=', $client->id)->first();
 
         $clientupdate = [
             'name' => $request->name,
@@ -90,8 +91,8 @@ class ClientController extends Controller
         $client->update($clientupdate);        
         $client->save();
 
-        //$adress->update($adressupdate);  
-        //$adress->save();
+        $adress->update($adressupdate);  
+        $adress->save();
         
         return redirect('admin/client/search');
     }
@@ -100,6 +101,7 @@ class ClientController extends Controller
     {
         $client = $this->client->find($id);
         $client->delete();
+        
         return redirect('admin/home')->with('success','Information has been  deleted');
     }   
 }

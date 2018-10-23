@@ -28,23 +28,33 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 
     Route::get('/client/destroy/{id}', 'ClientController@clientsDestroy')->name('clients.destroy');
 
-    //fornecedores
+    //fornecedoresv
+    
+    Route::get('/provider/register', 'ProviderController@providersRegister')->name('providers.register');
 
-    //Route::get('/provider/register', 'ProviderController@providersRegister')->name('providers.register');
-
-    //Route::post('/provider/register', 'ProviderController@providersCreate')->name('providers.create');
+    Route::post('/provider/register', 'ProviderController@providersCreate')->name('providers.create');
 
     Route::get('/provider/search', 'ProviderController@providersGet')->name('providers.search');
 
-    Route::get('/provider/edit', 'ProviderController@providersEdit')->name('providers.edit');
+    Route::get('/provider/edit/{id}', 'ProviderController@providersEdit')->name('providers.edit');
 
-    //Route::get('/provider/update/{id}', 'ProviderController@providersUpdate')->name('providers.update');
+    Route::get('/provider/update/{id}', 'ProviderController@providersUpdate')->name('providers.update');
 
-    //Route::get('/provider/destroy/{id}', 'ProviderController@providersDestroy')->name('providers.destroy');
+    Route::get('/provider/destroy/{id}', 'ProviderController@providersDestroy')->name('providers.destroy');
     
     //Formas de pagamento
 
-    Route::get('/payment/search', 'PaymentController@paymentsGet')->name('payments.search');
+    Route::get('/paymentmethod/register', 'PaymentMethodController@paymentmethodsRegister')->name('paymentmethods.register');
+
+    Route::post('/paymentmethod/register', 'PaymentMethodController@paymentmethodsCreate')->name('paymentmethods.create');
+
+    Route::get('/paymentmethod/search', 'PaymentMethodController@paymentmethodsGet')->name('paymentmethods.search');
+
+    Route::get('/paymentmethod/edit/{id}', 'PaymentMethodController@paymentmethodsEdit')->name('paymentmethods.edit');
+
+    Route::get('/paymentmethod/update/{id}', 'PaymentMethodController@paymentmethodsUpdate')->name('paymentmethods.update');
+
+    Route::get('/paymentmethod/destroy/{id}', 'PaymentMethodController@paymentmethodsDestroy')->name('paymentmethods.destroy');
 
 
 

@@ -58,7 +58,7 @@ class ProviderController extends Controller
     {
         $provider = $this->provider->all();
 
-        return view('admin.provider.search');        
+        return view('admin.provider.search', compact('provider'));        
     }    
 
     public function providersEdit($id)
@@ -70,9 +70,31 @@ class ProviderController extends Controller
     public function providersUpdate(Request $request, $id)
     {
         $provider = $this->provider->find($id);
-        $provider->name = $request->get('name');        
+
+        $adress = $this->adress->all()->where('provider_id','=', $provider->id)->first();
+
+        $providerupdate = [
+            'name' => $request->name,
+            'cpf'  => $request->cpf
+        ];
+
+        $adressupdate = [
+            'complement'  => $request->country,
+            'state'       => $request->state,
+            'zipcode'     => $request->zipcode,
+            'city'        => $request->city,
+            'district'    => $request->district,
+            'street'      => $request->street,
+            'number'      => $request->number            
+        ];
+
+        $provider->update($providerupdate);        
         $provider->save();
-        return redirect('admin/home');
+
+        $adress->update($adressupdate);  
+        $adress->save();
+        
+        return redirect('admin/provider/search');
     }
 
     public function providersDestroy($id)
