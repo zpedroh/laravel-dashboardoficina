@@ -15,6 +15,8 @@ class CreateTbPaymentsTable extends Migration
     {
         Schema::create('tb_payments', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('payment_method_id')->unsigned();
+            $table->foreign('payment_method_id')->references('id')->on('tb_payment_methods');//->onDelete('cascade');
             $table->integer('status');
             $table->date('date');
             $table->timestamps();

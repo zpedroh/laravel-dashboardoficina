@@ -184,7 +184,7 @@ return [
                 ],
                 [
                 'text' => 'Formas de Pagamento',
-                'url'  => 'admin/payment/search',
+                'url'  => 'admin/paymentmethod/search',
                 'icon' => 'cc-mastercard',
                 ],
             ],
