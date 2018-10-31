@@ -143,8 +143,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 
     Route::get('/report/bs', 'ReportController@bestsellerReport')->name('reports.bs');
     Route::get('/report/bc', 'ReportController@bestclientReport')->name('reports.bc');
-
-
     
 });
 

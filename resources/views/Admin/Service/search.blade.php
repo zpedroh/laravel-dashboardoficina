@@ -12,51 +12,50 @@
   Adicionar Serviço
 </button>
 
-
-
 <div class="div-box">
-    <div class="box-header with-border">
-        <h3 class="box-title"></h3>
-      </div>
+    
     <div class="box-body">
-  <div class="table-responsive">
-    <div class="col-lg-6">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Preço</th>        
-        </tr>
-      </thead>
-      <tbody>
-        
-        @foreach($service as $service)
-        
-        <tr>
-          <td>{{$service->id}}</td>
-          <td>{{$service->name}}</td>
-          <td>{{$service->price}}</td> 
-          <td>
-          </td>
-          <td>
-              <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('services.edit', $service['id'])}}">Editar</button>        
-            {{--<form action="{{ route('services.edit', $service['id'])}}" method="get">
-              @csrf
-              <input name="_method" type="hidden" value="EDIT">        
-              <button class="btn btn-edit" type="submit">Editar</button>        
-            </form>--}}
-          </td>
+        <div class="container">
+          <div class="col-md-3"></div>
           
-          <td>
-            <button class="btn btn-danger delete-confirm" value="{{ route('services.destroy', $service->id) }}" type="button">Deletar</button>
-          </td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-    </div>
-  </div>
+          <div class="col-lg-6">
+            <table class="table table-striped table-responsive">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Preço</th>        
+                </tr>
+              </thead>
+              <tbody>
+                
+                @foreach($service as $service)
+                
+                <tr>
+                  <td>{{$service->id}}</td>
+                  <td>{{$service->name}}</td>
+                  <td>{{$service->price}}</td> 
+                  <td>
+                  </td>
+                  <td>
+                      <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('services.edit', $service['id'])}}">Editar</button>        
+                    {{--<form action="{{ route('services.edit', $service['id'])}}" method="get">
+                      @csrf
+                      <input name="_method" type="hidden" value="EDIT">        
+                      <button class="btn btn-edit" type="submit">Editar</button>        
+                    </form>--}}
+                  </td>
+                  
+                  <td>
+                    <button class="btn btn-danger delete-confirm" value="{{ route('services.destroy', $service->id) }}" type="button">Deletar</button>
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
 </div>
 </div>
 
@@ -78,21 +77,25 @@
   
                 {!! csrf_field() !!}                 
                
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" placeholder="Nome" class="form-control" required>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <input type="text" name="name" placeholder="Nome" class="form-control" required>
+                      </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <input type="text" name="price" placeholder="Preço" class="form-control" required>
+                      </div>    
+                  </div>
+
                 </div>
-              
-                <div class="form-group">
-                    <label for="price">Preço:</label>
-                    <input type="text" name="price" placeholder="Preço" class="form-control" required>
-                </div>     
-              
                 <div class="modal-footer">
-                    <div class="form-group">
+                   
                         <button type="submit" class="btn btn-success">Cadastrar</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                    </div>
+                  
                 </div>
               </form>
             </div>
@@ -109,28 +112,33 @@
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Editar</h4>
+                  <h4 class="modal-title">Editar Serviço</h4>
               </div>
     
               <div class="modal-body">
                   <form method="get" action="{{route('services.update',$service->id)}}">
                       @csrf
                       {{--<input name="_method" type="hidden" value="PATCH">--}}
-                      <div class="form-group">
-                          <label for="name">Name:</label>
-                          <input type="text" name="name" placeholder="Nome" class="form-control" required>
-                      </div>
-                    
-                      <div class="form-group">
-                          <label for="price">Preço:</label>
-                          <input type="text" name="price" placeholder="Preço" class="form-control" required>
-                      </div>     
+                      <div class="row">
+                        <div class="col-md-6">
+                          
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Nome" class="form-control" required>
+                            </div>
+                        </div>
+                        
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <input type="text" name="price" placeholder="Preço" class="form-control" required>
+                              </div>  
+                          </div>
+                           
+                      </div>                     
                     
                       <div class="modal-footer">
-                          <div class="form-group">
                               <button type="submit" class="btn btn-success">Salvar</button>
                               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                          </div>
+                    
                       </div>
                     </form>
               </div>
