@@ -25,4 +25,9 @@ class HomeController extends Controller
     {
         return view('admin.home');
     }
+
+    public function invoice()
+    {
+        return view('site.index');
+    }
 }

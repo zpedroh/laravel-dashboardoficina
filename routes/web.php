@@ -151,6 +151,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
 
 //testes
 
+Route::get('/invoice', 'HomeController@invoice');
+
 Route::get('/teste', function () {
     // Simply shows the blade view resources/home.blade.php
     return view('admin.site.teste');

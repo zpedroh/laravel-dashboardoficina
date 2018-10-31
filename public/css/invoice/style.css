@@ -1,0 +1,70 @@
+body {
+  padding: 3em;
+  text-align: left;
+}
+
+.invoice {
+  margin: auto;
+  max-width: 65em;
+  min-height: 90vh;
+  padding: 3em;
+  line-height: 24px;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.15);
+}
+
+.invoice table tr td:nth-child(n + 2) {
+  text-align: right;
+}
+
+.input-group {
+  align-items: center;
+}
+
+img {
+  width: 100px;
+}
+
+table,
+.table {
+  width: 100%;
+}
+table td, table th,
+.table td,
+.table th {
+  vertical-align: middle;
+}
+table td:last-child, table th:last-child,
+.table td:last-child,
+.table th:last-child {
+  border-top: none;
+}
+table tr > td:first-child,
+.table tr > td:first-child {
+  width: 50%;
+}
+
+.total {
+  font-size: 1.2em;
+}
+
+.inline {
+  display: inline;
+  padding-left: 5px;
+}
+
+@media screen and (max-width: 992px) {
+  body {
+    padding: 1em;
+  }
+
+  .invoice {
+    padding: 1em;
+    max-width: 100%;
+  }
+
+  .input-group-prepend {
+    display: none;
+  }
+}
