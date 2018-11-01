@@ -108,7 +108,7 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',        
+          
         [
             'text'        => 'Inicio',
             'url'         => 'admin/home',
@@ -117,14 +117,13 @@ return [
             'label_color' => 'success',
         ], 
 
-        'Produtos',
         [
             'text' => 'Produtos',
             'url'  => 'admin/settings',
             'icon' => 'lock',
             'submenu'=>[
                 [
-                'text' => 'Produtos',
+                'text' => 'Itens',
                 'url'  => 'admin/item/search',
                 'icon' => 'lock',
                 ],
@@ -146,8 +145,6 @@ return [
             ],
         ],
 
-
-        'Clientes',
         [
             'text' => 'Pessoas',
             'url'  => 'admin/settings',
@@ -166,9 +163,8 @@ return [
             ],
         ],
 
-        'Notas',
         [
-            'text' => 'Notas',
+            'text' => 'Financeiro',
             'url'  => 'admin/settings',
             'icon' => 'book',
             'submenu'=>[
@@ -190,7 +186,6 @@ return [
             ],
         ],
 
-        'Relatorios',
         [
             'text' => 'Relatorios',
             'url'  => 'admin/settings',
