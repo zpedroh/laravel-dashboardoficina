@@ -87,7 +87,7 @@ return [
 
     'dashboard_url' => '',
 
-    'logout_url' => 'logout',
+    'logout_url' => 'redirect',
 
     'logout_method' => null,
 

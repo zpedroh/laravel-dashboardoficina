@@ -3,6 +3,7 @@
 @section('content_header')
 <h1>Serviços</h1>
 
+
 @stop 
 @section('content')
 
@@ -17,12 +18,14 @@
       <div class="col-md-3"></div>
 
       <div class="col-lg-6">
-        <table class="table table-striped table-responsive">
+        <table id="service_table" class="table table-striped table-responsive">
           <thead>
             <tr>
               <th>Código</th>
               <th>Nome</th>
               <th>Preço</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -33,8 +36,6 @@
               <td>{{$service->id}}</td>
               <td>{{$service->name}}</td>
               <td>{{$service->price}}</td>
-              <td>
-              </td>
               <td>
                 <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$service->id}}" data-info="{{$service->id}}, {{$service->name}}">Editar</button>
               </td>
@@ -57,27 +58,27 @@
 
                   <div class="modal-body">
                     <form method="get" action="{{route('services.update',$service->id)}}">
-                      @csrf 
-                      {{--<input name="_method" type="hidden" value="PATCH">--}}
+                      @csrf {{--
+                      <input name="_method" type="hidden" value="PATCH">--}}
                       <div class="row">
                         <div class="col-md-6">
-            
+
                           <div class="form-group">
-                          <input type="text" name="name" placeholder="Nome" value="{{$service->name}}" class="form-control" required>
+                            <input type="text" name="name" placeholder="Nome" value="{{$service->name}}" class="form-control" required>
                           </div>
                         </div>
-            
+
                         <div class="col-md-6">
                           <div class="form-group">
-                            <input type="text" name="price" placeholder="Preço" value="{{$service->price}}"  class="form-control" required>
+                            <input type="text" name="price" placeholder="Preço" value="{{$service->price}}" class="form-control" required>
                           </div>
                         </div>
-            
+
                       </div>
-            
+
                       <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Salvar</button>
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>            
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                       </div>
                     </form>
                   </div>
@@ -143,9 +144,15 @@
 </div>
 <!-- /.modal -->
 
-@stop 
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function () {
+        $("#service_table").dataTable();
+  });
 
-{{--
+</script>
+
+
+@stop {{--
 
 <div class="box">
   <div class="box-header with-border">

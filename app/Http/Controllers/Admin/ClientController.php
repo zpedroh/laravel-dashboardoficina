@@ -27,6 +27,9 @@ class ClientController extends Controller
 
     public function clientsCreate(Request $request)
     {
+
+        //  dd($request->all());
+
         if($request->name != null)
         {
             $newclient = [
@@ -38,13 +41,13 @@ class ClientController extends Controller
             								
             $clientadress = [
                 'client_id'   => $client->id,
-                'complement'  => $request->country,
+                'complement'  => $request->complement,
                 'state'       => $request->state,
                 'zipcode'     => $request->zipcode,
                 'city'        => $request->city,
                 'district'    => $request->district,
                 'street'      => $request->street,
-                'number'      => $request->number            
+                'number'      => $request->number     
             ];
 
             $adress = $this->adress->create($clientadress);
