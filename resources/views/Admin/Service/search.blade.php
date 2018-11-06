@@ -1,11 +1,9 @@
-@extends('adminlte::page')
-
-@section('title', 'Serviços')
-
+@extends('adminlte::page') 
+@section('title', 'Serviços') 
 @section('content_header')
-    <h1>Serviços</h1>    
-@stop
+<h1>Serviços</h1>
 
+@stop 
 @section('content')
 
 <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
@@ -13,155 +11,151 @@
 </button>
 
 <div class="div-box">
-    
-    <div class="box-body">
-        <div class="container">
-          <div class="col-md-3"></div>
-          
-          <div class="col-lg-6">
-            <table class="table table-striped table-responsive">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Nome</th>
-                  <th>Preço</th>        
-                </tr>
-              </thead>
-              <tbody>
-                
-                @foreach($service as $service)
-                
-                <tr>
-                  <td>{{$service->id}}</td>
-                  <td>{{$service->name}}</td>
-                  <td>{{$service->price}}</td> 
-                  <td>
-                  </td>
-                  <td>
-                      <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('services.edit', $service['id'])}}">Editar</button>        
-                    {{--<form action="{{ route('services.edit', $service['id'])}}" method="get">
-                      @csrf
-                      <input name="_method" type="hidden" value="EDIT">        
-                      <button class="btn btn-edit" type="submit">Editar</button>        
-                    </form>--}}
-                  </td>
-                  
-                  <td>
-                    <button class="btn btn-danger delete-confirm" value="{{ route('services.destroy', $service->id) }}" type="button">Deletar</button>
-                  </td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table>
-        </div>
-        <div class="col-md-3"></div>
+
+  <div class="box-body">
+    <div class="container">
+      <div class="col-md-3"></div>
+
+      <div class="col-lg-6">
+        <table class="table table-striped table-responsive">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Preço</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            @foreach($service as $service)
+
+            <tr>
+              <td>{{$service->id}}</td>
+              <td>{{$service->name}}</td>
+              <td>{{$service->price}}</td>
+              <td>
+              </td>
+              <td>
+                <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$service->id}}" data-info="{{$service->id}}, {{$service->name}}">Editar</button>
+              </td>
+
+              <td>
+                <button class="btn btn-danger delete-confirm" value="{{ route('services.destroy', $service->id) }}" type="button">Deletar</button>
+              </td>
+            </tr>
+
+            {{--modal edit --}}
+
+            <div class="modal fade" id="modal-edit{{$service->id}}">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Editar Serviço</h4>
+                  </div>
+
+                  <div class="modal-body">
+                    <form method="get" action="{{route('services.update',$service->id)}}">
+                      @csrf 
+                      {{--<input name="_method" type="hidden" value="PATCH">--}}
+                      <div class="row">
+                        <div class="col-md-6">
+            
+                          <div class="form-group">
+                          <input type="text" name="name" placeholder="Nome" value="{{$service->name}}" class="form-control" required>
+                          </div>
+                        </div>
+            
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <input type="text" name="price" placeholder="Preço" value="{{$service->price}}"  class="form-control" required>
+                          </div>
+                        </div>
+            
+                      </div>
+            
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>            
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            @endforeach
+          </tbody>
+        </table>
       </div>
-</div>
+      <div class="col-md-3"></div>
+    </div>
+  </div>
 </div>
 
 {{--Modais--}}
 
 
 <div class="modal fade" id="modal-default">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Adicionar Serviço</h4>
-            </div>
-  
-            <div class="modal-body">
-  
-              <form method="POST" action="{{ route('services.create') }}">    
-  
-                {!! csrf_field() !!}                 
-               
-                <div class="row">
-                  <div class="col-md-6">
-                      <div class="form-group">
-                          <input type="text" name="name" placeholder="Nome" class="form-control" required>
-                      </div>
-                  </div>
-                  
-                  <div class="col-md-6">
-                      <div class="form-group">
-                          <input type="text" name="price" placeholder="Preço" class="form-control" required>
-                      </div>    
-                  </div>
-
-                </div>
-                <div class="modal-footer">
-                   
-                        <button type="submit" class="btn btn-success">Cadastrar</button>
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                  
-                </div>
-              </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-  <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
-
-  <div class="modal fade" id="modal-edit">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title">Editar Serviço</h4>
-              </div>
-    
-              <div class="modal-body">
-                  <form method="get" action="{{route('services.update',$service->id)}}">
-                      @csrf
-                      {{--<input name="_method" type="hidden" value="PATCH">--}}
-                      <div class="row">
-                        <div class="col-md-6">
-                          
-                            <div class="form-group">
-                                <input type="text" name="name" placeholder="Nome" class="form-control" required>
-                            </div>
-                        </div>
-                        
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <input type="text" name="price" placeholder="Preço" class="form-control" required>
-                              </div>  
-                          </div>
-                           
-                      </div>                     
-                    
-                      <div class="modal-footer">
-                              <button type="submit" class="btn btn-success">Salvar</button>
-                              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                    
-                      </div>
-                    </form>
-              </div>
-          </div>
-          <!-- /.modal-content -->
+        <h4 class="modal-title">Adicionar Serviço</h4>
       </div>
-    <!-- /.modal-dialog -->
+
+      <div class="modal-body">
+
+        <form method="POST" action="{{ route('services.create') }}">
+
+          @csrf
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" name="name" placeholder="Nome" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <input type="text" name="price" placeholder="Preço" class="form-control" required>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+
+          </div>
+        </form>
+      </div>
     </div>
-    <!-- /.modal -->
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
-
-@stop
+@stop 
 
 {{--
 
 <div class="box">
-    <div class="box-header with-border">
-      <h3 class="box-title">Bordered Table</h3>
-    </div>
-    <!-- /.box-header -->
-    <div class="box-body">
-      <table class="table table-bordered">
-        <tbody><tr>
+  <div class="box-header with-border">
+    <h3 class="box-title">Bordered Table</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
           <th style="width: 10px">#</th>
           <th>Task</th>
           <th>Progress</th>
@@ -207,18 +201,19 @@
           </td>
           <td><span class="badge bg-green">90%</span></td>
         </tr>
-      </tbody></table>
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer clearfix">
-      <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#">«</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">»</a></li>
-      </ul>
-    </div>
-  </div> 
-  
-  --}}
+      </tbody>
+    </table>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer clearfix">
+    <ul class="pagination pagination-sm no-margin pull-right">
+      <li><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">»</a></li>
+    </ul>
+  </div>
+</div>
+
+--}}

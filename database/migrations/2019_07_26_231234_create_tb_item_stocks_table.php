@@ -16,6 +16,7 @@ class CreateTbItemStocksTable extends Migration
         Schema::create('tb_item_stocks', function ( $table) {
             $table->increments('id');            
             $table->integer('quantity');
+            $table->integer('quantity_min');
             $table->integer('item_id')->unsigned();
             $table->timestamps();
         });

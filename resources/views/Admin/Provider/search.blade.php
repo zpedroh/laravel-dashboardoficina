@@ -6,15 +6,13 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <!-- Adicionando JQuery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
+<!-- Adicionando JQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
 
-    <!-- Adicionando Javascript -->
-    <script type="text/javascript" >
-
-        $(document).ready(function() {
+<!-- Adicionando Javascript -->
+<script type="text/javascript">
+    $(document).ready(function() {
 
             function limpa_formulário_cep() {
                 // Limpa valores do formulário de cep.
@@ -77,8 +75,8 @@
                 }
             });
         });
+</script>
 
-    </script>
 
 @stop 
 @section('content')
@@ -95,7 +93,7 @@
                 <tr>
                     <th>Código</th>
                     <th>Nome</th>
-                    <th>CPF</th>
+                    <th>cnpj</th>
                     <th>Estado</th>
                     <th>CEP</th>
                     <th>Cidade</th>
@@ -106,45 +104,12 @@
                 </tr>
             </thead>
             <tbody>
-                <div class="row">
-                    <div class="col-md-7">
-                        <tr>
-                            <td>1</td>
-                            <td>Pedro</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-
-                            <div class="col-md-2">
-                                <td style="margin-left:10px;">
-                                    <a class="btn-warning btn-xs" data-toggle="modal" data-target="#modal-content">
-                                                    <span class="glyphicon glyphicon-folder-open"> Ver Produtos</span>
-                                                </a>
-                                </td>
-                                <td style="margin-left:10px;">
-                                    <form action="{{ route('providers.edit')}}" method="get">
-                                        @csrf
-                                        <input name="_method" type="hidden" value="EDIT">
-                                        <button class="btn btn-edit" type="submit">Editar</button>
-                                    </form>
-                                </td>
-
-                                <td style="margin-left:10px;">
-                                    <button class="btn btn-danger delete-confirm" {{--value="{{ route('records.destroy'}}" --}} type="button">Deletar</button>
-                                </td>
-                            </div>
-                        </tr>
-                    </div>
-                </div>
-
+               
+                @foreach ($provider as $provider)
                 <tr>
                     <td>{{$provider['id']}}</td>
                     <td>{{$provider['name']}}</td>
-                    <td>{{$provider['cpf']}}</td>
+                    <td>{{$provider['cnpj']}}</td>
                     <td>{{$provider->getAdress->complement}}</td>
                     <td>{{$provider->getAdress->state}}</td>
                     <td>{{$provider->getAdress->zipcode}}</td>
@@ -153,19 +118,101 @@
                     <td>{{$provider->getAdress->street}}</td>
                     <td>{{$provider->getAdress->number}}</td>
                     <td>
-                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('providers.edit', $provider['id'])}}">Editar</button>                        {{--
-                        <form action="{{ route('providers.edit', $provider['id'])}}" method="get">
-                            @csrf
-                            <input name="_method" type="hidden" value="EDIT">
-                            <button class="btn btn-edit" type="submit">Editar</button>
-                        </form>
-                        --}}
+                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$provider->id}}" data-info="{{$provider->id}}, {{$provider->name}}, {{$provider->cnpj}}, {{$provider->getAdress->id}}, {{$provider->getAdress->zipcode}}, {{$provider->getAdress->street}}, {{$provider->getAdress->number}}, {{$provider->getAdress->complement}}, {{$provider->getAdress->district}}, {{$provider->getAdress->city}}, {{$provider->getAdress->state}}">Editar</button>
                     </td>
 
                     <td>
                         <button class="btn btn-danger delete-confirm" value="{{ route('providers.destroy', $provider['id']) }}" type="button">Deletar</button>
                     </td>
                 </tr>
+
+                {{--Modal Edit--}}
+
+                <div class="modal fade" id="modal-edit{{$provider->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Editar Fornecedor</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <form method="get" action="{{route('providers.update', $provider->id)}}">
+                                    @csrf
+
+                                    <input type="hidden" value="{{$provider->id}}">
+                                    <input type="hidden" value="{{$provider->getAdress->id}}">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="name" placeholder="Nome" value="{{$provider->name}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="cnpj" placeholder="cnpj" value="{{$provider->cnpj}}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" name="zipcode" placeholder="CEP" value="{{$provider->getAdress->zipcode}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="street" placeholder="Rua" value="{{$provider->getAdress->street}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" name="number" placeholder="Número" value="{{$provider->getAdress->number}}" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" name="complement" placeholder="Complemento" value="{{$provider->getAdress->complement}}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input type="text" name="district" placeholder="Bairro" value="{{$provider->getAdress->district}}" class="form-control">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input type="text" name="city" placeholder="Cidade" value="{{$provider->getAdress->city}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input type="text" name="state" placeholder="Estado" value="{{$provider->getAdress->state}}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
                 @endforeach
             </tbody>
         </table>
@@ -216,7 +263,7 @@
                             <div class="form-group">
                                 <input type="text" name="number" placeholder="Número" class="form-control">
                             </div>
-                        </div>                      
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
@@ -273,24 +320,24 @@
                     @csrf {{--
                     <input name="_method" type="hidden" value="PATCH"> class="col-md-6"--}}
 
-                <table class="table table-bordered table-dark">
-                    <thead>
-                        <tr>
-                            <th>Produto</th>
-                            <th>Marca</th>
-                            <th>Preço</th>
-                        </tr>
-                    </thead>
-                    <tbody>{{-- @foreach($provideritem as $provideritem)
-                        <tr>
-                            <td>{{$provideritem->id}}</td>
-                            <td>{{$provideritem->getItem->name}}</td>
-                            <td>{{$provideritem->price}}</td>
+                    <table class="table table-bordered table-dark">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Marca</th>
+                                <th>Preço</th>
+                            </tr>
+                        </thead>
+                        <tbody>{{-- @foreach($provideritem as $provideritem)
+                            <tr>
+                                <td>{{$provideritem->id}}</td>
+                                <td>{{$provideritem->getItem->name}}</td>
+                                <td>{{$provideritem->price}}</td>
 
-                        </tr>
-                        @endforeach--}}
-                    </tbody>
-                </table>
+                            </tr>
+                            @endforeach--}}
+                        </tbody>
+                    </table>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -298,5 +345,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
 
 @stop
