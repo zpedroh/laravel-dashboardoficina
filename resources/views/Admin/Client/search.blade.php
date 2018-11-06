@@ -81,6 +81,8 @@
 
 
 
+
+
 @stop 
 @section('content')
 
@@ -120,19 +122,100 @@
                     <td>{{$client->getAdress->street}}</td>
                     <td>{{$client->getAdress->number}}</td>
                     <td>
-                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit" value="{{ route('clients.edit', $client['id'])}}">Editar</button>                        {{--
-                        <form action="{{ route('clients.edit', $client['id'])}}" method="get">
-                            @csrf
-                            <input name="_method" type="hidden" value="EDIT">
-                            <button class="btn btn-edit" type="submit">Editar</button>
-                        </form>
-                        --}}
+                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$client->id}}" data-info="{{$client->id}}, {{$client->name}}, {{$client->cpf}}, {{$client->getAdress->id}}, {{$client->getAdress->zipcode}}, {{$client->getAdress->street}}, {{$client->getAdress->number}}, {{$client->getAdress->complement}}, {{$client->getAdress->district}}, {{$client->getAdress->city}}, {{$client->getAdress->state}}">Editar</button>
                     </td>
-
                     <td>
                         <button class="btn btn-danger delete-confirm" value="{{ route('clients.destroy', $client['id']) }}" type="button">Deletar</button>
                     </td>
                 </tr>
+
+                {{--Modal Edit--}}
+
+                <div class="modal fade" id="modal-edit{{$client->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Editar Cliente</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <form method="get" action="{{route('clients.update', $client->id)}}">
+                                    @csrf
+
+                                    <input type="hidden" value="{{$client->id}}">
+                                    <input type="hidden" value="{{$client->getAdress->id}}">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="name" placeholder="Nome" value="{{$client->name}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="cpf" placeholder="CPF" value="{{$client->cpf}}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input type="text" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input type="text" name="district" placeholder="Bairro" value="{{$client->getAdress->district}}" class="form-control">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <input type="text" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input type="text" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
                 @endforeach
             </tbody>
         </table>
@@ -222,91 +305,6 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-<div class="modal fade" id="modal-edit">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Editar Cliente</h4>
-            </div>
-
-            <div class="modal-body">
-                <form method="get" action="{{route('clients.update', $client->id)}}">
-                    @csrf {{--
-                    <input name="_method" type="hidden" value="PATCH"> class="col-md-6"--}}
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" name="name" placeholder="Nome" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" name="cpf" placeholder="CPF" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" name="zipcode" placeholder="CEP" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" name="street" placeholder="Rua" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" name="number" placeholder="Número" class="form-control">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" name="complement" placeholder="Complemento" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input type="text" name="district" placeholder="Bairro" class="form-control">
-                            </div>
-
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input type="text" name="city" placeholder="Cidade" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <input type="text" name="state" placeholder="Estado" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-
-
 
 
 @stop

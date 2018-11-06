@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemStock;
+use App\Models\Moviment;
 use DB;
 
 
@@ -18,13 +19,15 @@ class ItemController extends Controller
     protected $item_stock;
     protected $brands;
     protected $categories;
+    protected $moviments;
 
-    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands)
+    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands, Moviment $moviments)
     {
         $this->item       = $item;
         $this->item_stock = $item_stock; 
         $this->category   = $categories;
         $this->brand      = $brands;
+        $this->moviment   = $moviments;
     }    
 
     public function index()
@@ -44,20 +47,30 @@ class ItemController extends Controller
     {
         
         $dataItem = [
-            'name'          => $request->name,
-            'price'         => $request->price,
-            'brand_id'      => $request->brand,
-            'category_id'   => $request->category
+            'name'         => $request->name,
+            'location'     => $request->location,
+            'price'        => $request->price,
+            'brand_id'     => $request->brand,
+            'category_id'  => $request->category
         ];
 
         $item = $this->item->create($dataItem);
 
         $dataStock = [
-            'quantity' => $request->quantity,
-            'item_id'  => $item->id
+            'quantity'     => $request->quantity,
+            'quantity_min' => $request->quantity_min,
+            'item_id'      => $item->id
         ];
 
         $item_stock = $this->item_stock->create($dataStock);
+
+        $movimentCreate = [
+            'mov_type' => 1,
+            'item_id'  => $item->id,
+            'quantity' => $item_stock->quantity
+        ];
+
+        $moviments = $this->moviment->create($movimentCreate);
 
         return redirect()->route('items.search'); 
         //->with('success', 'Information has been added')
@@ -88,12 +101,25 @@ class ItemController extends Controller
     public function itemsUpdate(Request $request, $id)
     {
         $item = $this->item->find($id);
+
+        $itemUpdate = [
+            'name'         => $request->name,
+            'location'     => $request->location,
+            'price'        => $request->price,
+            'brand_id'     => $request->brand,
+            'category_id'  => $request->category
+        ];
+
+        $stockUpdate = [
+            'quantity'     => $request->quantity,
+            'quantity_min' => $request->quantity_min
+        ];
  
-        $item->update($request->all());  
+        $item->update($itemupdate);  
         $item->save();
 
         $item_stock = $this->item_stock->where('item_id', $item->id)->first();
-        $item_stock->quantity = $request->quantity;
+        $item_stock->update($stockupdate);
         $item_stock->save();
 
         return redirect('admin/item/search');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ItemStock extends Model
 {
     protected $table = 'tb_item_stocks';
-    protected $fillable = ['quantity', 'item_id'];    
+    protected $fillable = ['quantity', 'quantity_min', 'item_id'];    
     protected $primaryKey = 'id';
 
     public function getItem()

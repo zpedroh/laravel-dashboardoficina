@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     protected $table = 'tb_items';
-    protected $fillable = ['name', 'price', 'brand_id', 'category_id'];    
+    protected $fillable = ['name', 'location', 'price', 'brand_id', 'category_id'];    
     protected $primaryKey = 'id';
 
     public function getBrand()

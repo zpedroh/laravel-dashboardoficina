@@ -69,17 +69,20 @@ class ProviderController extends Controller
 
     public function providersUpdate(Request $request, $id)
     {
+
+        //dd($request->all());
+
         $provider = $this->provider->find($id);
 
         $adress = $this->adress->all()->where('provider_id','=', $provider->id)->first();
 
         $providerupdate = [
             'name' => $request->name,
-            'cpf'  => $request->cpf
+            'cnpj'  => $request->cnpj
         ];
 
         $adressupdate = [
-            'complement'  => $request->country,
+            'complement'  => $request->complement,
             'state'       => $request->state,
             'zipcode'     => $request->zipcode,
             'city'        => $request->city,
