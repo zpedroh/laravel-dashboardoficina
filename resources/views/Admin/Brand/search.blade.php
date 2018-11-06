@@ -1,8 +1,8 @@
 @extends('adminlte::page') 
 @section('title', 'Marca') 
 @section('content_header')
-<h1>Marcas</h1>
 
+<h1>Marcas</h1>
 
 @stop 
 @section('content')
@@ -11,11 +11,13 @@
 </button>
 <div class="table-responsive">
     <div class="col-lg-6">
-        <table class="table table-striped">
+        <table id="brand_table" class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -114,8 +116,10 @@
 </div>
 <!-- /.modal -->
 
-
-
-
-
+<script type="text/javascript" language="javascript">
+    jQuery(document).ready(function () {
+          $("#brand_table").dataTable();
+    });
+ </script>
+ 
 @stop

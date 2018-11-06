@@ -13,11 +13,13 @@
 
 <div class="table-responsive">
   <div class="col-lg-6">
-    <table class="table table-striped">
+    <table id="category_table" class="table table-striped">
       <thead>
         <tr>
           <th>ID</th>
           <th>Name</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -117,5 +119,10 @@
 </div>
 <!-- /.modal -->
 
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function () {
+        $("#category_table").dataTable();
+  });
+</script>
 
 @stop

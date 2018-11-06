@@ -26,7 +26,7 @@ class PaymentMethodController extends Controller
 
         $paymentmethod = $this->paymentmethod->create($request->all());
 
-        return redirect()->route('paymentmethods.register')->with('success', 'Information has been added');  
+        return redirect()->route('paymentmethods.search')->with('success', 'Information has been added');  
     } 
     
     public function paymentmethodsGet()

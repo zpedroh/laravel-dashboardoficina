@@ -3,7 +3,6 @@
 @section('content_header')
 <h1>Fornecedor</h1>
 
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <!-- Adicionando JQuery -->
@@ -22,7 +21,7 @@
                 $("#uf").val("");
                 $("#ibge").val("");
             }
-            
+
             //Quando o campo cep perde o foco.
             $("#cep").blur(function() {
 
@@ -75,8 +74,8 @@
                 }
             });
         });
-</script>
 
+</script>
 
 @stop 
 @section('content')
@@ -88,7 +87,7 @@
 <div class="container">
 
     <div class="col-md-10">
-        <table class="table table-striped table-responsive">
+        <table id="provider_table" class="table table-striped table-responsive" id="service-table">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -100,11 +99,13 @@
                     <th>Bairro</th>
                     <th>Rua</th>
                     <th>Nº</th>
+                    <th></th>
+                    <th></th>
                     <th class="col-md-2"></th>
                 </tr>
             </thead>
             <tbody>
-               
+
                 @foreach ($provider as $provider)
                 <tr>
                     <td>{{$provider['id']}}</td>
@@ -346,5 +347,10 @@
 </div>
 <!-- /.modal -->
 
+<script type="text/javascript" language="javascript">
+    jQuery(document).ready(function () {
+          $("#provider_table").dataTable();
+    });
+  </script>
 
 @stop

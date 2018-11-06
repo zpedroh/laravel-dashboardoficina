@@ -13,13 +13,16 @@
   </button>--}}
   <div class="table-responsive">
   <div class="col-lg-6">
-  <table class="table table-bordered table-dark">
+  <table id="record_table" class="table table-bordered table-dark">
     <thead>
       <tr>
         <th>ID</th>
         <th>Ciente</th>
         <th>Data</th>
         <th>Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -154,4 +157,10 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
+
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function () {
+        $("#record_table").dataTable();
+  });
+</script>
 @stop

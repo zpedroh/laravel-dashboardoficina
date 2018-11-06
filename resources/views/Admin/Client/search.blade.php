@@ -43,7 +43,7 @@
                         $("#bairro").val("...");
                         $("#cidade").val("...");
                         $("#uf").val("...");
-                        $("#ibge").val("...");
+                        //$("#ibge").val("...");
 
                         //Consulta o webservice viacep.com.br/
                         $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
@@ -54,7 +54,7 @@
                                 $("#bairro").val(dados.bairro);
                                 $("#cidade").val(dados.localidade);
                                 $("#uf").val(dados.uf);
-                                $("#ibge").val(dados.ibge);
+                                //$("#ibge").val(dados.ibge);
                             } //end if.
                             else {
                                 //CEP pesquisado não foi encontrado.
@@ -78,11 +78,6 @@
 
 </script>
 
-
-
-
-
-
 @stop 
 @section('content')
 
@@ -92,7 +87,7 @@
 
 <div class="container" style="text-align:center;">
     <div class="col-md-10">
-        <table class="table table-striped table-responsive">
+        <table id="client_table" class="table table-striped table-responsive">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -104,6 +99,8 @@
                     <th>Bairro</th>
                     <th>Rua</th>
                     <th>Nº</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -162,17 +159,17 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <input type="text" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control">
+                                                <input type="text" id="cep" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control">
+                                                <input type="text" id="rua" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <input type="text" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control">
+                                                <input type="text" id="numero" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control">
                                             </div>
                                         </div>
 
@@ -180,7 +177,7 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="text" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}" class="form-control">
+                                                <input type="text" id="complement" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -193,12 +190,12 @@
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <input type="text" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control">
+                                                <input type="text" id="cidade" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <input type="text" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control">
+                                                <input type="text" id="uf" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -252,17 +249,17 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" name="zipcode" placeholder="CEP" class="form-control">
+                                <input type="text" id="cep" name="zipcode" placeholder="CEP" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" name="street" placeholder="Rua" class="form-control">
+                                <input type="text" id="rua" name="street" placeholder="Rua" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" name="number" placeholder="Número" class="form-control">
+                                <input type="text" id="numero" name="number" placeholder="Número" class="form-control">
                             </div>
                         </div>
 
@@ -270,25 +267,25 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="text" name="country" placeholder="Complemento" class="form-control">
+                                <input type="text" id="complemento" name="complement" placeholder="Complemento" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" name="district" placeholder="Bairro" class="form-control">
+                                <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control">
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" name="city" placeholder="Cidade" class="form-control">
+                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input type="text" name="state" placeholder="Estado" class="form-control">
+                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -306,5 +303,10 @@
 </div>
 <!-- /.modal -->
 
+<script type="text/javascript" language="javascript">
+    jQuery(document).ready(function () {
+          $("#client_table").dataTable();
+    });
+  </script>
 
 @stop

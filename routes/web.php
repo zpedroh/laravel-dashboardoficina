@@ -12,7 +12,7 @@
 */
 //'middleware' => ['auth'],
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function()
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'admin'], function()
 {
     //Clientes
 
@@ -165,7 +165,7 @@ Route::post('/justapage', function() {
     return back();
 });
 
-
+Route::post('redirect', 'HomeController@redirect')->name('auth.redirect');
 
 /*
 Route::group(['namespace' => 'Site', 'prefix' => 'home'], function()

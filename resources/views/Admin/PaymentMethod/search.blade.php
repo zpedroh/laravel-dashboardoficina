@@ -12,19 +12,18 @@
   Adicionar Forma de Pagamento
 </button>
 
-
-
-<div class="container">
-
-    <div class="col-md-10">
-        <table class="table table-striped table-responsive">
+<div class="table-responsive">
+  <div class="col-lg-6">
+    <table id="payment_method_table" class="table table-striped">
       <thead>
         <tr>
           <th>Código</th>
           <th>Tipo</th>
           <th>Parcelas</th>
-          <th>Período</th>
-          <th>Dia do Vencimento</th>
+          <th>Periodo</th>
+          <th>Vencimento</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -163,8 +162,10 @@
 </div>
 <!-- /.modal -->
 
-
-
-
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function () {
+        $("#payment_method_table").dataTable();
+  });
+</script>
 
 @stop
