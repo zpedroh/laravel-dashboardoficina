@@ -17,7 +17,7 @@
     <table id="payment_method_table" class="table table-striped">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Código</th>
           <th>Tipo</th>
           <th>Parcelas</th>
           <th>Periodo</th>
@@ -122,31 +122,36 @@
 
           @csrf
 
-          <div class="form-group">
-            <label for="name">Tipo:</label>
-            <input type="text" name="type" placeholder="Tipo" class="form-control">
-          </div>
-
-          <div class="form-group">
-            <label for="name">Parcelas:</label>
-            <input type="text" name="parcel" placeholder="Parcelas" class="form-control">
-          </div>
-
-          <div class="form-group">
-            <label for="name">Periodo:</label>
-            <input type="text" name="period" placeholder="Periodo" class="form-control">
-          </div>
-
-          <div class="form-group">
-            <label for="name">Vencimento:</label>
-            <input type="text" name="duedate" placeholder="Vencimento" class="form-control">
-          </div>
+          <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" name="type" placeholder="Título" class="form-control">
+                </div>
+      
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" name="parcel" placeholder="Parcelas" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <input type="text" name="period" placeholder="Período" class="form-control">
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <input type="numer" name="duedate" placeholder="Dia do Vencimento" class="form-control">
+                    </div>
+              </div>
+            </div>
 
           <div class="modal-footer">
-            <div class="form-group">
               <button type="submit" class="btn btn-success">Cadastrar</button>
               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-            </div>
+          
           </div>
         </form>
       </div>
