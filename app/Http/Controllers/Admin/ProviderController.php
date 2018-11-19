@@ -63,6 +63,7 @@ class ProviderController extends Controller
 
     public function providersEdit($id)
     {        
+        dd($id);
         $provider = $this->provider->find($id);
         return view('admin.provider.edit',compact('provider','id'));        
     }

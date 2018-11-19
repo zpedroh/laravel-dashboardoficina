@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $table = 'tb_clients';
-    protected $fillable = ['name', 'cpf'];
+    protected $fillable = ['name', 'cpf', 'telephone'];
     protected $primaryKey = 'id';
 
     public function getAdress()

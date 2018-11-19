@@ -13,5 +13,5 @@ class ItemStock extends Model
     public function getItem()
     {
         return $this->hasOne('App\Models\Item', 'id', 'item_id');
-    } 
+    }
 }

@@ -77,6 +77,7 @@
 
 </script>
 
+
 @stop 
 @section('content')
 
@@ -87,7 +88,7 @@
 <div class="container">
 
     <div class="col-md-10">
-        <table id="provider_table" class="table table-striped table-responsive" id="service-table">
+        <table id="provider_table" class="table table-striped table-responsive">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -119,7 +120,7 @@
                     <td>{{$provider->getAdress->street}}</td>
                     <td>{{$provider->getAdress->number}}</td>
                     <td>
-                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$provider->id}}" data-info="{{$provider->id}}, {{$provider->name}}, {{$provider->cnpj}}, {{$provider->getAdress->id}}, {{$provider->getAdress->zipcode}}, {{$provider->getAdress->street}}, {{$provider->getAdress->number}}, {{$provider->getAdress->complement}}, {{$provider->getAdress->district}}, {{$provider->getAdress->city}}, {{$provider->getAdress->state}}">Editar</button>
+                        <button class="btn btn-edit" value="{{ route('providers.edit', $provider['id']) }}" type="button">Editar</button>
                     </td>
 
                     <td>
@@ -127,7 +128,9 @@
                     </td>
                 </tr>
 
-                {{--Modal Edit--}}
+                {{--Modal Edit
+
+                    data-toggle="modal" data-target="#modal-edit{{$provider->id}}" data-info="{{$provider->id}}, {{$provider->name}}, {{$provider->cnpj}}, {{$provider->getAdress->id}}, {{$provider->getAdress->zipcode}}, {{$provider->getAdress->street}}, {{$provider->getAdress->number}}, {{$provider->getAdress->complement}}, {{$provider->getAdress->district}}, {{$provider->getAdress->city}}, {{$provider->getAdress->state}}"
 
                 <div class="modal fade" id="modal-edit{{$provider->id}}">
                     <div class="modal-dialog">
@@ -212,14 +215,13 @@
                     </div>
                     <!-- /.modal-dialog -->
                 </div>
-                <!-- /.modal -->
+                <!-- /.modal -->--}}
 
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
-
 {{--Modais--}}
 
 <div class="modal fade" id="modal-default">
@@ -351,6 +353,7 @@
     jQuery(document).ready(function () {
           $("#provider_table").dataTable();
     });
-  </script>
+</script>
+
 
 @stop

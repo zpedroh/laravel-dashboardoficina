@@ -18,11 +18,11 @@ class ClientRecord extends Model
 
     public function getItems()
     {
-        return $this->hasOne('App\Models\ClientRecordItem', 'id', 'client_record_id');
+        return $this->hasMany('App\Models\ClientRecordItem', 'client_record_id', 'id');
     }
 
     public function getServices()
     {
-        return $this->hasOne('App\Models\ClientRecordService', 'id', 'client_record_id');
+        return $this->hasMany('App\Models\ClientRecordService', 'client_record_id', 'id');
     } 
 }

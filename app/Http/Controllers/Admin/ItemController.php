@@ -4,35 +4,61 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ClientRecord;
+use App\Models\Parcel;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemStock;
 use App\Models\Moviment;
 use DB;
+use Carbon\carbon;
+use App\Models\Client;
 
 
 class ItemController extends Controller
 {    
-
     protected $item;
     protected $item_stock;
     protected $brands;
     protected $categories;
     protected $moviments;
+    protected $clientrecords;
+    protected $parcels;
+    protected $clients;
 
-    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands, Moviment $moviments)
+    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands, Moviment $moviments, ClientRecord $clientrecords, Parcel $parcels, Client $clients)
     {
-        $this->item       = $item;
-        $this->item_stock = $item_stock; 
-        $this->category   = $categories;
-        $this->brand      = $brands;
-        $this->moviment   = $moviments;
+        $this->item          = $item;
+        $this->item_stock    = $item_stock; 
+        $this->category      = $categories;
+        $this->brand         = $brands;
+        $this->moviment      = $moviments;
+        $this->clientrecord  = $clientrecords;
+        $this->parcel        = $parcels;
+        $this->client        = $clients;
     }    
 
     public function index()
     {
-        return view('admin.index');
+        $tdate = date('m-y');
+        $begin = Carbon::now()->startOfMonth();
+        $end   = Carbon::now()->endOfMonth();
+
+
+        $parcels = $this->parcel->orderBy('id')->get()->where('parcel->status', '<', '3');
+
+        $client_quantity = $this->client->whereBetween('created_at',[$begin,$end])->count();
+
+        $record_quantity = $this->clientrecord->whereBetween('created_at',[$begin,$end])->count();
+
+        $payed = $this->clientrecord->whereBetween('created_at',[$begin,$end])->get()->where('status', '=', '3')->count();
+
+        $payedpercent = ($payed / $record_quantity) * 100;
+        
+        $item = $this->item->orderBy('name', 'asc')->get();
+
+        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent'));
     }
 
     public function itemsRegister()
@@ -123,6 +149,30 @@ class ItemController extends Controller
         $item_stock->save();
 
         return redirect('admin/item/search');
+    }
+
+    public function itemstockUpdate(Request $request, $id)
+    {
+        $item = $this->item->find($id);
+
+        $item_stock = $this->item_stock->where('item_id', $item->id)->first();
+
+        $stockUpdate = [
+            'quantity' => $item_stock->quantity + $request->quantity,
+        ];
+ 
+        $item_stock->update($stockUpdate);
+        $item_stock->save();
+
+        $movimentCreate = [
+            'mov_type' => 1,
+            'item_id'  => $item->id,
+            'quantity' => $request->quantity
+        ];
+
+        $moviments = $this->moviment->create($movimentCreate);
+
+        return redirect('admin/home');
     }
 
     public function itemsDestroy($id)

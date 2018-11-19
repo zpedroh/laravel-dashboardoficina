@@ -113,8 +113,6 @@ return [
             'text'        => 'Inicio',
             'url'         => 'admin/home',
             'icon'        => 'home',
-            'label'       => 1,
-            'label_color' => 'success',
         ], 
 
         [
@@ -169,7 +167,7 @@ return [
             'icon' => 'book',
             'submenu'=>[
                 [
-                'text' => 'Nova',
+                'text' => 'Nova Nota',
                 'url'  => 'admin/record/register',
                 'icon' => 'sticky-note',
                 ],

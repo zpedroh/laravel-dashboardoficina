@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Provider extends Model
 {
     protected $table = 'tb_providers';
-    protected $fillable = ['name', 'cnpj'];
+    protected $fillable = ['name', 'cnpj', 'telephone'];
     protected $primaryKey = 'id';
 
     public function getAdress()

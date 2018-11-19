@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 class HomeController extends Controller
 {
@@ -21,10 +22,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /*
     public function index()
     {
         return view('admin.index');
     }
+    */
 
     public function invoice()
     {
@@ -32,6 +35,7 @@ class HomeController extends Controller
     }
     public function redirect()
     {
-        return view('auth.login');
+        Session::flush();
+        return redirect('login');
     }
 }

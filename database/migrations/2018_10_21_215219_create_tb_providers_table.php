@@ -17,6 +17,7 @@ class CreateTbProvidersTable extends Migration
             $table->increments('id');
             $table->string('name', 45);
             $table->string('cnpj', 11);
+            $table->string('telephone', 11);
             $table->timestamps();
         });
     }

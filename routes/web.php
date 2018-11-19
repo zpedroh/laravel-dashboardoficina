@@ -16,6 +16,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 {
     //Clientes
 
+    
+
     Route::get('/client/register', 'ClientController@clientsRegister')->name('clients.register');
 
     Route::post('/client/register', 'ClientController@clientsCreate')->name('clients.create');
@@ -28,7 +30,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/client/destroy/{id}', 'ClientController@clientsDestroy')->name('clients.destroy');
 
-    //fornecedoresv
+    //fornecedores
     
     Route::get('/provider/register', 'ProviderController@providersRegister')->name('providers.register');
 
@@ -56,11 +58,14 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/paymentmethod/destroy/{id}', 'PaymentMethodController@paymentmethodsDestroy')->name('paymentmethods.destroy');
 
-
-
     //Notas
 
     Route::get('/record/register', 'ClientRecordController@recordsRegister')->name('records.register');
+
+    Route::get('/record/register/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct');
+    Route::get('/record/register/{service_id}/consulta-service/{amount}', 'ClientRecordController@getService');
+
+    Route::get('/record/register/consulta-client/{client_id}', 'ClientRecordController@getClient');
 
     Route::post('/record/register', 'ClientRecordController@recordsCreate')->name('records.create');
 
@@ -72,14 +77,16 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/record/destroy/{id}', 'ClientRecordController@recordsDestroy')->name('records.destroy');
 
+    //Route::post('/record/additem', 'ClientRecordController@additem')->name('add.item');
 
+/*
     //Conteudo Notas
     Route::get('/recorditem/register', 'ClientRecordController@recorditemsRegister')->name('recorditems.register');
     //Itens Notas
     Route::post('/recorditem/register', 'ClientRecordController@recorditemsCreate')->name('recorditems.create');
     //Serviços Notas
     Route::post('/recordservice/register', 'ClientRecordController@recordservicesCreate')->name('recordservices.create');
-
+*/
     //itens
 
     Route::get('/home', 'ItemController@index')->name('items.home');
@@ -93,6 +100,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::get('/item/edit/{id}', 'ItemController@itemsEdit')->name('items.edit');
 
     Route::get('/item/update/{id}', 'ItemController@itemsUpdate')->name('items.update');
+    
+    Route::get('/stock/update/{id}', 'ItemController@itemstockUpdate')->name('stock.update');
 
     Route::get('/item/destroy/{id}', 'ItemController@itemsDestroy')->name('items.destroy');
 
@@ -165,7 +174,7 @@ Route::post('/justapage', function() {
     return back();
 });
 
-Route::post('redirect', 'HomeController@redirect')->name('auth.redirect');
+Route::post('redirect', 'HomeController@redirect');
 
 /*
 Route::group(['namespace' => 'Site', 'prefix' => 'home'], function()

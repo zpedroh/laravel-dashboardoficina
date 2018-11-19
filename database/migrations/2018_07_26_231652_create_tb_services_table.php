@@ -16,7 +16,7 @@ class CreateTbServicesTable extends Migration
         Schema::create('tb_services', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 25);
-            $table->double('price', 10, 2);
+            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }
