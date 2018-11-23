@@ -14,4 +14,9 @@ class Client extends Model
     {
         return $this->hasOne('App\Models\Adress', 'client_id', 'id');
     }
+
+    public function getRecords()
+    {
+        return $this->hasMany('App\Models\ClientRecord', 'client_id', 'id');
+    }
 }

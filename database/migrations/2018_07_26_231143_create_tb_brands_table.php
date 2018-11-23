@@ -15,7 +15,7 @@ class CreateTbBrandsTable extends Migration
     {
         Schema::create('tb_brands', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 15);//->nullable(false); 
+            $table->string('name', 40);
             $table->timestamps();
         });
     }

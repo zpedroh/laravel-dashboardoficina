@@ -23,12 +23,22 @@ class ServiceController extends Controller
 
     public function servicesCreate(Request $request)
     {
-        if($request->name != null)
-        {
-            $service = $this->service->create($request->all());
+        $price = str_replace('R$ ', '', $request->get('price'));
 
-            return redirect()->route('services.search');  
-        }             
+        $dataService = [
+            'name'  => $request->name,
+            'price' => $price
+        ];
+
+        $service = $this->service->create($dataService);
+
+        $notification = array(
+            'message' => 'Serviço Registrado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('services.search')->with($notification);  
+                   
     } 
 
     public function servicesGet()
@@ -46,17 +56,41 @@ class ServiceController extends Controller
 
     public function servicesUpdate(Request $request, $id)
     {
+
+        $price = str_replace('R$ ', '', $request->get('price'));
+
+/* 
+
+$price = str_replace('R$ ', '', $request->get('price'));
+        $price = str_replace('.', '', $price);
+        $price = str_replace(',', '.', $price);
+
+*/
+       // dd($price);
+
         $service= \App\Models\Service::find($id);
-        $service->name=$request->get('name'); 
-        $service->price=$request->get('price');       
+        $service->name = $request->get('name'); 
+        $service->price = $price;       
         $service->save();
-        return redirect('admin/service/search');
+
+        $notification = array(
+            'message' => 'Serviço Atualizado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('services.search')->with($notification);
     }
 
     public function servicesDestroy($id)
     {        
         $service = \App\Models\Service::find($id);
         $service->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
+
+        $notification = array(
+            'message' => 'Serviço Deletado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('services.search')->with($notification);
     }
 }

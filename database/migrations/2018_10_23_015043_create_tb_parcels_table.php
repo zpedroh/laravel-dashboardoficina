@@ -18,10 +18,11 @@ class CreateTbParcelsTable extends Migration
             $table->integer('client_record_id')->unsigned();
             $table->foreign('client_record_id')->references('id')->on('tb_client_records')->onDelete('cascade');
             $table->integer('payment_method_id')->unsigned();
-            $table->foreign('payment_method_id')->references('id')->on('tb_payment_methods');//->onDelete('cascade');
+            $table->foreign('payment_method_id')->references('id')->on('tb_payment_methods');
             $table->integer('status');
             $table->decimal('value');
             $table->integer('number');
+            $table->integer('parcel_number');
             $table->date('date');
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 @section('title', 'Home') 
 @section('content_header')
 <h1>Dashboard</h1>
+
 @stop 
 @section('content')
 <section class="content">
@@ -11,7 +12,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>{{$record_quantity}}</h3>
+                    <h3>@if($record_quantity > 0) {{$record_quantity}} @else 0 @endif</h3>
 
                     <p>Novas Notas</p>
                 </div>
@@ -26,7 +27,9 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>{{$payedpercent}}<sup style="font-size: 20px">%</sup></h3>
+                    <h3>@if($payedpercent > 0) {{$payedpercent}} @else 0 @endif
+                        <sup style="font-size: 20px">%</sup>
+                    </h3>
 
                     <p>Media de Pagamento</p>
                 </div>
@@ -41,7 +44,8 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>{{$client_quantity}}</h3>
+                    <h3>@if($client_quantity > 0) {{$client_quantity}} @else 0 @endif
+                    </h3>
 
                     <p>Novos Clientes</p>
                 </div>
@@ -83,8 +87,7 @@
             <th>Minimo</th>
         </thead>
         <tbody>
-            @foreach ($item as $item) 
-            
+            @if(isset($item)) @foreach ($item as $item) 
             @if($item->getItemStock->quantity <= $item->getItemStock->quantity_min)
 
                 <tr>
@@ -138,7 +141,7 @@
                 </div>
                 <!-- /.modal -->
 
-                @endif @endforeach
+                @endif @endforeach @endif
         </tbody>
 
         <table class="table table-hover">
@@ -151,7 +154,7 @@
                 <th>Data de Vencimento</th>
             </thead>
             <tbody>
-                @foreach($parcels as $parcel)
+                @if(isset($parcels)) @foreach($parcels as $parcel)
                 <tr>
                     <td>{{$parcel->client_record_id}}</td>
                     <td>{{$parcel->getRecord->getClient->name}}</td>
@@ -165,20 +168,14 @@
                     </td>
 
                 </tr>
-                {{--@if($record->created_at->format('m-y') == $tdate)@endif--}} @endforeach
-
+                {{--@if($record->created_at->format('m-y') == $tdate)@endif--}} @endforeach @endif
             </tbody>
         </table>
     </table>
 
-
-
     
-@stop
+@stop {{--
 
-
-{{--
-    
     <div class="row" style="margin:0px;padding-top:25px;">
         <div class="col-md-12">
             <div class="col-md-6">
@@ -431,6 +428,6 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    
-    
+
+
     --}}

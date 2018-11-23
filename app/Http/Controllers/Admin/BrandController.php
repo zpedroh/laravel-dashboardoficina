@@ -30,7 +30,12 @@ class BrandController extends Controller
         {
             $brand = $this->brand->create($request->all());
 
-            return redirect()->route('brands.search');  
+            $notification = array(
+                'message' => 'Marca Registrada!' , 
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('brands.search')->with($notification);  
         }         
     } 
 
@@ -52,13 +57,25 @@ class BrandController extends Controller
         $brand = $this->brand->find($id);
         $brand->name = $request->get('name');        
         $brand->save();
-        return redirect('admin/brand/search');
+
+        $notification = array(
+            'message' => 'Marca Atualizada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/brand/search')->with($notification);
     }
 
     public function brandsDestroy($id)
     {
         $brand = $this->brand->find($id);
         $brand->delete();
-        return redirect('admin/brand/search')->with('success','Information has been  deleted');
+
+        $notification = array(
+            'message' => 'Marca Deletada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/brand/search')->with($notification);
     }
 }

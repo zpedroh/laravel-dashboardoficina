@@ -16,8 +16,8 @@ class CreateTbClientsTable extends Migration
         Schema::create('tb_clients', function ( $table) {
             $table->increments('id');
             $table->string('name', 45);
-            $table->string('cpf', 11);
-            $table->string('telephone', 11);
+            $table->string('cpf', 14);
+            $table->string('telephone', 15);
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTbMovimentsTable extends Migration
+class CreateTbProviderItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateTbMovimentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tb_moviments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('mov_type');
-            $table->integer('quantity');
+        Schema::create('tb_provider_items', function (Blueprint $table) {
+            $table->increments('id');            
+            $table->integer('provider_id')->unsigned();
+            $table->foreign('provider_id')->references('id')->on('tb_providers')->onDelete('cascade');
             $table->integer('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('tb_items');
-            $table->integer('client_record_id')->unsigned()->nullable();
-            $table->foreign('client_record_id')->references('id')->on('tb_client_records')->onDelete('cascade');
+            $table->decimal('value');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateTbMovimentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_movements');
+        Schema::dropIfExists('tb_provider_items');
     }
 }

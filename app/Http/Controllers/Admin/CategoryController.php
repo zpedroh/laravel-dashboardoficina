@@ -29,7 +29,12 @@ class CategoryController extends Controller
             $category = $this->category->create($request->all());
         }    
                 
-        return redirect()->route('categories.search');        
+        $notification = array(
+            'message' => 'Categoria Registrada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('categories.search')->with($notification);        
     }
     
     public function categoriesGet()
@@ -50,13 +55,25 @@ class CategoryController extends Controller
         $category = $this->category->find($id);
         $category->name=$request->get('name');        
         $category->save();
-        return redirect('admin/category/search');
+
+        $notification = array(
+            'message' => 'Categoria Atualizada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/category/search')->with($notification);
     }
 
     public function categoriesDestroy($id)
     {
         $category = $this->category->find($id);
         $category->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
+
+        $notification = array(
+            'message' => 'Categoria Deletada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/home')->with($notification);
     }
 }

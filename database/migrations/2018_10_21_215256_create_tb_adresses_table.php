@@ -19,7 +19,7 @@ class CreateTbAdressesTable extends Migration
             $table->foreign('client_id')->references('id')->on('tb_clients')->onDelete('cascade');
             $table->integer('provider_id')->unsigned()->nullable();
             $table->foreign('provider_id')->references('id')->on('tb_providers')->onDelete('cascade');
-            $table->string('complement',30);
+            $table->string('complement',30)->nullable();
             $table->string('state', 30);
             $table->string('zipcode', 10);
             $table->string('city', 30);

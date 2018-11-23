@@ -18,11 +18,8 @@ class CreateTbItemStocksTable extends Migration
             $table->integer('quantity');
             $table->integer('quantity_min');
             $table->integer('item_id')->unsigned();
-            $table->timestamps();
-        });
-
-        Schema::table('tb_item_stocks', function ( $table) {
             $table->foreign('item_id')->references('id')->on('tb_items')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

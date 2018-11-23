@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Provider;
 use App\Models\Item;
 use App\Models\Adress;
+use App\Models\ProviderItem;
 use DB;
 
 class ProviderController extends Controller
@@ -14,11 +15,15 @@ class ProviderController extends Controller
 
     protected $provider;
     protected $adress;
+    protected $items;
+    protected $provideritem;
 
-    public function __construct(Provider $provider, Adress $adress)
+    public function __construct(Provider $provider, ProviderItem $provideritem, Adress $adress, Item $items)
     {
         $this->provider = $provider;
         $this->adress = $adress;
+        $this->item = $items;
+        $this->provideritem = $provideritem;
     }
 
     public function providersRegister()
@@ -32,7 +37,8 @@ class ProviderController extends Controller
         {
             $newprovider = [
                 'name'  => $request->name,
-                'cnpj'  => $request->cnpj
+                'cnpj'  => $request->cnpj,
+                'telephone' => $request->telephone
             ];
 
             $provider = $this->provider->create($newprovider);
@@ -50,7 +56,12 @@ class ProviderController extends Controller
 
             $adress = $this->adress->create($provideradress);
 
-            return redirect()->route('providers.search');  
+            $notification = array(
+                'message' => 'Fornecedor Registrado!' , 
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('providers.search')->with($notification);  
         }  
     } 
 
@@ -63,23 +74,21 @@ class ProviderController extends Controller
 
     public function providersEdit($id)
     {        
-        dd($id);
         $provider = $this->provider->find($id);
-        return view('admin.provider.edit',compact('provider','id'));        
+        $items    = $this->item->all();
+        return view('admin.provider.edit',compact('provider','items'));        
     }
 
     public function providersUpdate(Request $request, $id)
     {
-
-        //dd($request->all());
-
         $provider = $this->provider->find($id);
 
-        $adress = $this->adress->all()->where('provider_id','=', $provider->id)->first();
+        $adress = $this->adress->get()->where('edit_provider_id','=', $provider->id)->first();
 
         $providerupdate = [
-            'name' => $request->name,
-            'cnpj'  => $request->cnpj
+            'name'      => $request->name,
+            'cnpj'      => $request->cnpj,
+            'telephone' => $request->telephone
         ];
 
         $adressupdate = [
@@ -97,14 +106,106 @@ class ProviderController extends Controller
 
         $adress->update($adressupdate);  
         $adress->save();
-        
-        return redirect('admin/provider/search');
+/*
+        if(isset($request->seller))
+        {
+            foreach($request->item_id as $key => $item)
+            {
+                if($request->seller = 'on')
+                {
+                    $item_seller = [
+                        'item_id'     => $item,
+                        'value'       => $request->value_provider[$key], 
+                        'provider_id' => $provider->id
+                    ];
+
+                    $provideritem = $this->provideritem->get()->where('provideritem->item_id', '=', $item)->where('provideritem->provider_id', '=', $provider->id)->first();
+                    
+                    if(isset($provideritem))
+                    {
+                        $provideritem = $this->provideritem->update($item_seller);
+                        $provideritem->save();
+                    }
+
+                    else
+                    {
+                        $provideritem = $this->provideritem->create($item_seller);
+                    }
+                }    
+            };
+        };
+*/
+        $notification = array(
+            'message' => 'Fornecedor Atualizado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/provider/search')->with($notification);
     }
+
+    
 
     public function providersDestroy($id)
     {
         $provider = $this->provider->find($id);
         $provider->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
+
+        $notification = array(
+            'message' => 'Fornecedor Deletado!' , 
+            'alert-type' => 'success'
+        );
+        
+        return redirect('admin/home')->with($notification);
+    }   
+
+    public function pitemsCreate(Request $request)
+    {
+        $provider = $this->provider->findOrFail($request->provider_id);
+
+        $price = str_replace('R$ ', '', $request->get('provider_price'));
+
+        $item_seller = [
+            'item_id'     => $request->item_id,
+            'value'       => $price, 
+            'provider_id' => $provider->id
+        ];
+
+        $provideritem = $this->provideritem->create($item_seller);
+
+        $notification = array(
+            'message' => 'Item Adicionado!' , 
+            'alert-type' => 'success'
+        );
+        
+        return redirect(route('providers.edit', $provider->id))->with($notification);
+    }   
+    public function pitemsUpdate(Request $request, $id)
+    {
+        
+        $price = str_replace('R$ ', '', $request->get('provider_price'));
+        
+        $provideritem = $this->provideritem->findOrFail($id);
+        
+        $provideritem->value = $price;
+        $provideritem->save();
+
+        $notification = array(
+            'message' => 'Fornecedor Deletado!' , 
+            'alert-type' => 'success'
+        );
+        
+        return redirect('admin/home')->with($notification);
+    } 
+    public function pitemsDestroy($id)
+    {
+        $provideritem = $this->provideritem->find($id);
+        $provideritem->delete();
+
+        $notification = array(
+            'message' => 'Item do Fornecedor Deletado!' , 
+            'alert-type' => 'success'
+        );
+        
+        return redirect('admin/home')->with($notification);
     }   
 }

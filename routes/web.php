@@ -14,9 +14,7 @@
 
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'admin'], function()
 {
-    //Clientes
-
-    
+    //Clientes 
 
     Route::get('/client/register', 'ClientController@clientsRegister')->name('clients.register');
 
@@ -43,6 +41,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::get('/provider/update/{id}', 'ProviderController@providersUpdate')->name('providers.update');
 
     Route::get('/provider/destroy/{id}', 'ProviderController@providersDestroy')->name('providers.destroy');
+
+    //item fornecedor
+
+    Route::post('/provider/item/register', 'ProviderController@pitemsCreate')->name('pitems.create');
+    Route::get('/provider/item/edit/{id}', 'ProviderController@pitemsUpdate')->name('pitems.update');
+    Route::get('/provider/item/destroy/{id}', 'ProviderController@pitemsDestroy')->name('pitems.destroy');
     
     //Formas de pagamento
 
@@ -62,9 +66,6 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/record/register', 'ClientRecordController@recordsRegister')->name('records.register');
 
-    Route::get('/record/register/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct');
-    Route::get('/record/register/{service_id}/consulta-service/{amount}', 'ClientRecordController@getService');
-
     Route::get('/record/register/consulta-client/{client_id}', 'ClientRecordController@getClient');
 
     Route::post('/record/register', 'ClientRecordController@recordsCreate')->name('records.create');
@@ -77,16 +78,22 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/record/destroy/{id}', 'ClientRecordController@recordsDestroy')->name('records.destroy');
 
-    //Route::post('/record/additem', 'ClientRecordController@additem')->name('add.item');
+    //consultas json
 
-/*
-    //Conteudo Notas
-    Route::get('/recorditem/register', 'ClientRecordController@recorditemsRegister')->name('recorditems.register');
-    //Itens Notas
-    Route::post('/recorditem/register', 'ClientRecordController@recorditemsCreate')->name('recorditems.create');
-    //Serviços Notas
-    Route::post('/recordservice/register', 'ClientRecordController@recordservicesCreate')->name('recordservices.create');
-*/
+    Route::get('/record/edit/{record_id}/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct2');
+    Route::get('/record/edit/{record_id}/{service_id}/consulta-service/{amount}', 'ClientRecordController@getService2');
+
+    Route::get('/record/register/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct');
+    Route::get('/record/register/{service_id}/consulta-service/{amount}', 'ClientRecordController@getService');
+
+    Route::get('/record/content/{id}', 'ClientRecordController@contentGet')->name('content.get');
+
+    //Parcelas da nota
+
+    Route::post('/record/parcels/register', 'ClientRecordController@parcelsCreate')->name('parcels.create');
+    Route::get('/record/parcels/update/{id}', 'ClientRecordController@parcelsUpdate')->name('parcels.update');
+    Route::get('/record/parcels/destroy/{id}', 'ClientRecordController@parcelsDestroy')->name('parcels.destroy');
+
     //itens
 
     Route::get('/home', 'ItemController@index')->name('items.home');
@@ -150,31 +157,16 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     //relatorios
 
+    //BestSeller
     Route::get('/report/bs', 'ReportController@bestsellerReport')->name('reports.bs');
+    Route::post('/report/bs', 'ReportController@bsGet')->name('bs.result');
+
+
     Route::get('/report/bc', 'ReportController@bestclientReport')->name('reports.bc');
     
 });
 
 
-//testes
-
-Route::get('/invoice', 'HomeController@invoice');
-
-Route::get('/teste', function () {
-    // Simply shows the blade view resources/home.blade.php
-    return view('admin.site.teste');
-});
-
-Route::post('/justapage', function() {
-
-    // This is the message that will show in the sweetalert-popup:
-    alert()->success('It worked!', 'The form was submitted');
-
-    // Redirect back to the page you were looking at
-    return back();
-});
-
-Route::post('redirect', 'HomeController@redirect');
 
 /*
 Route::group(['namespace' => 'Site', 'prefix' => 'home'], function()
@@ -186,3 +178,5 @@ Route::group(['namespace' => 'Site', 'prefix' => 'home'], function()
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('redirect', 'HomeController@redirect');

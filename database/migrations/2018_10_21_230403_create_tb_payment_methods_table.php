@@ -17,8 +17,8 @@ class CreateTbPaymentMethodsTable extends Migration
             $table->increments('id');
             $table->string('type');
             $table->integer('parcel');
-            $table->integer('period');
-            $table->integer('duedate');
+            $table->integer('period')->nullable();
+            $table->integer('duedate')->nullable();
             $table->timestamps();
         });
     }

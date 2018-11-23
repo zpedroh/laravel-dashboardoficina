@@ -14,4 +14,9 @@ class Provider extends Model
     {
         return $this->hasOne('App\Models\Adress', 'provider_id', 'id');
     }
+
+    public function getPItems()
+    {
+        return $this->hasMany('App\Models\ProviderItem', 'provider_id', 'id');
+    }
 }

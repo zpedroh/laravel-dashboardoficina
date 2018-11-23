@@ -26,7 +26,12 @@ class PaymentMethodController extends Controller
 
         $paymentmethod = $this->paymentmethod->create($request->all());
 
-        return redirect()->route('paymentmethods.search')->with('success', 'Information has been added');  
+        $notification = array(
+            'message' => 'Forma de Pagamento Registrada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('paymentmethods.search')->with($notification);  
     } 
     
     public function paymentmethodsGet()
@@ -50,7 +55,12 @@ class PaymentMethodController extends Controller
         $paymentmethod->update($request->all());        
         $paymentmethod->save();
 
-        return redirect('admin/paymentmethod/search');
+        $notification = array(
+            'message' => 'Forma de Pagamento Atualizada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/paymentmethod/search')->with($notification);
     }
 
     public function paymentmethodsDestroy($id)
@@ -58,6 +68,12 @@ class PaymentMethodController extends Controller
         $paymentmethod = $this->paymentmethod->find($id);
         
         $paymentmethod->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
+
+        $notification = array(
+            'message' => 'Forma de Pagamento Deletada!' , 
+            'alert-type' => 'success'
+        );
+        
+        return redirect('admin/home')->with($notification);
     }   
 }

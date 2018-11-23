@@ -17,7 +17,7 @@ class CreateTbItemsTable extends Migration
             $table->increments('id');
             $table->string('name', 20);
             $table->string('location', 8);
-            $table->decimal('price', 10, 2);
+            $table->decimal('price');
             $table->integer('brand_id')->unsigned();
             $table->foreign('brand_id')->references('id')->on('tb_brands');
             $table->integer('category_id')->unsigned();

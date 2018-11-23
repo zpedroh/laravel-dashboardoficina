@@ -34,7 +34,8 @@ class ClientController extends Controller
         {
             $newclient = [
                 'name' => $request->name,
-                'cpf'  => $request->cpf
+                'cpf'  => $request->cpf,
+                'telephone' => $request->telephone
             ];
 
             $client = $this->client->create($newclient);
@@ -52,7 +53,12 @@ class ClientController extends Controller
 
             $adress = $this->adress->create($clientadress);
 
-            return redirect()->route('clients.search');  
+            $notification = array(
+                'message' => 'Cliente Registrado!' , 
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('clients.search')->with($notification);  
         }  
     } 
 
@@ -78,11 +84,12 @@ class ClientController extends Controller
 
         $clientupdate = [
             'name' => $request->name,
-            'cpf'  => $request->cpf
+            'cpf'  => $request->cpf,
+            'telephone'  => $request->telephone
         ];
 
         $adressupdate = [
-            'complement'  => $request->country,
+            'complement'  => $request->complement,
             'state'       => $request->state,
             'zipcode'     => $request->zipcode,
             'city'        => $request->city,
@@ -96,15 +103,25 @@ class ClientController extends Controller
 
         $adress->update($adressupdate);  
         $adress->save();
+
+        $notification = array(
+            'message' => 'Cliente Atualizado!' , 
+            'alert-type' => 'success'
+        );
         
-        return redirect('admin/client/search');
+        return redirect('admin/client/search')->with($notification);
     }
 
     public function clientsDestroy($id)
     {
         $client = $this->client->find($id);
         $client->delete();
+
+        $notification = array(
+            'message' => 'Cliente Deletado!' , 
+            'alert-type' => 'success'
+        );
         
-        return redirect('admin/home')->with('success','Information has been  deleted');
+        return redirect('admin/home')->with($notification);
     }   
 }

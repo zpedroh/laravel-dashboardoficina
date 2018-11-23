@@ -13,7 +13,6 @@
 <div class="box">
     <div class="box-header">
     <form method="POST"  action="{{ route('bs.result') }}" >
-        @csrf
             <div class="col-sm-4">
                 <label for="date-start"> Data inicio:</label>
                 <input type="date" id="start" name="date_start" class="form-control">
@@ -23,14 +22,14 @@
                 <input type="date" id="end" name="date_end" class="form-control">
             </div>
             <div class="col-xs-4">
-                <button type="submit" class="btn btn-block btn-info">Filtrar</button>
+                <button type="button" class="btn btn-block btn-info">Filtrar</button>
             </div>
         </div>
     </div>
 
     <div class="box-body">
 
-{{--     <div class="table-responsive">
+        <div class="table-responsive">
             <table class="table-stripped" id="report_table">
 
                 <thead>
@@ -49,7 +48,7 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>--}}
+        </div>
 
     </div>
 </div>

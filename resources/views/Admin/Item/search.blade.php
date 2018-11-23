@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{$item->id}}</td>
                     <td>{{$item->name}}</td>
-                    <td>{{$item->price}}</td>
+                    <td>R$ {{$item->price}}</td>
                     <td>{{$item->getCategory->name}}</td>
                     <td>{{$item->getBrand->name}}</td>
                     <td>{{$item->location}}</td>
@@ -94,7 +94,7 @@
                         <input type="text" class="form-control" name="quantity_min" value="{{$item->getItemStock->quantity_min}}">
     
                         <label for="price">Preço:</label>
-                        <input type="text" class="form-control" name="price" value="{{$item->price}}">
+                        <input type="text" class="form-control" id="price" name="price" value="{{$item->price}}">
     
                         <div class="modal-footer">
                             <div class="form-group">
@@ -164,7 +164,7 @@
                     <input type="text" name="quantity_min" placeholder="Quantidade Minima" class="form-control">
 
                     <label for="price">Preço:</label>
-                    <input type="text" name="price" placeholder="Preço" class="form-control">
+                    <input type="text" id="price_create" name="price" placeholder="Preço" class="form-control">
 
                     <div class="modal-footer">
                         <div class="form-group">
@@ -181,10 +181,41 @@
 </div>
 <!-- /.modal -->
 
+<script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
+
 <script type="text/javascript" language="javascript">
     jQuery(document).ready(function () {
-          $("#item-table").dataTable();
+          $("#item-table").dataTable({
+            language:{
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+    }
+          });
     });
  </script>
+
+<script type="text/javascript">
+    $('#price').maskMoney({prefix:'R$ ',thousands:'',decimal:'.'});
+    $('#price_create').maskMoney({prefix:'R$ ',thousands:'',decimal:'.'});
+</script>
  
 @stop

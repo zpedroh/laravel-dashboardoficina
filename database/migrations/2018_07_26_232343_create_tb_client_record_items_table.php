@@ -20,7 +20,7 @@ class CreateTbClientRecordItemsTable extends Migration
             $table->integer('client_record_id')->unsigned();
             $table->foreign('client_record_id')->references('id')->on('tb_client_records')->onDelete('cascade');
             $table->integer('quantity');
-            $table->double('item_total', 10, 2);
+            $table->decimal('item_total');
             $table->timestamps();
         });
     }

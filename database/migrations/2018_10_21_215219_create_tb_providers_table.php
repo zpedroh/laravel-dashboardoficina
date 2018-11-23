@@ -16,8 +16,8 @@ class CreateTbProvidersTable extends Migration
         Schema::create('tb_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 45);
-            $table->string('cnpj', 11);
-            $table->string('telephone', 11);
+            $table->string('cnpj', 20);
+            $table->string('telephone', 15);
             $table->timestamps();
         });
     }

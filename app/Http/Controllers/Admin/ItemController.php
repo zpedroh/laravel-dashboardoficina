@@ -44,6 +44,7 @@ class ItemController extends Controller
         $tdate = date('m-y');
         $begin = Carbon::now()->startOfMonth();
         $end   = Carbon::now()->endOfMonth();
+        
 
 
         $parcels = $this->parcel->orderBy('id')->get()->where('parcel->status', '<', '3');
@@ -54,11 +55,25 @@ class ItemController extends Controller
 
         $payed = $this->clientrecord->whereBetween('created_at',[$begin,$end])->get()->where('status', '=', '3')->count();
 
-        $payedpercent = ($payed / $record_quantity) * 100;
-        
+        $payedpercent = 0;
+
+        if($record_quantity > 0)
+        {
+            if($payed > 0)
+            {
+                $payedpercent = ($payed / $record_quantity) * 100;
+            }
+        } 
+
         $item = $this->item->orderBy('name', 'asc')->get();
 
-        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent'));
+        $notification = array(
+            'message' => 'I am a successful message!', 
+            'alert-type' => 'success'
+        );
+        
+
+        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent'))->with($notification);
     }
 
     public function itemsRegister()
@@ -71,11 +86,12 @@ class ItemController extends Controller
 
     public function itemsCreate(Request $request)
     {
+        $price = str_replace('R$ ', '', $request->get('price'));
         
         $dataItem = [
             'name'         => $request->name,
             'location'     => $request->location,
-            'price'        => $request->price,
+            'price'        => $price,
             'brand_id'     => $request->brand,
             'category_id'  => $request->category
         ];
@@ -98,7 +114,12 @@ class ItemController extends Controller
 
         $moviments = $this->moviment->create($movimentCreate);
 
-        return redirect()->route('items.search'); 
+        $notification = array(
+            'message' => 'Item Registrado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('items.search')->with($notification); 
         //->with('success', 'Information has been added')
 
     }
@@ -148,7 +169,12 @@ class ItemController extends Controller
         $item_stock->update($stockupdate);
         $item_stock->save();
 
-        return redirect('admin/item/search');
+        $notification = array(
+            'message' => 'Item Atualizado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/item/search')->with($notification);
     }
 
     public function itemstockUpdate(Request $request, $id)
@@ -172,7 +198,12 @@ class ItemController extends Controller
 
         $moviments = $this->moviment->create($movimentCreate);
 
-        return redirect('admin/home');
+        $notification = array(
+            'message' => 'Estoque Atualizado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/home')->with($notification);
     }
 
     public function itemsDestroy($id)
@@ -180,6 +211,12 @@ class ItemController extends Controller
         $item = $this->item->find($id);
 
         $item->delete();
-        return redirect()->route('items.home')->with('success','Information has been  deleted');
+
+        $notification = array(
+            'message' => 'Item Deletado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('items.home')->with($notification);
     }
 }

@@ -16,15 +16,12 @@ class CreateTbClientRecordServicesTable extends Migration
         Schema::create('tb_client_record_services', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('service_id')->unsigned();
-            $table->integer('client_record_id')->unsigned();
-            $table->integer('quantity');
-            $table->double('service_total', 10, 2);
-            $table->timestamps();
-        });
-
-        Schema::table('tb_client_record_services', function ( $table) {
             $table->foreign('service_id')->references('id')->on('tb_services');
-            $table->foreign('client_record_id')->references('id')->on('tb_client_records');
+            $table->integer('client_record_id')->unsigned();
+            $table->foreign('client_record_id')->references('id')->on('tb_client_records')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->decimal('service_total');
+            $table->timestamps();
         });
     }
 

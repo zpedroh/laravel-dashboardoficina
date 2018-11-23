@@ -11,12 +11,13 @@
   </button>--}}
 <div class="table-responsive">
   <div class="col-lg-6">
-    <table id="record_table" class="table table-bordered table-dark">
+    <table id="record_table" class="table table-bordered">
       <thead>
         <tr>
           <th>ID</th>
           <th>Cliente</th>
           <th>Data</th>
+          <th>Status</th>
           <th>Total</th>
           <th></th>
           <th></th>
@@ -26,21 +27,32 @@
       <tbody>
 
         {{-- @if(Auth::user()->autorith == 1) Menu @endif --}} 
+        
         @foreach($clientrecord as $clientrecord)
 
         <tr>
           <td>{{$clientrecord->id}}</td>
           <td>{{$clientrecord->getClient->name}}</td>
           <td>{{$clientrecord->created_at->format('d-m-y')}}</td>
+          <td>
+            @if($clientrecord->status == 1)
+              <span class="label label-warning">Aberta</span>
+            @elseif($clientrecord->status == 2)
+              <span class="label label-primary">Pendente</span>
+            @elseif($clientrecord->status == 3)
+              <span class="label label-success">Paga</span>
+            @else
+              <span class="label label-danger">Cancelada</span>
+            @endif          
+          </td>
           <td>{{$clientrecord->record_total}}</td>
 
           <td>
-            <a class="btn-warning btn-xs" data-toggle="modal" data-target="#modal-content">
+            <a class="btn-warning btn-xs" data-toggle="modal" data-target="#record-content{{$clientrecord['id']}}">
               <span class="glyphicon glyphicon-folder-open"></span>
             </a>
           </td>
           <td>
-            {{--<input name="_method" type="hidden" value="EDIT"> --}}
             <a href="{{ route('records.edit', $clientrecord['id'])}}">
               <button class="btn btn-edit" type="submit">Editar</button>
             </a>
@@ -49,106 +61,51 @@
             <button class="btn btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button">Deletar</button>
           </td>
         </tr>
+        
+
+{{--Modal Edit--}}
+
+<div class="modal fade" id="record-content{{$clientrecord['id']}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Editar Item</h4>
+            </div>
+
+            <div class="modal-body">
+
+            
+                @foreach($clientrecord->getItems as $clientrecorditem)
+                <li>
+                    {{$clientrecorditem->getItem->name}}
+                    {{$clientrecorditem->quantity}}
+                    {{$clientrecorditem->item_total}}
+
+                </li>
+                @endforeach 
+                @foreach($clientrecord->getServices as $clientrecordservice)
+                <li>
+                    {{$clientrecordservice->getservice->name}}
+                    {{$clientrecordservice->quantity}}
+                    {{$clientrecordservice->service_total}}
+                </li>
+
+                @endforeach
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
         @endforeach
       </tbody>
     </table>
   </div>
 </div>
-
-{{--Modais--}}
-
-
-<div class="modal fade" id="modal-default">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Default Modal</h4>
-      </div>
-
-      <div class="modal-body">
-
-        <form method="POST" action="{{ route('records.create') }}">
-
-          {!! csrf_field() !!}
-
-          <div class="form-group">
-            <select class="form-control" name="client_id" required>
-                          <option value="">Selecione um Cliente</option>
-                          @foreach($client as $client)
-                              <option value="{{ $client->id }}">{{ $client->name }}</option>
-                          @endforeach                   
-                          </select>
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="btn btn-success">Criar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<div class="modal fade" id="modal-content">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Conteudo</h4>
-      </div>
-
-      <div class="modal-body">
-
-        <table class="table table-bordered table-dark">
-          <thead>
-            <tr>
-              <th>Sequencia</th>
-              <th>Item</th>
-              <th>Quantidade</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($clientrecorditem as $clientrecorditem)
-            <tr>
-              <td>{{$clientrecorditem->id}}</td>
-              <td>{{$clientrecorditem->getItem->name}}</td>
-              <td>{{$clientrecorditem->quantity}}</td>
-              <td>{{$clientrecorditem->item_total}}
-
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-
-        <table class="table table-bordered table-dark">
-
-          <tbody>
-            @foreach($clientrecordservice as $clientrecordservice)
-            <tr>
-              <td>{{$clientrecordservice->id}}</td>
-              <td>{{$clientrecordservice->getService->name}}</td>
-              <td>{{$clientrecordservice->quantity}}</td>
-              <td>{{$clientrecordservice->service_total}}
-
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-
-
-      </div>
-    </div>
-    <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
 <script type="text/javascript" language="javascript">
   jQuery(document).ready(function () {
@@ -156,5 +113,9 @@
   });
 
 </script>
+
+
+
+
 
 @stop

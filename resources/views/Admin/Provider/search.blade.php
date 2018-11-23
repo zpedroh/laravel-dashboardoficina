@@ -78,6 +78,9 @@
 </script>
 
 
+
+
+
 @stop 
 @section('content')
 
@@ -92,131 +95,68 @@
             <thead>
                 <tr>
                     <th>Código</th>
-                    <th>Nome</th>
-                    <th>cnpj</th>
-                    <th>Estado</th>
-                    <th>CEP</th>
-                    <th>Cidade</th>
-                    <th>Bairro</th>
-                    <th>Rua</th>
-                    <th>Nº</th>
+                    <th>Name</th>
+                    <th>CNPJ</th>
+                    <th>Telefone</th>
                     <th></th>
                     <th></th>
-                    <th class="col-md-2"></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-
-                @foreach ($provider as $provider)
+                 @foreach ($provider as $provider)
                 <tr>
-                    <td>{{$provider['id']}}</td>
-                    <td>{{$provider['name']}}</td>
-                    <td>{{$provider['cnpj']}}</td>
-                    <td>{{$provider->getAdress->complement}}</td>
-                    <td>{{$provider->getAdress->state}}</td>
-                    <td>{{$provider->getAdress->zipcode}}</td>
-                    <td>{{$provider->getAdress->city}}</td>
-                    <td>{{$provider->getAdress->district}}</td>
-                    <td>{{$provider->getAdress->street}}</td>
-                    <td>{{$provider->getAdress->number}}</td>
+                    <td>{{$provider->id}}</td>
+                    <td>{{$provider->name}}</td>
+                    <td>{{$provider->cnpj}}</td>
+                    <td>{{$provider->telephone}}</td>
                     <td>
-                        <button class="btn btn-edit" value="{{ route('providers.edit', $provider['id']) }}" type="button">Editar</button>
+                        <a class="btn-warning btn-xs" data-toggle="modal" data-target="#provider-items{{$provider['id']}}"><span class="glyphicon glyphicon-folder-open"></span></a>
+                    </td>  
+                    <td>
+                        <a href="{{ route('providers.edit', $provider['id']) }}"><button class="btn btn-edit"  type="button">Editar</button></a>
                     </td>
-
                     <td>
                         <button class="btn btn-danger delete-confirm" value="{{ route('providers.destroy', $provider['id']) }}" type="button">Deletar</button>
                     </td>
                 </tr>
 
-                {{--Modal Edit
 
-                    data-toggle="modal" data-target="#modal-edit{{$provider->id}}" data-info="{{$provider->id}}, {{$provider->name}}, {{$provider->cnpj}}, {{$provider->getAdress->id}}, {{$provider->getAdress->zipcode}}, {{$provider->getAdress->street}}, {{$provider->getAdress->number}}, {{$provider->getAdress->complement}}, {{$provider->getAdress->district}}, {{$provider->getAdress->city}}, {{$provider->getAdress->state}}"
 
-                <div class="modal fade" id="modal-edit{{$provider->id}}">
+                <div class="modal fade" id="provider-items{{$provider['id']}}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Editar Fornecedor</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4>Informações Complementares</h4>
                             </div>
 
                             <div class="modal-body">
-                                <form method="get" action="{{route('providers.update', $provider->id)}}">
-                                    @csrf
-
-                                    <input type="hidden" value="{{$provider->id}}">
-                                    <input type="hidden" value="{{$provider->getAdress->id}}">
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" name="name" placeholder="Nome" value="{{$provider->name}}" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" name="cnpj" placeholder="cnpj" value="{{$provider->cnpj}}" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <input type="text" name="zipcode" placeholder="CEP" value="{{$provider->getAdress->zipcode}}" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" name="street" placeholder="Rua" value="{{$provider->getAdress->street}}" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <input type="text" name="number" placeholder="Número" value="{{$provider->getAdress->number}}" class="form-control">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" name="complement" placeholder="Complemento" value="{{$provider->getAdress->complement}}" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <input type="text" name="district" placeholder="Bairro" value="{{$provider->getAdress->district}}" class="form-control">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <input type="text" name="city" placeholder="Cidade" value="{{$provider->getAdress->city}}" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <input type="text" name="state" placeholder="Estado" value="{{$provider->getAdress->state}}" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success">Salvar</button>
-                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                                    </div>
-                                </form>
-
+                                
+                                <h4>Endereço</h4>
+                                <li>Cep: {{$provider->getAdress->zipcode}}</li>
+                                <li>Cidade: {{$provider->getAdress->city}}</li>
+                                <li>Estado(UF):{{$provider->getAdress->state}}</li>
+                                <li>Bairro:{{$provider->getAdress->district}}</li>
+                                <li>Rua:{{$provider->getAdress->street}}</li>
+                                <li>Nº:{{$provider->getAdress->number}}</li>
+                                <li>Complemento:{{$provider->getAdress->complement}}</li>
+                                
+                                <h4>Itens do Fornecedor</h4>
+                                @foreach($provider->getPItems as $pitem)
+                                    <li>Item: {{$pitem->getItem->name}} Valor: {{$pitem->value}}</li>
+                                @endforeach                                    
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
                     </div>
                     <!-- /.modal-dialog -->
                 </div>
-                <!-- /.modal -->--}}
-
+                <!-- /.modal -->
                 @endforeach
             </tbody>
         </table>
@@ -246,7 +186,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" name="cnpj" placeholder="CNPJ" class="form-control">
+                                <input type="text" id="cnpj" name="cnpj" placeholder="CNPJ" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -278,18 +223,18 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" name="district" placeholder="Bairro" class="form-control">
+                                <input type="text" id="rua" name="district" placeholder="Bairro" class="form-control">
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" name="city" placeholder="Cidade" class="form-control">
+                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input type="text" name="state" placeholder="Estado" class="form-control">
+                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -352,6 +297,14 @@
 <script type="text/javascript" language="javascript">
     jQuery(document).ready(function () {
           $("#provider_table").dataTable();
+    });
+</script>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        $("#cnpj").mask("999.999.999-99");
+        $(".cnpj").mask("999.999.999-99");
+        $("#telephone").mask("(99) 9999999-99");
+        $(".telephone").mask("(99)9999999-99");
     });
 </script>
 

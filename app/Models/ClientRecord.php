@@ -25,4 +25,11 @@ class ClientRecord extends Model
     {
         return $this->hasMany('App\Models\ClientRecordService', 'client_record_id', 'id');
     } 
+
+    public function getParcels()
+    {
+        return $this->hasMany('App\Models\Parcel', 'client_record_id', 'id');
+    } 
+
+
 }

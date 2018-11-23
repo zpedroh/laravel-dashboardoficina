@@ -1,8 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Serviços') 
 @section('content_header')
-<h1>Serviços</h1>
-
+<h1>Serviços 1</h1>
 
 @stop 
 @section('content')
@@ -35,7 +34,7 @@
             <tr>
               <td>{{$service->id}}</td>
               <td>{{$service->name}}</td>
-              <td>{{$service->price}}</td>
+              <td>R$ {{$service->price}}</td>
               <td>
                 <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$service->id}}" data-info="{{$service->id}}, {{$service->name}}">Editar</button>
               </td>
@@ -70,7 +69,7 @@
 
                         <div class="col-md-6">
                           <div class="form-group">
-                            <input type="text" name="price" placeholder="Preço" value="{{$service->price}}" class="form-control" required>
+                            <input type="text" name="price" id="price" placeholder="Preço" value="{{$service->price}}" class="form-control" required>
                           </div>
                         </div>
 
@@ -124,7 +123,7 @@
 
             <div class="col-md-6">
               <div class="form-group">
-                <input type="text" name="price" placeholder="Preço" class="form-control" required>
+                <input type="text" id="price_create" name="price" placeholder="Preço" class="form-control" required>
               </div>
             </div>
 
@@ -144,11 +143,31 @@
 </div>
 <!-- /.modal -->
 
+<script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
+
 <script type="text/javascript" language="javascript">
   jQuery(document).ready(function () {
-        $("#service_table").dataTable();
+        $("#service_table").dataTable({
+          
+        });
   });
 
+</script>
+
+<script type="text/javascript">
+  $('#price').maskMoney({prefix:'R$ ',thousands:'',decimal:'.'});
+  $('#price_create').maskMoney({prefix:'R$ ',thousands:'',decimal:'.'});
+</script>
+
+<script>
+$('#edit').on('show.bs.modal', function(event)
+{
+  alert('teste');
+  var valor = button.data('.modal-body #price').tostring();
+  var price_edit = valor.replace('.', ',');
+
+  modal.find('.modal-body #price').val('R$ ' + price_edit);
+});
 </script>
 
 
