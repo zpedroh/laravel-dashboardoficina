@@ -134,10 +134,10 @@
                             <option value="3">Paga</option>                 
                             </select>
                     </div>
-                    <input style="align-self: auto" class="pull-right" type="text" name="total" id="record_total" disabled>
+                    <input style="align-self: auto" class="pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
                 </div>
                 <div class="row" style="margin:auto; padding:5%;" >
-                    <input style="align-self: auto" class="pull-right" type="text" name="discount" id="discount" value="0">
+                    <input style="align-self: auto" class="pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success pull-right">Criar</button>
@@ -148,23 +148,20 @@
 </div>
 
 
-
-
-
-
-<script>
-$(document).ready(function() {
-    $('.select-client').select2({
-        language: "pt-BR"
-    });
-
-    $("#record_total").maskMoney({prefix: 'R$ ', thousands:'.', decimal: ','});
-    
-});
-</script>
 <script>
     $(document).ready(function() {
-        $("#discount").maskMoney({prefix: 'R$ ', thousands:'.', decimal: ','});
+        $('.select-client').select2({
+            language: "pt-BR"
+        });
+        
     });
 </script>
+
+<script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
+
+<script>
+    $("#record_total").maskMoney({prefix: 'R$ ', thousands:'.', decimal: ','});
+    $("#discount").maskMoney({prefix: 'R$ ', thousands:'.', decimal: ','});
+</script>
+
 @stop
