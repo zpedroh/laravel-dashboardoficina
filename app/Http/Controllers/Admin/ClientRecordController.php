@@ -46,7 +46,14 @@ class ClientRecordController extends Controller
 
 
     #Records
+    
 
+    public function recordPrint($id)
+    {
+        $clientrecord = $this->clientrecord->findOrFail($id);
+
+        return view('admin.record.print', compact('clientrecord'));
+    }
 
     public function recordsGet()
     {
@@ -67,13 +74,15 @@ class ClientRecordController extends Controller
 
     public function recordsCreate(Request $request)
     {
+        $discount = str_replace('R$ ', '', $request->get('discount'));
         
         $record = [
 
             'client_id'     => $request->client_id,
             'user_id'       => $request->user_id,
             'record_total'  => "0",
-            'status'        => $request->status_id
+            'status'        => $request->status_id,
+            'discount'      => $discount
         ];
 
         $clientrecord = $this->clientrecord->create($record);
@@ -140,8 +149,6 @@ class ClientRecordController extends Controller
             }
         }
         //Atualiza total da nota
-
-        $discount = str_replace('R$ ', '', $request->get('discount'));
         
         $clientrecord->record_total = $totalRecord - $discount;
         $clientrecord->save();
@@ -349,6 +356,10 @@ class ClientRecordController extends Controller
             $record->delete();
             return redirect('admin/home')->with('success','Information has been  deleted');
         }
+        else
+        {
+            return redirect('admin/home')->with('success','Information has been  deleted');
+        }
     }
 
 
@@ -374,7 +385,7 @@ class ClientRecordController extends Controller
             'date'              => $request->date,
             'payment_method_id' => $request->paymentmethod_id,
             'duedate'           => $paymentmethod->duedate,
-            'period'            => 1,//$paymentmethod->period,
+            'period'            => $paymentmethod->period,
             'status'            => $request->status,
             'parcel_number'     => $number->parcel_number + 1
         ];
@@ -406,22 +417,34 @@ class ClientRecordController extends Controller
         $parcel->update($parcelupdate);
         $parcel->save();
 
+        
+
         return redirect('admin/home')->with('Okay');
 
     }
 
     public function parcelsDestroy($id)
     {
-        $value = $this->parcel->all()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->count('value');
-        
-        $quantity = $this->parcel->all()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->count();
-        
-        $parcel = $this->parcel->get()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->first();
+        $record = $this->parcel->findOrFail($id);
+
+        $number = $this->parcel->orderBy('id', 'desc')->where('client_record_id', '=', $record->client_record_id)->get()->first();
+
+        $value = $this->parcel->all()->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->sum('value');
+
+        $quantity = $this->parcel->all()->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->count();
+
+        $newValue = ($value) / ($quantity - 1);
+
+        dd($newValue,$value);
+
+        $parcel = $this->parcel->get()->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->first();
 
         while($parcel <> null)
         {
-            $parcel->value = $value / $quantity;
+            $parcel->value = $newValue;
             $parcel->save();
+
+            $parcel = $this->parcel->get()->where('id', '=', $parcel->id + 1)->where('status', '<', 3)->first();
         }
 
         $parcel = $this->parcel->findOrFail($id);
@@ -508,66 +531,3 @@ class ClientRecordController extends Controller
         return response()->json($data, 200);
     }
 }
-
-
-/*
-
-    public function contentGet($id)
-    {
-        $clientrecorditem = $this->clientrecorditem->where('clientrecorditem->client_record_id', '=', $id)->all();
-        
-        dd($clientrecorditem);
-
-        return compact('id', 'clientrecorditem');
-    }
-
-
-    public function recorditemsCreate(Request $request)
-    {
-    
-        $item = $this->item->find($request->item_id);
-
-        $recorditem = [
-            'item_id'              => $request->item_id,
-            'client_record_id'     => $request->clientrecord_id,
-            'quantity'             => $request->quantity_item,
-            'item_total'           => $request->quantity_item*$item->price
-        ];
-        
-        $clientrecorditem = $this->clientrecorditem->create($recorditem);
-
-
-        $clientrecord = $this->clientrecord->find($request->clientrecord_id);
-
-        $items = $this->item->orderBy('name', 'asc')->get();
-        $services = $this->service->orderBy('name', 'asc')->get();
-        
-        return view('admin.recorditens.register', compact('clientrecord', 'items', 'services'));
-        
-        //return redirect()->route('items.home')->with('success', 'Information has been added');      
-    }
-
-    public function recordservicesCreate(Request $request)
-    {
-
-        $service = $this->service->find($request->service_id);
-
-        $recordservice = [
-            'service_id'           => $request->service_id,
-            'client_record_id'     => $request->clientrecord_id,
-            'quantity'             => $request->quantity_service,
-            'service_total'        => $request->quantity_service*$service->price
-        ];
-
-        $clientrecordservice = $this->clientrecordservice->create($recordservice);
-
-        $clientrecord = $this->clientrecord->find($request->clientrecord_id);
-
-        $items = $this->item->orderBy('name', 'asc')->get();
-        $services = $this->service->orderBy('name', 'asc')->get();
-        
-        return view('admin.recorditens.register', compact('clientrecord', 'items', 'services'));
-        
-        //return redirect()->route('admin.recorditens.register')->with('success', 'Information has been added');      
-    }
-*/

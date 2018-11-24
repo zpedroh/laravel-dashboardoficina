@@ -2,11 +2,7 @@
 @section('title', 'Item') 
 @section('content_header')
 <h1>Editar Nota Nº {{ $clientrecord->id }}</h1>
-
-
-
-
-
+<a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
 @stop 
 @section('content')
 
@@ -276,10 +272,11 @@
                         <!-- /.modal -->
                         @endforeach
                     </tbody>
+                    
                 </table>
             </div>
 
-
+            
         </div>
         <!-- /.tab-pane -->
     </div>

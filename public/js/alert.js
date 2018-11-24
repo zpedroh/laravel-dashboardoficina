@@ -14,6 +14,7 @@ $('.delete-confirm').on('click', function () {
         closeOnConfirm: false,
         closeOnCancel: false
     },
+
         function (isConfirm) {
             if (isConfirm) {
                 swal({
@@ -29,6 +30,5 @@ $('.delete-confirm').on('click', function () {
                 swal("Cancelado", "O registro não foi apagado", "error");
             }
         });
-
 });
 

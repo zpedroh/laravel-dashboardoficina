@@ -12,6 +12,7 @@ use App\Models\ClientRecordService;
 use App\Models\PaymentMethod;
 use App\Models\Parcel;
 use App\Models\Item;
+use App\Models\Brand;
 use App\Models\ItemStock;
 use App\Models\Service;
 use App\Models\Moviment;
@@ -19,42 +20,99 @@ use Carbon\carbon;
 
 class ReportController extends Controller
 {
-    public function __construct(Moviment $moviments, Item $items)
-    {
-        $this->item     = $items;
-        $this->moviment = $moviments;
-    }
+    protected $item;
+    protected $item_stock;
+    protected $brand;
+    protected $categories;
+    protected $moviments;
+    protected $clientrecords;
+    protected $parcels;
+    protected $clients;
+    protected $result;
 
-    public function bestsellerReport()
+    public function __construct(Item $item, ItemStock $item_stock, Brand $brand, Moviment $moviments, ClientRecord $clientrecords, Parcel $parcels, Client $clients)
+    {
+        $this->item          = $item;
+        $this->item_stock    = $item_stock; 
+        $this->brand         = $brand;
+        $this->moviment      = $moviments;
+        $this->clientrecord  = $clientrecords;
+        $this->parcel        = $parcels;
+        $this->client        = $clients;
+    } 
+
+    public function bsellerReport()
     {        
-        return view('admin.report.bestseller');
+        return view('admin.report.bestseller.bestseller');
     }
 
-    public function bsGet(Request $request)
+    public function bsellerGet(Request $request)
     {
-        $items =  $this->item->all();
-
-        $start = Carbon::createFromDate($request->date_start);
-        $end   = Carbon::createFromDate($request->date_end);
-
-        dd($start,$end);
-
-        foreach($items as $item)
+        $item =  $this->item->all();
+        
+        foreach($item as $item)
         {
-            $quantity = $this->moviment->whereBetween('created_at',[$request->date_start,$request->date_end]); //where('item_id', '=', $item->id)->where('mov_type' , '=', 2)->sum('quantity');
+            $quantity = 0;
 
-            //->whereBetween('created_at',[$request->date_start,$request->date_end])
-            dd($quantity, $request->all());
+            $moviments = $this->moviment->all()->where('item_id', '=', $item->id)->where('mov_type', '=', 2);
+
+            $brand = $this->brand->findOrFail($item->brand_id);
+
+            foreach($moviments as $moviment)
+            {
+                if($moviment->created_at->format('Y-m-d') >= $request->date_start and $moviment->created_at->format('Y-m-d') <= $request->date_end)
+                {
+                    $quantity = $quantity + $moviment->quantity;
+                }
+            }
+
+            $result[] = [
+                'id'       => $item->id,
+                'item'     => $item->name,
+                'brand'    => $brand->name,
+                'quantity' => $quantity
+            ];
         }
 
-        
-
-        return view('admin.report.bestseller', compact('moviments'));
+        return view('admin.report.bestseller.bestsellerresult', compact('result'));
     }
 
-    public function bestclientReport()
+    public function bclientReport()
     {
         
-        return view('admin.report.bestclient');
+        return view('admin.report.bestclient.bestclient');
+    }
+
+    public function bclientGet(Request $request)
+    {
+        $clients =  $this->client->all();
+        
+        foreach($clients as $client)
+        {
+            $quantity = 0;
+            $value = 0;
+
+            $clientrecords = $this->clientrecord->all()->where('client_id', '=', $client->id);
+
+            ///$brand = $this->brand->findOrFail($item->brand_id);
+
+            foreach($clientrecords as $clientrecord)
+            {
+                if($clientrecord->created_at->format('Y-m-d') >= $request->date_start and $clientrecord->created_at->format('Y-m-d') <= $request->date_end)
+                {
+                    $value = $value + $clientrecord->record_total;
+                    $quantity = $quantity + 1;
+                }
+            }
+
+            $result[] = [
+                'id'       => $client->id,
+                'name'     => $client->name,
+                'records'  => $quantity,
+                'value'    => $value
+            ];
+        }
+
+        return view('admin.report.bestclient.bestclientresult', compact('result'));
     }
 }

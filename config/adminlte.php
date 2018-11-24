@@ -191,12 +191,12 @@ return [
             'submenu'=>[
                 [
                 'text' => 'Mais vendidos',
-                'url'  => 'admin/report/bs',
+                'url'  => 'admin/report/bseller',
                 'icon' => 'money-bill-wave',
                 ],
                 [
                 'text' => 'Maiores clientes',
-                'url'  => 'admin/report/bc',
+                'url'  => 'admin/report/bclient',
                 'icon' => 'money-bill-wave',
                 ],
             ],

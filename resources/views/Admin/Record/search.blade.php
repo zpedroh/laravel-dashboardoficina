@@ -22,6 +22,7 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +61,7 @@
           <td>
             <button class="btn btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button">Deletar</button>
           </td>
+          <td><a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a></td>
         </tr>
         
 

@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use App\Models\Service;
+use App\Models\ClientRecordService;
 
 class ServiceController extends Controller
 {
     protected $service;
-
-    public function __construct(Service $service)
+    protected $client_record_service;
+    
+    public function __construct(Service $service, ClientRecordService $client_record_service)
     {
         $this->service = $service;
+        $this->clientrecordservice = $client_record_service;
     }
 
     public function servicesRegister()
@@ -82,15 +85,29 @@ $price = str_replace('R$ ', '', $request->get('price'));
     }
 
     public function servicesDestroy($id)
-    {        
-        $service = \App\Models\Service::find($id);
-        $service->delete();
+    { 
+        $serviceitem = $this->clientrecordservice->where('service_id', '=', $id)->count();
 
-        $notification = array(
-            'message' => 'Serviço Deletado!' , 
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('services.search')->with($notification);
+        if($serviceitem == 0)
+        {
+            $service = $this->service->findOrFail($id);
+            $service->delete();
+    
+            $notification = array(
+                'message' => 'Serviço Deletado!' , 
+                'alert-type' => 'success'
+            );
+    
+            return redirect()->route('services.search')->with($notification);
+        }
+        else
+        {
+            $notification = array(
+                'message' => 'Serviço em Uso pelo Sistema!' , 
+                'alert-type' => 'error'
+            );
+    
+            return redirect()->route('services.search')->with($notification);
+        }
     }
 }

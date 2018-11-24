@@ -80,6 +80,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/record/status/update/{id}/{status}', 'ClientRecordController@statusUpdate')->name('status.update');
 
+    Route::get('record/print/{id}', 'ClientRecordController@recordPrint')->name('record.print');
+
     //consultas json
 
     Route::get('/record/edit/{record_id}/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct2');
@@ -160,11 +162,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     //relatorios
 
     //BestSeller
-    Route::get('/report/bs', 'ReportController@bestsellerReport')->name('reports.bs');
-    Route::post('/report/bs', 'ReportController@bsGet')->name('bs.result');
+    Route::get('/report/bseller', 'ReportController@bsellerReport')->name('reports.bs');
+    Route::post('/report/bseller', 'ReportController@bsellerGet')->name('bseller.result');
 
-
-    Route::get('/report/bc', 'ReportController@bestclientReport')->name('reports.bc');
+    //BestClients
+    Route::get('/report/bclient', 'ReportController@bclientReport')->name('reports.bc');
+    Route::post('/report/bclient', 'ReportController@bclientGet')->name('bclient.result');
     
 });
 

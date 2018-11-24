@@ -24,17 +24,37 @@ class CategoryController extends Controller
 
     public function categoriesCreate(Request $request)
     {
+        DB::beginTransaction();
+
         if($request->name != null)
         {
             $category = $this->category->create($request->all());
         }    
-                
-        $notification = array(
-            'message' => 'Categoria Registrada!' , 
-            'alert-type' => 'success'
-        );
 
-        return redirect()->route('categories.search')->with($notification);        
+        if($category)
+        {
+            $notification = array(
+                'message' => 'Categoria Registrada!' , 
+                'alert-type' => 'success'
+            );
+
+            DB::commit();
+            
+            return redirect()->route('categories.search')->with($notification);  
+        }
+        else
+        {
+            $notification = array(
+                'message' => 'Categoria não Registrada!' , 
+                'alert-type' => 'error'
+            );
+
+            DB::rollback();
+
+            return redirect()->route('categories.search')->with($notification);
+        }
+
+              
     }
     
     public function categoriesGet()

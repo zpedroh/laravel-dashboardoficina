@@ -18,6 +18,7 @@ class CreateTbClientRecordsTable extends Migration
             $table->integer('client_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->decimal('record_total')->default('0');
+            $table->decimal('discount')->default('0');
             $table->integer('status')->default('1');
             $table->string('plaque', 7)->nullable();
             $table->timestamps();

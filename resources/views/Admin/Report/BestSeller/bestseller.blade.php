@@ -2,17 +2,12 @@
 @section('title', 'BS') 
 @section('content_header')
 <h1>Mais Vendidos</h1>
-
-
-
-
-
 @stop 
 @section('content')
 
 <div class="box">
     <div class="box-header">
-    <form method="POST"  action="{{ route('bs.result') }}" >
+    <form method="POST"  action="{{ route('bseller.result') }}" >
         @csrf
             <div class="col-sm-4">
                 <label for="date-start"> Data inicio:</label>
@@ -30,31 +25,8 @@
 
     <div class="box-body">
 
-{{--     <div class="table-responsive">
-            <table class="table-stripped" id="report_table">
-
-                <thead>
-                    <th>Produto</th>
-                    <th>Marca</th>
-                    <th>Quantidade vendida</th>
-                </thead>
-                <tbody>
-                    @foreach($moviments as $moviment)
-                    <tr>
-                        <td>{{$moviment->getItem->name}}</td>
-                        <td>{{$moviment->getItem->getBrand->name}}</td>
-                        <td>1</td>
-                    </tr>
- 
-                    @endforeach
-                </tbody>
-            </table>
-        </div>--}}
-
     </div>
 </div>
-
-
 
 
 <script type="text/javascript" language="javascript">
