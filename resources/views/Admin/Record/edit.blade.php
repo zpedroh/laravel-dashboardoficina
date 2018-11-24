@@ -18,6 +18,20 @@
     <div class="tab-content">
         <div class="tab-pane active" id="tab_1">
 
+            <div class="btn-group">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default">Status</button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ route('status.update', [$clientrecord['id'], 3])}}">Paga</a></li>
+                        <li><a href="{{ route('status.update', [$clientrecord['id'], 4])}}">Cancelada</a></li>
+                    </ul>
+                </div>
+            </div>
+
 
             <div class="row">
 
@@ -178,7 +192,9 @@
 
             <div class="table-responsive">
                 <div class="form-group pull-left">
-                    <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">Adicionar Nova Parcela</button>
+                    @if($clientrecord->status < 3)
+                        <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">Adicionar Nova Parcela</button>
+                    @endif
                 </div>
                 <table class="table table-stripped">
                     <thead>
@@ -194,7 +210,7 @@
                     <tbody>
                         @foreach($clientrecord->getParcels as $parcel)
                         <tr>
-                            <td>{{$parcel->number}}/{{$parcel->getMethod->parcel}}</td>
+                            <td>{{$parcel->number}}/{{$parcel->parcel_number}}</td>
                             <td>
                                 @if($parcel->status == 1)
                                     <span class="label label-warning">Aberta</span>
@@ -212,12 +228,15 @@
                             <td>{{$parcel->getMethod->duedate}}</td>
                             <td>R$ {{$parcel->value}}</td>
                             <td>
-                                <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$parcel->id}}">Editar</button>
+                                @if($parcel->status < 3)
+                                    <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$parcel->id}}">Editar</button>
+                                @endif
                             </td>
-                            @if($parcel->status < 3) <td>
-                                <button class="btn btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button">Delete</button>
-                                </td>
-                            @endif
+                            <td>
+                                @if($parcel->status < 3)                                     
+                                        <button class="btn btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button">Delete</button>
+                                @endif
+                            </td>
                         </tr>
                         <div class="modal fade" id="modal-edit{{$parcel->id}}">
                             <div class="modal-dialog">
@@ -239,13 +258,6 @@
                                                 <select name="status" id="status" class="form-control">
                                                         <option value="2">Pendente</option>
                                                         <option value="3">Paga</option>
-                                                    </select>
-
-                                                <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
-                                                            <option value="">Selecione a Forma de Pagamento</option>
-                                                            @foreach($paymentmethod as $method)
-                                                                <option value="{{ $method->id }}">{{ $method->type}}</option>
-                                                            @endforeach                   
                                                     </select>
                                             </div>
                                             <div class="modal-footer">

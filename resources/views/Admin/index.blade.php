@@ -158,7 +158,7 @@
                 <tr>
                     <td>{{$parcel->client_record_id}}</td>
                     <td>{{$parcel->getRecord->getClient->name}}</td>
-                    <td>{{$parcel->number}}/{{$parcel->getMethod->parcel}}</td>
+                    <td>{{$parcel->number}}/{{$parcel->parcel_number}}</td>
                     <td>{{$parcel->value}}</td>
                     <td>{{$parcel->date}}</td>
                     <td>

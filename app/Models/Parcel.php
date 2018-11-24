@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Parcel extends Model
 {
     protected $table = 'tb_parcels';
-    protected $fillable = ['status', 'date', 'payment_method_id', 'client_record_id', 'value', 'number'];
+    protected $fillable = ['status', 'date', 'payment_method_id', 'client_record_id', 'value', 'number', 'parcel_number'];
     protected $primaryKey = 'id';
 
     public function getMethod()

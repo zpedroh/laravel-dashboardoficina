@@ -44,6 +44,17 @@ class ClientRecordController extends Controller
         $this->moviment             = $moviments;
     }
 
+
+    #Records
+
+
+    public function recordsGet()
+    {
+        $clientrecord = $this->clientrecord->all()->where('status', '<', 3);
+        
+        return view('admin.record.search', compact('clientrecord'));        
+    }
+
     public function recordsRegister()
     {
         $client        = $this->client->all();
@@ -150,7 +161,8 @@ class ClientRecordController extends Controller
                 'status'            => $request->status_id,
                 'value'             => $totalRecord / $paymentmethod->parcel,
                 'date'              => $parceldate,
-                'number'            => $x                          
+                'number'            => $x,
+                'parcel_number'     => $paymentmethod->parcel                          
             ];
 
             $parcel = $this->parcel->create($parcelData);
@@ -159,13 +171,6 @@ class ClientRecordController extends Controller
         };
         return redirect('admin/home');
     } 
-
-    public function recordsGet()
-    {
-        $clientrecord = $this->clientrecord->all()->where('status', '<', 3);
-        
-        return view('admin.record.search', compact('clientrecord'));        
-    }
 
     public function recordsEdit($id)
     {        
@@ -176,7 +181,7 @@ class ClientRecordController extends Controller
         $paymentmethod = $this->paymentmethod->all();
 
         return view('admin.record.edit',compact('clientrecord', 'items', 'services', 'paymentmethod'));        
-    }
+    }  
 
     public function recordsUpdate(Request $request, $id)
     {        
@@ -294,19 +299,14 @@ class ClientRecordController extends Controller
         {
             $parceldate = Carbon::now()->addDays($paymentmethod->period * $x);
 
-            //$parceldate = $parceldate->add($paymentmethod->period,'day');
-
-            
-            
-            //date('dmy', strtotime($date.' + '.($paymentmethod->period * $x).'days'));$date = date('d-m-y');
-
             $parcelData = [
                 'client_record_id'  => $clientrecord->id,
                 'payment_method_id' => $paymentmethod->id,
                 'status'            => $request->status_id,
                 'value'             => $totalRecord / $paymentmethod->parcel,
                 'date'              => $parceldate,
-                'number'            => $x                          
+                'number'            => $x,
+                'parcel_number'     => $paymentmethod->parcel                          
             ];
 
             $parcel = $this->parcel->create($parcelData);
@@ -317,42 +317,81 @@ class ClientRecordController extends Controller
         return redirect(route('records.edit', $clientrecord->id));        
     }
 
-    public function statusUpdate()
+    public function statusUpdate($id, $status)
+    {
+        //dd($id, $status);
+        $clientrecord = $this->clientrecord->findOrFail($id);
+       
+        $parcel = $this->parcel->all()->where('client_record_id', '=', $clientrecord->id);
+
+        foreach($parcel as $parcel)
+        {
+            $parcel->status = $status;
+
+            $parcel->save();
+        }
+
+        $clientrecord->status = $status;
+        $clientrecord->save();
+
+        $notification = 'x';
+
+        return redirect(route('records.search'))->with($notification);
+    }
+
+    public function recordsDestroy($id)
     {
         
+        $clientrecord = $this->clientrecord->findOrFail($id);
 
+        if($clientrecord->status < 3)
+        {
+            $record->delete();
+            return redirect('admin/home')->with('success','Information has been  deleted');
+        }
     }
+
+
+    #Parcels
+
 
     public function parcelsCreate(Request $request)
     {
-        $number = $this->parcel->all()->where('client_record_id', '=', $request->record_id)->count();
+        $number = $this->parcel->orderBy('id', 'desc')->where('client_record_id', '=', $request->record_id)->get()->first();
 
         $value = $this->parcel->all()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->sum('value');
 
         $quantity = $this->parcel->all()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->count();
 
+        $paymentmethod = $this->paymentmethod->findOrFail($request->paymentmethod_id);
+
+        $newValue = ($value - $request->value) / $quantity;
+
         $parcelData = [
             'client_record_id'  => $request->record_id,
-            'number'            => $number + 1,
-            'value'             => ($value / $quantity) - ($request->value / $quantity),
+            'number'            => $number->parcel_number + 1,
+            'value'             => $request->value,
             'date'              => $request->date,
             'payment_method_id' => $request->paymentmethod_id,
-            'duedate'           => 1,
-            'period'            => 1,
-            'status'            => $request->status
+            'duedate'           => $paymentmethod->duedate,
+            'period'            => 1,//$paymentmethod->period,
+            'status'            => $request->status,
+            'parcel_number'     => $number->parcel_number + 1
         ];
 
         $parcel = $this->parcel->get()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->first();
 
         while($parcel <> null)
         {
-            $parcel->value = ($value / $quantity) - ($request->value / $quantity);
+            $parcel->value = $newValue;
             $parcel->save();
 
-            $parcel = $this->parcel->get()->where('client_record_id', '=', $request->record_id)->where('status', '<', 3)->first();
+            $parcel = $this->parcel->get()->where('id', '=', $parcel->id + 1)->where('status', '<', 3)->first();
         }
 
         $parcel = $this->parcel->create($parcelData);
+
+        return redirect(route('records.edit', $parcel->client_record_id));
     }
 
     public function parcelsUpdate(Request $request, $id)
@@ -360,9 +399,8 @@ class ClientRecordController extends Controller
         $parcel = $this->parcel->findOrFail($id);
 
         $parcelupdate = [
-            'status'             => $request->status,
-            'date'               => $request->date,
-            'payment_method_id'  => $request->paymentmethod_id
+            'status' => $request->status,
+            'date'   => $request->date
         ];
 
         $parcel->update($parcelupdate);
@@ -393,23 +431,9 @@ class ClientRecordController extends Controller
         return redirect('record/search');
     }
 
-/*
-    public function recordsUpdate(Request $request, $id)
-    {
 
-        $clientrecord = $this->clientrecord->findOrFail($id);
-           
-        $clientrecord->save();
-        return redirect('admin/home');
-    }
-*/
-    public function recordsDestroy($id)
-    {
-        
-        $record = $this->clientrecord->findOrFail($id);
-        $record->delete();
-        return redirect('admin/home')->with('success','Information has been  deleted');
-    }
+    #Gets
+
 
     public function getProduct($product_id, $amount)
     {

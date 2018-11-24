@@ -78,6 +78,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/record/destroy/{id}', 'ClientRecordController@recordsDestroy')->name('records.destroy');
 
+    Route::get('/record/status/update/{id}/{status}', 'ClientRecordController@statusUpdate')->name('status.update');
+
     //consultas json
 
     Route::get('/record/edit/{record_id}/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct2');
