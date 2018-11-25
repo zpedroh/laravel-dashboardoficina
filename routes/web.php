@@ -83,14 +83,15 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::get('record/print/{id}', 'ClientRecordController@recordPrint')->name('record.print');
 
     //consultas json
-
+    //edit
     Route::get('/record/edit/{record_id}/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct2');
     Route::get('/record/edit/{record_id}/{service_id}/consulta-service/{amount}', 'ClientRecordController@getService2');
 
+    //create
     Route::get('/record/register/{product_id}/consulta-item/{amount}', 'ClientRecordController@getProduct');
     Route::get('/record/register/{service_id}/consulta-service/{amount}', 'ClientRecordController@getService');
 
-    Route::get('/record/content/{id}', 'ClientRecordController@contentGet')->name('content.get');
+    #Route::get('/record/content/{id}', 'ClientRecordController@contentGet')->name('content.get');
 
     //Parcelas da nota
 
@@ -160,14 +161,25 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::get('/category/destroy/{id}', 'CategoryController@categoriesDestroy')->name('categories.destroy');
 
     //relatorios
-
     //BestSeller
+
     Route::get('/report/bseller', 'ReportController@bsellerReport')->name('reports.bs');
     Route::post('/report/bseller', 'ReportController@bsellerGet')->name('bseller.result');
 
     //BestClients
+
     Route::get('/report/bclient', 'ReportController@bclientReport')->name('reports.bc');
     Route::post('/report/bclient', 'ReportController@bclientGet')->name('bclient.result');
+
+    //ProviderItens
+
+    Route::get('/report/pitem', 'ReportController@pitemReport')->name('reports.pi');
+    Route::post('/report/pitem', 'ReportController@pitemGet')->name('pitem.result');
+
+    //PendingRecords
+
+    Route::get('/report/precord', 'ReportController@precordReport')->name('reports.pr');
+    Route::post('/report/precord', 'ReportController@precordGet')->name('precord.result');
     
 });
 

@@ -13,8 +13,8 @@
 </button>
 
 <div class="table-responsive">
-  <div class="col-lg-6">
-    <table id="payment_method_table" class="table table-striped">
+
+    <table id="payment_method_table" class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>Código</th>
@@ -103,7 +103,7 @@
       </tbody>
     </table>
   </div>
-</div>
+
 
 {{--Modais--}}
 
@@ -164,7 +164,33 @@
 
 <script type="text/javascript" language="javascript">
   jQuery(document).ready(function () {
-        $("#payment_method_table").dataTable();
+        $("#payment_method_table").dataTable(
+          {
+            language:{
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+    }
+          }
+        );
   });
 </script>
 

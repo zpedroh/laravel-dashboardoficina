@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Item') 
 @section('content_header')
-<h1>Editar Nota Nº {{ $clientrecord->id }}</h1>
+<h1>Editar Pedido Nº {{ $clientrecord->id }}</h1>
 <a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
 @stop 
 @section('content')

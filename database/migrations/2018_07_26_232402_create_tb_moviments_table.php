@@ -17,6 +17,7 @@ class CreateTbMovimentsTable extends Migration
             $table->increments('id');
             $table->integer('mov_type');
             $table->integer('quantity');
+            $table->decimal('price')->nullable();
             $table->integer('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('tb_items');
             $table->integer('client_record_id')->unsigned()->nullable();

@@ -7,17 +7,25 @@ use App\Http\Controllers\Controller;
 use DB;
 use App\Models\Client;
 use App\Models\Adress;
-
+use App\Models\Item;
+use App\Models\Service;
+use App\Models\PaymentMethod;  
 
 class ClientController extends Controller
 {
     protected $client;
     protected $adress;
+    protected $items;
+    protected $services;
+    protected $paymentmethod;
 
-    public function __construct(Client $client, Adress $adress)
+    public function __construct(Client $client, Adress $adress, Item $items, Service $services, PaymentMethod $paymentmethod)
     {
         $this->client = $client;
         $this->adress = $adress;
+        $this->item = $items;
+        $this->service = $services;
+        $this->paymentmethod = $paymentmethod;
     }
 
     public function clientsRegister()
@@ -58,7 +66,21 @@ class ClientController extends Controller
                 'alert-type' => 'success'
             );
 
-            return redirect()->route('clients.search')->with($notification);  
+
+            if($request->client_register_record == '2')
+            {
+                $client        = $this->client->all();
+                $items         = $this->item->all();
+                $services      = $this->service->all();
+                $paymentmethod = $this->paymentmethod->all();
+        
+                return redirect()->route('records.register', compact('client', 'items', 'services', 'paymentmethod'))->with($notification);
+            }
+            else
+            {
+                return redirect()->route('clients.search')->with($notification);
+            }
+              
         }  
     } 
 

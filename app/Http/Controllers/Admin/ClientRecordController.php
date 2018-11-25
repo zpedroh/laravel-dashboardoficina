@@ -75,6 +75,12 @@ class ClientRecordController extends Controller
     public function recordsCreate(Request $request)
     {
         $discount = str_replace('R$ ', '', $request->get('discount'));
+
+        if($discount == null)
+        {
+            $discount = 0;
+        }
+        //dd($request->all(), $request->client_id);
         
         $record = [
 
@@ -435,7 +441,7 @@ class ClientRecordController extends Controller
 
         $newValue = ($value) / ($quantity - 1);
 
-        dd($newValue,$value);
+        #dd($newValue,$value);
 
         $parcel = $this->parcel->get()->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->first();
 
@@ -462,12 +468,15 @@ class ClientRecordController extends Controller
     {
         $item = $this->item->findOrFail($product_id);
 
+        $itemstock = $this->itemstock->get()->where('item_id', '=', $item->id)->first();
+
         $data = [
             'id'          => $item->id,
             'name'        => $item->name,
             'price'       => $item->price,
             'total_price' => $item->price * $amount,
-            'quantity'    => $amount
+            'quantity'    => $amount,
+            'stock'       => $itemstock->quantity
         ];
         
         return response()->json($data, 200);
@@ -482,7 +491,8 @@ class ClientRecordController extends Controller
             'name'        => $item->name,
             'price'       => $item->price,
             'total_price' => $item->price * $amount,
-            'quantity'    => $amount
+            'quantity'    => $amount,
+            'stock'       => $itemstock->quantity
         ];
         
         return response()->json($data, 200);
@@ -523,6 +533,7 @@ class ClientRecordController extends Controller
         $client = $this->client->findOrFail($client_id);
 
         $data = [
+            'id'   => $client->id,
             'name' => $client->name,
             'cpf'  => $client->cpf,
             'tel'  => $client->telephone
@@ -530,4 +541,5 @@ class ClientRecordController extends Controller
         
         return response()->json($data, 200);
     }
+
 }

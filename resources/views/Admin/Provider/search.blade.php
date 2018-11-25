@@ -84,84 +84,88 @@
 @stop 
 @section('content')
 
-<button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
-    Adicionar Fornecedor
-</button>
-
-<div class="container">
-
-    <div class="col-md-10">
-        <table id="provider_table" class="table table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Name</th>
-                    <th>CNPJ</th>
-                    <th>Telefone</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                 @foreach ($provider as $provider)
-                <tr>
-                    <td>{{$provider->id}}</td>
-                    <td>{{$provider->name}}</td>
-                    <td>{{$provider->cnpj}}</td>
-                    <td>{{$provider->telephone}}</td>
-                    <td>
-                        <a class="btn-warning btn-xs" data-toggle="modal" data-target="#provider-items{{$provider['id']}}"><span class="glyphicon glyphicon-folder-open"></span></a>
-                    </td>  
-                    <td>
-                        <a href="{{ route('providers.edit', $provider['id']) }}"><button class="btn btn-edit"  type="button">Editar</button></a>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger delete-confirm" value="{{ route('providers.destroy', $provider['id']) }}" type="button">Deletar</button>
-                    </td>
-                </tr>
-
-
-
-                <div class="modal fade" id="provider-items{{$provider['id']}}">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4>Informações Complementares</h4>
+<div class="box">
+    <div class="box-header">
+        <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
+            Adicionar Fornecedor
+        </button>
+    </div>
+    <div class="box-body">
+        <div class="table-responsive">
+                <table id="provider_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Name</th>
+                                <th>CNPJ</th>
+                                <th>Telefone</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             @foreach ($provider as $provider)
+                            <tr>
+                                <td>{{$provider->id}}</td>
+                                <td>{{$provider->name}}</td>
+                                <td>{{$provider->cnpj}}</td>
+                                <td>{{$provider->telephone}}</td>
+                                <td>
+                                    <a class="btn-warning btn-xs" data-toggle="modal" data-target="#provider-items{{$provider['id']}}"><span class="glyphicon glyphicon-folder-open"></span></a>
+                                </td>  
+                                <td>
+                                    <a href="{{ route('providers.edit', $provider['id']) }}"><button class="btn btn-edit"  type="button">Editar</button></a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger delete-confirm" value="{{ route('providers.destroy', $provider['id']) }}" type="button">Deletar</button>
+                                </td>
+                            </tr>
+            
+            
+            
+                            <div class="modal fade" id="provider-items{{$provider['id']}}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4>Informações Complementares</h4>
+                                        </div>
+            
+                                        <div class="modal-body">
+                                            
+                                            <h4>Endereço</h4>
+                                            <li>Cep: {{$provider->getAdress->zipcode}}</li>
+                                            <li>Cidade: {{$provider->getAdress->city}}</li>
+                                            <li>Estado(UF):{{$provider->getAdress->state}}</li>
+                                            <li>Bairro:{{$provider->getAdress->district}}</li>
+                                            <li>Rua:{{$provider->getAdress->street}}</li>
+                                            <li>Nº:{{$provider->getAdress->number}}</li>
+                                            <li>Complemento:{{$provider->getAdress->complement}}</li>
+                                            
+                                            <h4>Itens do Fornecedor</h4>
+                                            @foreach($provider->getPItems as $pitem)
+                                                <li>Item: {{$pitem->getItem->name}} Valor: {{$pitem->value}}</li>
+                                            @endforeach                                    
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
                             </div>
+                            <!-- /.modal -->
+                            @endforeach
+                        </tbody>
+                    </table>
 
-                            <div class="modal-body">
-                                
-                                <h4>Endereço</h4>
-                                <li>Cep: {{$provider->getAdress->zipcode}}</li>
-                                <li>Cidade: {{$provider->getAdress->city}}</li>
-                                <li>Estado(UF):{{$provider->getAdress->state}}</li>
-                                <li>Bairro:{{$provider->getAdress->district}}</li>
-                                <li>Rua:{{$provider->getAdress->street}}</li>
-                                <li>Nº:{{$provider->getAdress->number}}</li>
-                                <li>Complemento:{{$provider->getAdress->complement}}</li>
-                                
-                                <h4>Itens do Fornecedor</h4>
-                                @foreach($provider->getPItems as $pitem)
-                                    <li>Item: {{$pitem->getItem->name}} Valor: {{$pitem->value}}</li>
-                                @endforeach                                    
-                                
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
-                <!-- /.modal -->
-                @endforeach
-            </tbody>
-        </table>
+        </div>
     </div>
 </div>
+
 {{--Modais--}}
 
 <div class="modal fade" id="modal-default">
@@ -296,7 +300,33 @@
 
 <script type="text/javascript" language="javascript">
     jQuery(document).ready(function () {
-          $("#provider_table").dataTable();
+          $("#provider_table").dataTable(
+            {
+            language:{
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+    }
+          }
+          );
     });
 </script>
 <script type="text/javascript" language="javascript">

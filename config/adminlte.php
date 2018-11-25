@@ -116,9 +116,9 @@ return [
         ], 
 
         [
-            'text' => 'Produtos',
+            'text' => 'Cadastros',
             'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'icon' => 'suitcase',
             'submenu'=>[
                 [
                 'text' => 'Itens',
@@ -146,17 +146,17 @@ return [
         [
             'text' => 'Pessoas',
             'url'  => 'admin/settings',
-            'icon' => 'user',
+            'icon' => 'address-book',
             'submenu'=>[
                 [
                 'text' => 'Clientes',
                 'url'  => 'admin/client/search',
-                'icon' => 'address-book',
+                'icon' => 'group',
                 ],
                [
                 'text' => 'Fornecedores',
                 'url'  => 'admin/provider/search',
-                'icon' => 'address-book',
+                'icon' => 'group',
                 ],
             ],
         ],
@@ -167,19 +167,19 @@ return [
             'icon' => 'book',
             'submenu'=>[
                 [
-                'text' => 'Nova Nota',
+                'text' => 'Novo Pedido',
                 'url'  => 'admin/record/register',
-                'icon' => 'sticky-note',
+                'icon' => 'shopping-cart',
                 ],
                 [
-                'text' => 'Lista',
+                'text' => 'Pedidos em Aberto',
                 'url'  => 'admin/record/search',
                 'icon' => 'book',
                 ],
                 [
                 'text' => 'Formas de Pagamento',
                 'url'  => 'admin/paymentmethod/search',
-                'icon' => 'cc-mastercard',
+                'icon' => 'credit-card',
                 ],
             ],
         ],
@@ -187,17 +187,27 @@ return [
         [
             'text' => 'Relatorios',
             'url'  => 'admin/settings',
-            'icon' => 'parachute-box',
+            'icon' => 'history',
             'submenu'=>[
                 [
-                'text' => 'Mais vendidos',
+                'text' => 'Mais Vendidos por Periodo',
                 'url'  => 'admin/report/bseller',
-                'icon' => 'money-bill-wave',
+                'icon' => 'history',
                 ],
                 [
-                'text' => 'Maiores clientes',
+                'text' => 'Maiores Clientes por Periodo',
                 'url'  => 'admin/report/bclient',
-                'icon' => 'money-bill-wave',
+                'icon' => 'history',
+                ],/*
+                [
+                'text' => 'Item por Fornecedor',
+                'url'  => 'admin/report/pitem',
+                'icon' => 'history',
+                ],*/
+                [
+                'text' => 'Pedidos Pendentes por Periodo',
+                'url'  => 'admin/report/precord',
+                'icon' => 'history',
                 ],
             ],
         ],             

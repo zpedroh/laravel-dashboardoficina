@@ -1,22 +1,19 @@
 @extends('adminlte::page') 
 @section('title', 'Serviços') 
 @section('content_header')
-<h1>Serviços 1</h1>
-
+<h1>Serviços</h1>
 @stop 
 @section('content')
 
-<button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
-  Adicionar Serviço
-</button>
-
-<div class="div-box">
-
-  <div class="box-body">
-    <div class="container">
-      <div class="col-md-3"></div>
-
-      <div class="col-lg-6">
+<div class="col-md-8">
+  <div class="box">
+    <div class="box-header">
+        <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
+            Adicionar Serviço
+          </button>
+    </div>
+    <div class="box-body">
+      <div class="table-responsive">
         <table id="service_table" class="table table-striped table-responsive">
           <thead>
             <tr>
@@ -51,7 +48,7 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span></button>
+                                    <span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Editar Serviço</h4>
                   </div>
 
@@ -91,11 +88,9 @@
           </tbody>
         </table>
       </div>
-      <div class="col-md-3"></div>
     </div>
   </div>
 </div>
-
 {{--Modais--}}
 
 
@@ -157,10 +152,11 @@
 <script type="text/javascript">
   $('#price').maskMoney({prefix:'R$ ',thousands:'',decimal:'.'});
   $('#price_create').maskMoney({prefix:'R$ ',thousands:'',decimal:'.'});
+
 </script>
 
 <script>
-$('#edit').on('show.bs.modal', function(event)
+  $('#edit').on('show.bs.modal', function(event)
 {
   alert('teste');
   var valor = button.data('.modal-body #price').tostring();
@@ -168,7 +164,9 @@ $('#edit').on('show.bs.modal', function(event)
 
   modal.find('.modal-body #price').val('R$ ' + price_edit);
 });
+
 </script>
+
 
 
 @stop {{--
