@@ -182,7 +182,13 @@ class ClientRecordController extends Controller
 
             $x = $x + 1;
         };
-        return redirect('admin/home');
+
+        $notification = array(
+            'message' => 'Pedido Criado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('admin/home')->with($notification);
     } 
 
     public function recordsEdit($id)
@@ -271,8 +277,8 @@ class ClientRecordController extends Controller
                     $movimentCreate = [
                         'mov_type' => 2,
                         'client_record_id' => $clientrecord->id,
-                        'item_id'  => $clientrecorditem->item_id,
-                        'quantity' => $clientrecorditem->quantity
+                        'item_id'          => $clientrecorditem->item_id,
+                        'quantity'         => $clientrecorditem->quantity
                     ];
                     
                     //Cria saida de estoque se a nota estiver fechada ou paga
@@ -327,7 +333,14 @@ class ClientRecordController extends Controller
             $x = $x + 1;
         };
 
-        return redirect(route('records.edit', $clientrecord->id));        
+        $notification = array(
+            'message' => 'Pedido Atualizado!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect(route('records.search'))->with($notification);
+
+        //return redirect(route('records.edit', $clientrecord->id));        
     }
 
     public function statusUpdate($id, $status)
@@ -344,10 +357,38 @@ class ClientRecordController extends Controller
             $parcel->save();
         }
 
+        if($status == 3)
+        {
+            $clientrecorditem = $this->clientrecorditem->all()->where('client_record_id', '=', $clientrecord->id)->where('status', '<>', $status);
+
+            foreach($clientrecorditem as $ritem)
+            {
+                $movimentCreate = [
+                    'mov_type' => 2,
+                    'client_record_id' => $clientrecord->id,
+                    'item_id'          => $ritem->item_id,
+                    'quantity'         => $ritem->quantity
+                ];
+
+                $moviments = $this->moviment->create($movimentCreate);
+
+                $itemstock = $this->itemstock->get()->where('item_id', '=', $ritem->item_id)->first();
+                $itemstock->quantity = $itemstock->quantity - $ritem->quantity;
+                $itemstock->save();
+            }
+        }
+        else
+        {
+
+        }
+
         $clientrecord->status = $status;
         $clientrecord->save();
 
-        $notification = 'x';
+        $notification = array(
+            'message' => 'Status do Pedido Atualizado!' , 
+            'alert-type' => 'success'
+        );
 
         return redirect(route('records.search'))->with($notification);
     }
@@ -485,6 +526,7 @@ class ClientRecordController extends Controller
     public function getProduct2($record_id,$product_id, $amount)
     {
         $item = $this->item->findOrFail($product_id);
+        $itemstock = $this->itemstock->get()->where('item_id', '=', $item->id)->first();
 
         $data = [
             'id'          => $item->id,
@@ -541,5 +583,4 @@ class ClientRecordController extends Controller
         
         return response()->json($data, 200);
     }
-
 }

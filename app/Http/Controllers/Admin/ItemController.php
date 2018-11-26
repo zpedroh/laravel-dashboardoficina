@@ -47,7 +47,7 @@ class ItemController extends Controller
         
 
 
-        $parcels = $this->parcel->orderBy('id')->get()->where('parcel->status', '<', '3');
+        $parcels = $this->parcel->orderBy('id')->whereBetween('created_at',[$begin,$end])->get()->where('status', '<', 3);
 
         $client_quantity = $this->client->whereBetween('created_at',[$begin,$end])->count();
 
