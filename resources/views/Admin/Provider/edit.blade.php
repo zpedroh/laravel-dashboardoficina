@@ -92,17 +92,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="name" placeholder="Nome" value="{{$provider->name}}" class="form-control">
+                                    <label for="name">Nome:</label>
+                                    <input type="text" name="name" placeholder="Nome" value="{{$provider->name}}" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input type="text" id="cnpj" name="cnpj" placeholder="cnpj" value="{{$provider->cnpj}}" class="form-control">
+                                    <label for="cnpj">CNPJ:</label>
+                                    <input type="text" id="cnpj" name="cnpj" placeholder="cnpj" value="{{$provider->cnpj}}" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input type="text" id="telephone" name="telephone" placeholder="Telefone" value="{{$provider->telephone}}" class="form-control">
+                                    <label for="telephone">Telefone:</label>
+                                    <input type="text" id="telephone" name="telephone" placeholder="Telefone" value="{{$provider->telephone}}" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -110,17 +113,20 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input type="text" id="cep" name="zipcode" placeholder="CEP" value="{{$provider->getAdress->zipcode}}" class="form-control">
+                                    <label for="cep">CEP:</label>
+                                    <input type="text" id="cep" name="zipcode" placeholder="CEP" value="{{$provider->getAdress->zipcode}}" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-7">
                                 <div class="form-group">
-                                    <input type="text" id="cidade" name="city" placeholder="Cidade" value="{{$provider->getAdress->city}}" class="form-control">
+                                    <label for="cidade">Cidade:</label>
+                                    <input type="text" id="cidade" name="city" placeholder="Cidade" value="{{$provider->getAdress->city}}" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input type="text" id="uf" name="state" placeholder="UF" value="{{$provider->getAdress->state}}" class="form-control">
+                                    <label for="uf">UF:</label>
+                                    <input type="text" id="uf" name="state" placeholder="UF" value="{{$provider->getAdress->state}}" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -128,17 +134,20 @@
                         <div class="row">
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <input type="text" id="bairro" name="district" placeholder="Bairro" value="{{$provider->getAdress->district}}" class="form-control">
+                                    <label for="bairro">Bairro:</label>
+                                    <input type="text" id="bairro" name="district" placeholder="Bairro" value="{{$provider->getAdress->district}}" class="form-control" required>
                                 </div>
                             </div>  
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="text" id="rua" name="street" placeholder="Rua" value="{{$provider->getAdress->street}}" class="form-control">
+                                    <label for="rua">Rua:</label>
+                                    <input type="text" id="rua" name="street" placeholder="Rua" value="{{$provider->getAdress->street}}" class="form-control" required>
                                 </div>
                             </div> 
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input type="text" id="numero" name="number" placeholder="Número" value="{{$provider->getAdress->number}}" class="form-control">
+                                    <label for="numero">Nº:</label>
+                                    <input type="text" id="numero" name="number" placeholder="Número" value="{{$provider->getAdress->number}}" class="form-control" required>
                                 </div>
                             </div>             
                         </div>
@@ -146,11 +155,12 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
+                                    <label for="complement">Complemento:</label>
                                     <input type="text" name="complement" placeholder="Complemento" value="{{$provider->getAdress->complement}}" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-success pull-right">Salvar</button>
+                            <div class="col-md-2" style="margin-top: 3.3%;">
+                                <button type="submit" class="btn btn-primary pull-right">Salvar</button>
                             </div>
                         </div>
                     </form>
@@ -169,20 +179,22 @@
                                 <th>Marca</th>
                                 <th>Preço</th>
                                 <th></th>
-                                <th></th>
                             </thead>
                             <tbody>
                                 @foreach($provider->getPItems as $pitem)
                                 <tr>
                                     <td>{{$pitem->getItem->name}}</td>
                                     <td>{{$pitem->getItem->getBrand->name}}</td>
-                                    <td>{{$pitem->value}}</td>
+                                    <td>R$ {{$pitem->value}}</td>
 
                                     <td>
+                                        
+                                        <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$pitem->id}}" data-info="{{$pitem->id}}, {{$pitem->getItem->name}}, {{$pitem->getItem->getBrand->name}}, {{$pitem->value}}"><span class="fa fa-edit"></span></a>
+                                        <a class="btn-xs btn-danger delete-confirm" value="{{ route('pitems.destroy', $pitem['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                                        {{--
                                         <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$pitem->id}}" data-info="{{$pitem->id}}, {{$pitem->getItem->name}}, {{$pitem->getItem->getBrand->name}}, {{$pitem->value}}">Editar</button>
-                                    </td>
-                                    <td>
                                         <button class="btn btn-danger delete-confirm" value="{{ route('pitems.destroy', $pitem['id']) }}" type="button">Deletar</button>
+                                        --}}
                                     </td>
                                 </tr>
 
@@ -204,18 +216,19 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <input type="text" name="name" placeholder="Nome" value="{{$pitem->getItem->name}} {{$pitem->getItem->getBrand->name}}" class="form-control"
-                                                                    disabled>
+                                                                <label for="name">Produto:</label>
+                                                                <input type="text" name="name" placeholder="Nome" value="{{$pitem->getItem->name}} {{$pitem->getItem->getBrand->name}}" class="form-control" disabled>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <input type="text" name="provider_price" id="edit_provider_price" value="{{$pitem->value}}">
+                                                                <label for="provider_price">Preço:</label>
+                                                                <input type="text" name="provider_price" id="edit_provider_price" value="R$ {{$pitem->value}}" required>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                                        <button type="submit" class="btn btn-primary">Salvar</button>
                                                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                                                     </div>
                                                 </form>
@@ -246,7 +259,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Adicionar Cliente</h4>
+                <h4 class="modal-title">Adicionar Produto do Fornecedor</h4>
             </div>
 
             <div class="modal-body">
@@ -254,19 +267,21 @@
                 <form method="POST" action="{{ route('pitems.create') }}">
 
                     <input type="hidden" name="provider_id" id="provider_id" value="{{ $provider->id }}"> @csrf
-
+                    
                     <div class="form-group">
-                        <select class="form-control" id="item_id" name="item_id">
+                        <label for="item_id">Produto</label>
+                        <select class="form-control" id="item_id" name="item_id" required>
                             <option value="">Selecione um Produto</option>
                             @foreach($items as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }} {{ $item->getBrand->name }}</option>
                             @endforeach                   
                             </select>
-
-                        <input type="text" name="provider_price" id="provider_price">
+                        
+                        <label for="provider_price">Preço:</label>
+                        <input type="text" name="provider_price" id="provider_price" class="form-control" required>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                     </div>
 

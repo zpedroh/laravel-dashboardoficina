@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use DB;
+use App\Models\Item;
 
 
 class CategoryController extends Controller
 {
     protected $category;
+    protected $item;
 
-    public function __construct(Category $category)
+    public function __construct(Category $category, Item $item)
     {
         $this->category = $category;
+        $this->item  = $item;
     }
 
     public function categoriesRegister()
@@ -87,13 +90,26 @@ class CategoryController extends Controller
     public function categoriesDestroy($id)
     {
         $category = $this->category->find($id);
-        $category->delete();
+        
+        $verif = $this->item->get()->where('category_id', '=', $category->id)->first();
 
-        $notification = array(
-            'message' => 'Categoria Deletada!' , 
-            'alert-type' => 'success'
-        );
+        if($verif)
+        {
+            $notification = array(
+                'message' => 'Categoria em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $category->delete();
 
-        return redirect('admin/home')->with($notification);
+            $notification = array(
+                'message' => 'Categoria Deletada!' , 
+                'alert-type' => 'success'
+            );    
+        } 
+
+        return redirect('admin/category/search')->with($notification);
     }
 }

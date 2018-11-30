@@ -16,7 +16,8 @@ class CreateTbItemsTable extends Migration
         Schema::create('tb_items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 20);
-            $table->string('location', 8);
+            $table->string('location', 20);
+            $table->string('model', 20)->nullAble();
             $table->decimal('price');
             $table->integer('brand_id')->unsigned();
             $table->foreign('brand_id')->references('id')->on('tb_brands');

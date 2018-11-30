@@ -63,9 +63,9 @@
                 <div class="small-box bg-red">
     
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3>@if($itemexit > 0) {{$itemexit}} @else 0 @endif</h3>
     
-                        <p>Unique Visitors</p>
+                        <p>Saida de Estoque</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -107,7 +107,7 @@
                                         <td>{{$item->getItemStock->quantity_min}}</td>
 
                                         <td>
-                                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$item->id}}" data-info="{{$item->id}}, {{$item->name}}, {{$item->getBrand->id}}, {{$item->getCategory->id}}, {{$item->getItemStock->id}}, {{$item->getItemStock->quantity}}">Adicionar</button>
+                                        <a class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal-edit{{$item->id}}" data-info="{{$item->id}}, {{$item->name}}, {{$item->getBrand->id}}, {{$item->getCategory->id}}, {{$item->getItemStock->id}}, {{$item->getItemStock->quantity}}"><span class="fa fa-plus"></span></a>
                                         </td>
                                     </tr>
                                     <div class="modal fade" id="modal-edit{{$item->id}}">
@@ -136,7 +136,7 @@
 
                                                         <div class="modal-footer">
                                                             <div class="form-group">
-                                                                <button type="submit" class="btn btn-success">Salvar</button>
+                                                                <button type="submit" class="btn btn-primary">Salvar</button>
                                                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                                                             </div>
                                                         </div>
@@ -164,11 +164,12 @@
                         <strong>Parcelas Pendentes do Mês:</strong>
 
                         <thead>
-                            <th>Numero da Nota</th>
+                            <th>Nº da Nota</th>
                             <th>Cliente</th>
                             <th>Parcela</th>
-                            <th>Valor da Parcela</th>
-                            <th>Data de Vencimento</th>
+                            <th>Valor</th>
+                            <th>Vencimento</th>
+                            
                         </thead>
                         <tbody>
                                     
@@ -177,14 +178,11 @@
                                 <td>{{$parcel->client_record_id}}</td>
                                 <td>{{$parcel->getRecord->getClient->name}}</td>
                                 <td>{{$parcel->number}}/{{$parcel->parcel_number}}</td>
-                                <td>{{$parcel->value}}</td>
-                                <td>{{$parcel->date}}</td>
+                                <td>R$ {{$parcel->value}}</td>
+                                <td>{{$parcel->date_formatted}}</td>
                                 <td>
-                                    <a href="{{ route('records.edit', $parcel['client_record_id'])}}">
-                                        <button class="btn btn-edit" type="submit">Editar</button>
-                                    </a>
-                                </td>
-            
+                                    <a href="{{ route('records.edit', $parcel['client_record_id'])}}" class="btn-xs btn-warning" type="button"><span class="fa fa-edit"></span></a>
+                                </td>            
                             </tr>
                             @endforeach 
                         </tbody>
@@ -195,7 +193,11 @@
     </div>
 </div>
 
-@stop {{--
+
+
+@stop
+
+{{--
 
     <div class="row" style="margin:0px;padding-top:25px;">
         <div class="col-md-12">

@@ -10,6 +10,7 @@ use App\Models\Adress;
 use App\Models\Item;
 use App\Models\Service;
 use App\Models\PaymentMethod;  
+use App\Models\ClientRecord;
 
 class ClientController extends Controller
 {
@@ -18,14 +19,17 @@ class ClientController extends Controller
     protected $items;
     protected $services;
     protected $paymentmethod;
+    protected $clientrecord;
+    
 
-    public function __construct(Client $client, Adress $adress, Item $items, Service $services, PaymentMethod $paymentmethod)
+    public function __construct(Client $client, Adress $adress, Item $items, Service $services, PaymentMethod $paymentmethod, ClientRecord $clientrecord)
     {
         $this->client = $client;
         $this->adress = $adress;
         $this->item = $items;
         $this->service = $services;
         $this->paymentmethod = $paymentmethod;
+        $this->clientrecord         = $clientrecord;
     }
 
     public function clientsRegister()
@@ -137,13 +141,27 @@ class ClientController extends Controller
     public function clientsDestroy($id)
     {
         $client = $this->client->find($id);
-        $client->delete();
-
-        $notification = array(
-            'message' => 'Cliente Deletado!' , 
-            'alert-type' => 'success'
-        );
         
-        return redirect('admin/home')->with($notification);
+
+        $verif = $this->clientrecord->get()->where('client_id', '=', $client->id)->first();
+
+        if($verif)
+        {
+            $notification = array(
+                'message' => 'Cliente em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $client->delete();
+
+            $notification = array(
+                'message' => 'Cliente Deletada!' , 
+                'alert-type' => 'success'
+            );    
+        } 
+        
+        return redirect('admin/client/search')->with($notification);
     }   
 }

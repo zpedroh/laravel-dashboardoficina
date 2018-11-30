@@ -55,6 +55,9 @@ class ReportController extends Controller
     public function bsellerGet(Request $request)
     {
         $item =  $this->item->all();
+
+        #$start = $request->date_start->format('d/m/Y');
+        #$end = $request->date_end->format('d/m/Y');
         
         foreach($item as $item)
         {
@@ -92,6 +95,9 @@ class ReportController extends Controller
     public function bclientGet(Request $request)
     {
         $client =  $this->client->all();
+
+       # $start = $request->date_start->format('d/m/Y');
+       # $end = $request->date_end->format('d/m/Y');
         
         foreach($client as $client)
         {
@@ -115,7 +121,7 @@ class ReportController extends Controller
                 'id'       => $client->id,
                 'name'     => $client->name,
                 'records'  => $quantity,
-                'value'    => $value
+                'value'    => number_format($value, 2, '.', '')
             ];
         }
 
@@ -133,6 +139,9 @@ class ReportController extends Controller
     {
         dd($request->all());
 
+       # $start = $request->date_start->format('d/m/Y');
+       # $end = $request->date_end->format('d/m/Y');
+
 
         return view('admin.report.bestclient.piresult', compact('provider'));      
     }   
@@ -144,6 +153,9 @@ class ReportController extends Controller
     public function precordGet(Request $request)
     {
         $client =  $this->client->all();
+
+       # $start = $request->date_start->format('d/m/Y');
+        #$end = $request->date_end->format('d/m/Y');
         
         foreach($client as $client)
         {
@@ -157,6 +169,7 @@ class ReportController extends Controller
                         'id'           => $client->id,
                         'name'         => $client->name,
                         'record'       => $clientrecord->id,
+                        'status'       => $clientrecord->status,
                         'record_total' => $clientrecord->record_total
                     ];   
                 }

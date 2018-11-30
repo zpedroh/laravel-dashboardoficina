@@ -7,16 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BrandCreateRequest;
 use DB;
 use App\Models\Brand;
+use App\Models\Item;
 
 
 class BrandController extends Controller
 {
 
     protected $brand;
+    protected $item;
 
-    public function __construct(Brand $brand)
+    public function __construct(Brand $brand, Item $item)
     {
         $this->brand = $brand;
+        $this->item  = $item;
     }
 
     public function brandsRegister()
@@ -69,12 +72,25 @@ class BrandController extends Controller
     public function brandsDestroy($id)
     {
         $brand = $this->brand->find($id);
-        $brand->delete();
 
-        $notification = array(
-            'message' => 'Marca Deletada!' , 
-            'alert-type' => 'success'
-        );
+        $verif = $this->item->get()->where('brand_id', '=', $brand->id)->first();
+
+        if($verif)
+        {
+            $notification = array(
+                'message' => 'Marca em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $brand->delete();
+
+            $notification = array(
+                'message' => 'Marca Deletada!' , 
+                'alert-type' => 'success'
+            );    
+        } 
 
         return redirect('admin/brand/search')->with($notification);
     }

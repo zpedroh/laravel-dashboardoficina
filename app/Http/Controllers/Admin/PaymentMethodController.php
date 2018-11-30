@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentMethod;
 use DB;
+use App\Models\Parcel;
 
 class PaymentMethodController extends Controller
 {
     protected $paymentmethod;
+    protected $parcel;
 
-    public function __construct(PaymentMethod $paymentmethod)
+    public function __construct(PaymentMethod $paymentmethod, Parcel $parcel)
     {
         $this->paymentmethod = $paymentmethod;
+        $this->parcel  = $parcel;
     }
 
     public function paymentmethodsRegister()
@@ -66,14 +69,26 @@ class PaymentMethodController extends Controller
     public function paymentmethodsDestroy($id)
     {
         $paymentmethod = $this->paymentmethod->find($id);
-        
-        $paymentmethod->delete();
+    
+        $verif = $this->parcel->get()->where('payment_method_id', '=', $paymentmethod->id)->first();
 
-        $notification = array(
-            'message' => 'Forma de Pagamento Deletada!' , 
-            'alert-type' => 'success'
-        );
+        if($verif)
+        {
+            $notification = array(
+                'message' => 'Forma de Pagamento em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $paymentmethod->delete();
+
+            $notification = array(
+                'message' => 'Forma de Pagamento Deletado!' , 
+                'alert-type' => 'success'
+            );
+        }      
         
-        return redirect('admin/home')->with($notification);
+        return redirect('admin/paymentmethod/search')->with($notification);
     }   
 }

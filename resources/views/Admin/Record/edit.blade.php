@@ -6,7 +6,7 @@
 @stop 
 @section('content')
 
-<div class="col-md-8">
+<div class="col-md-9">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Pedido</a></li>
@@ -52,7 +52,7 @@
    
                 </div>
 
-                <form method="POST" action="{{ route('records.create') }}">
+                <form method="GET" action="{{ route('records.update', $clientrecord->id) }}">
                         @csrf
         
                         <input type="hidden" name="user_id" value={{Auth::user()->id}}>
@@ -82,7 +82,7 @@
         
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-warning add-item">+</button>
+                                    <button type="button" class="btn btn-warning add-item"><i class="glyphicon glyphicon-plus-sign"></i></button>
                                 </div>
                             </div>
                         </div>                
@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-warning add-service">+</button>
+                                    <button type="button" class="btn btn-warning add-service"><i class="glyphicon glyphicon-plus-sign"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -208,7 +208,7 @@
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_2">
-
+                
                 <div class="table-responsive">
                     <div class="form-group pull-left">
                         @if($clientrecord->status < 3)
@@ -244,16 +244,18 @@
                                 <td>{{$parcel->date}}</td>
                                 <td>{{$parcel->getMethod->type}}</td>
                                 <td>{{$parcel->getMethod->period}}</td>
-                                <td>{{$parcel->getMethod->duedate}}</td>
+                                <td>{{$parcel->date}}</td>
                                 <td>R$ {{$parcel->value}}</td>
                                 <td>
                                     @if($parcel->status < 3)
-                                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$parcel->id}}">Editar</button>
+                                        <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$parcel->id}}"><span class="fa fa-edit"></span></a>
+                                        {{--<button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$parcel->id}}">Editar</button>--}}
                                     @endif
                                 </td>
                                 <td>
-                                    @if($parcel->status < 3)                                     
-                                            <button class="btn btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button">Delete</button>
+                                    @if($parcel->status < 3)         
+                                        <a class="btn-xs btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                                        {{--<button class="btn-xs btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button">Delete</button>--}}
                                     @endif
                                 </td>
                             </tr>
@@ -355,6 +357,20 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<script>
+        $(document).ready(function() {
+    
+            $('.select-item').select2({
+                language: "pt-BR",
+            });
+    
+            $('.select-service').select2({
+                language: "pt-BR",
+            });        
+        });
+    </script>
+
 
 <script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
 

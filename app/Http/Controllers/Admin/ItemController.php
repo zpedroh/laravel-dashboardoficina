@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ClientRecord;
+use App\Models\ClientRecordItem;
 use App\Models\Parcel;
 use App\Models\Brand;
 use App\Models\Category;
@@ -24,10 +25,11 @@ class ItemController extends Controller
     protected $categories;
     protected $moviments;
     protected $clientrecords;
+    protected $clientrecorditem;
     protected $parcels;
     protected $clients;
 
-    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands, Moviment $moviments, ClientRecord $clientrecords, Parcel $parcels, Client $clients)
+    public function __construct(Item $item, ItemStock $item_stock, Category $categories, Brand $brands, Moviment $moviments, ClientRecord $clientrecords, Parcel $parcels, Client $clients, ClientRecordItem $clientrecorditem)
     {
         $this->item          = $item;
         $this->item_stock    = $item_stock; 
@@ -35,6 +37,7 @@ class ItemController extends Controller
         $this->brand         = $brands;
         $this->moviment      = $moviments;
         $this->clientrecord  = $clientrecords;
+        $this->clientrecorditem  = $clientrecorditem;
         $this->parcel        = $parcels;
         $this->client        = $clients;
     }    
@@ -45,7 +48,7 @@ class ItemController extends Controller
         $begin = Carbon::now()->startOfMonth();
         $end   = Carbon::now()->endOfMonth();
         
-
+        $itemexit = $this->moviment->whereBetween('created_at',[$begin,$end])->get()->where('mov_type', '=', 2)->sum('quantity');
 
         $parcels = $this->parcel->orderBy('id')->whereBetween('created_at',[$begin,$end])->get()->where('status', '<', 3);
 
@@ -62,6 +65,8 @@ class ItemController extends Controller
             if($payed > 0)
             {
                 $payedpercent = ($payed / $record_quantity) * 100;
+
+                $payedpercent = number_format($payedpercent, 2, ',', '');
             }
         } 
 
@@ -73,7 +78,7 @@ class ItemController extends Controller
         );
         
 
-        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent'))->with($notification);
+        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent', 'itemexit'))->with($notification);
     }
 
     public function itemsRegister()
@@ -93,7 +98,8 @@ class ItemController extends Controller
             'location'     => $request->location,
             'price'        => $price,
             'brand_id'     => $request->brand,
-            'category_id'  => $request->category
+            'category_id'  => $request->category,
+            'model'        => $request->model
         ];
 
         $item = $this->item->create($dataItem);
@@ -149,24 +155,41 @@ class ItemController extends Controller
     {
         $item = $this->item->find($id);
 
+        $price = str_replace('R$ ', '', $request->get('price'));
+
         $itemUpdate = [
             'name'         => $request->name,
             'location'     => $request->location,
-            'price'        => $request->price,
+            'price'        => $price,
             'brand_id'     => $request->brand,
-            'category_id'  => $request->category
+            'category_id'  => $request->category,
+            'model'        => $request->model
         ];
 
         $stockUpdate = [
             'quantity'     => $request->quantity,
             'quantity_min' => $request->quantity_min
         ];
+
+        //dd($item, $itemUpdate);
  
-        $item->update($itemupdate);  
+        $item->update($itemUpdate);  
         $item->save();
 
         $item_stock = $this->item_stock->where('item_id', $item->id)->first();
-        $item_stock->update($stockupdate);
+
+        if($stockUpdate['quantity'] > $item_stock->quantity)
+        {
+            $movimentCreate = [
+                'mov_type' => 1,
+                'item_id'  => $item->id,
+                'quantity' => $stockUpdate['quantity']
+            ];
+    
+            $moviments = $this->moviment->create($movimentCreate);
+        }
+
+        $item_stock->update($stockUpdate);
         $item_stock->save();
 
         $notification = array(
@@ -210,13 +233,26 @@ class ItemController extends Controller
     {
         $item = $this->item->find($id);
 
-        $item->delete();
+        $verif = $this->clientrecorditem->get()->where('item_id', '=', $item->id)->first();
 
-        $notification = array(
-            'message' => 'Item Deletado!' , 
-            'alert-type' => 'success'
-        );
+        if($verif)
+        {
 
-        return redirect()->route('items.home')->with($notification);
+            $notification = array(
+                'message' => 'Produto em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $item->delete();
+
+            $notification = array(
+                'message' => 'Produto Deletado!' , 
+                'alert-type' => 'success'
+            );
+        }      
+
+        return redirect()->route('items.search')->with($notification);
     }
 }

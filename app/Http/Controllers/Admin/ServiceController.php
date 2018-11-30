@@ -86,28 +86,27 @@ $price = str_replace('R$ ', '', $request->get('price'));
 
     public function servicesDestroy($id)
     { 
-        $serviceitem = $this->clientrecordservice->where('service_id', '=', $id)->count();
-
-        if($serviceitem == 0)
-        {
-            $service = $this->service->findOrFail($id);
-            $service->delete();
+        $service = $this->service->findOrFail($id);
     
+        $verif = $this->clientrecordservice->get()->where('service_id', '=', $service->id)->first();
+
+        if($verif)
+        {
+            $notification = array(
+                'message' => 'Serviço em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $service->delete();
+
             $notification = array(
                 'message' => 'Serviço Deletado!' , 
                 'alert-type' => 'success'
             );
-    
-            return redirect()->route('services.search')->with($notification);
-        }
-        else
-        {
-            $notification = array(
-                'message' => 'Serviço em Uso pelo Sistema!' , 
-                'alert-type' => 'error'
-            );
-    
-            return redirect()->route('services.search')->with($notification);
-        }
+        }  
+
+        return redirect()->route('services.search')->with($notification);
     }
 }

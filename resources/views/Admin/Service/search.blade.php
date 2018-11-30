@@ -20,8 +20,7 @@
               <th>Código</th>
               <th>Nome</th>
               <th>Preço</th>
-              <th></th>
-              <th></th>
+              <th></th>             
             </tr>
           </thead>
           <tbody>
@@ -33,11 +32,13 @@
               <td>{{$service->name}}</td>
               <td>R$ {{$service->price}}</td>
               <td>
-                <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$service->id}}" data-info="{{$service->id}}, {{$service->name}}">Editar</button>
-              </td>
 
-              <td>
+                <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$service->id}}" data-info="{{$service->id}}, {{$service->name}}"><span class="fa fa-edit"></span></a>
+                <a class="btn-xs btn-danger delete-confirm" href="{{ route('services.destroy', $service->id) }}" type="button"><span class="fa fa-trash"></span></a>
+                {{--
+                <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$service->id}}" data-info="{{$service->id}}, {{$service->name}}">Editar</button>
                 <button class="btn btn-danger delete-confirm" value="{{ route('services.destroy', $service->id) }}" type="button">Deletar</button>
+                --}}
               </td>
             </tr>
 
@@ -91,8 +92,8 @@
     </div>
   </div>
 </div>
-{{--Modais--}}
 
+{{--Modais--}}
 
 <div class="modal fade" id="modal-default">
   <div class="modal-dialog">
@@ -125,7 +126,7 @@
           </div>
           <div class="modal-footer">
 
-            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
 
           </div>
@@ -143,8 +144,30 @@
 <script type="text/javascript" language="javascript">
   jQuery(document).ready(function () {
         $("#service_table").dataTable({
-          
-        });
+            language:{
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+    }
+          });
   });
 
 </script>

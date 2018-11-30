@@ -97,9 +97,7 @@
                     <th>Nome</th>
                     <th>CPF</th>
                     <th>Telefone</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th></th> 
                 </tr>
             </thead>
             <tbody>
@@ -110,13 +108,12 @@
                     <td>{{$client->cpf}}</td>
                     <td>{{$client->telephone}}</td>
                     <td>
-                        <a class="btn-warning btn-xs" data-toggle="modal" data-target="#client-info{{$client['id']}}"><span class="glyphicon glyphicon-folder-open"></span></a>
-                    </td>
-                    <td>
-                        <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$client->id}}" data-info="{{$client->id}}, {{$client->name}}, {{$client->cpf}}, {{$client->telephone}}, {{$client->getAdress->id}}, {{$client->getAdress->zipcode}}, {{$client->getAdress->street}}, {{$client->getAdress->number}}, {{$client->getAdress->complement}}, {{$client->getAdress->district}}, {{$client->getAdress->city}}, {{$client->getAdress->state}}">Editar</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger delete-confirm" value="{{ route('clients.destroy', $client['id']) }}" type="button">Deletar</button>
+                        <a class="btn-primary btn-xs" data-toggle="modal" data-target="#client-info{{$client['id']}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                
+                        <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$client->id}}" data-info="{{$client->id}}, {{$client->name}}, {{$client->cpf}}, {{$client->telephone}}, {{$client->getAdress->id}}, {{$client->getAdress->zipcode}}, {{$client->getAdress->street}}, {{$client->getAdress->number}}, {{$client->getAdress->complement}}, {{$client->getAdress->district}}, {{$client->getAdress->city}}, {{$client->getAdress->state}}"><span class="fa fa-edit"></span></a>
+                        {{--<button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$client->id}}" data-info="{{$client->id}}, {{$client->name}}, {{$client->cpf}}, {{$client->telephone}}, {{$client->getAdress->id}}, {{$client->getAdress->zipcode}}, {{$client->getAdress->street}}, {{$client->getAdress->number}}, {{$client->getAdress->complement}}, {{$client->getAdress->district}}, {{$client->getAdress->city}}, {{$client->getAdress->state}}">Editar</button>--}}
+                        <a class="btn-xs btn-danger delete-confirm" href="{{ route('clients.destroy', $client['id']) }}" type="button"><i class="fa fa-trash"></i></a>
+                        {{--<button class="btn btn-danger delete-confirm" value="{{ route('clients.destroy', $client['id']) }}" type="button"><i class="fa fa-trash"></i></button>--}}
                     </td>
                 </tr>
                 {{--Modal Edit--}}
@@ -136,64 +133,73 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" name="name" placeholder="Nome" value="{{$client->name}}" class="form-control">
+                                                <label for="name">Nome:</label>
+                                                <input type="text" name="name" placeholder="Nome" value="{{$client->name}}" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{$client->cpf}}" class="form-control">
+                                                <label for="cpf">CPF:</label>                                                    
+                                                <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{$client->cpf}}" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" value="{{$client->telephone}}" class="form-control">
+                                                <label for="telephone">Telefone:</label>                                                    
+                                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" value="{{$client->telephone}}" class="form-control" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <input type="text" id="cep" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control">
+                                                <label for="cep">CEP:</label>                                                    
+                                                <input type="text" id="cep" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" id="rua" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control">
+                                                <label for="rua">Rua:</label>                                                   
+                                                <input type="text" id="rua" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <input type="text" id="numero" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control">
+                                                <label for="numero">Nº:</label>                                                    
+                                                <input type="text" id="numero" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="bairro">Bairro:</label>                                                    
+                                                <input type="text" name="district" placeholder="Bairro" value="{{$client->getAdress->district}}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="cidade">Cidade:</label>                                                    
+                                                <input type="text" id="cidade" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label for="uf">UF:</label>
+                                                <input type="text" id="uf" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="text" id="complement" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}"
-                                                    class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <input type="text" name="district" placeholder="Bairro" value="{{$client->getAdress->district}}" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="form-group">
-                                                <input type="text" id="cidade" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <input type="text" id="uf" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control">
+                                                <label for="complemento">Complemento:</label>                                                    
+                                                <input type="text" id="complement" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
                                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                                     </div>
                                 </form>
@@ -215,7 +221,7 @@
                                 <h4>Informações Complementares</h4>
                             </div>
 
-                            <div class="modal-body">
+                            <div class="modal-body">                            
 
                                 <h4>Endereço</h4>
                                 <li>Cep: {{$client->getAdress->zipcode}}</li>
@@ -225,14 +231,14 @@
                                 <li>Rua: {{$client->getAdress->street}}</li>
                                 <li>Nº: {{$client->getAdress->number}}</li>
                                 <li>Complemento: {{$client->getAdress->complement}}</li>
-
-                                <h4>Notas em Aberto</h4>
+                                @if($client->getRecords <> '')
+                                <h4>Pedidos em Aberto</h4>
                                 @foreach($client->getRecords as $recordopen) 
                                     @if($recordopen->status < '3') 
                                         <li>Número: {{$recordopen->id}} Total: {{$recordopen->record_total}}</li>
                                     @endif 
                                 @endforeach
-
+                                @endif
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
@@ -271,65 +277,75 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" name="name" placeholder="Nome" class="form-control">
+                                <label for="name">Nome:</label>
+                                <input type="text" name="name" placeholder="Nome" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control">
+                                <label for="cpf">CPF:</label>
+                                <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control">
+                                <label for="telephone">Telefone:</label>
+                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" id="cep" name="zipcode" placeholder="CEP" class="form-control">
+                                <label for="cep">CEP:</label>
+                                <input type="text" id="cep" name="zipcode" placeholder="CEP" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="rua" name="street" placeholder="Rua" class="form-control">
+                                <label for="rua">Rua:</label>
+                                <input type="text" id="rua" name="street" placeholder="Rua" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" id="numero" name="number" placeholder="Número" class="form-control">
+                                <label for="numero">Nº:</label>
+                                <input type="text" id="numero" name="number" placeholder="Número" class="form-control" required>
                             </div>
                         </div>
 
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" id="complemento" name="complement" placeholder="Complemento" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control">
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control" required>
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control">
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control">
+                                <label for="uf">UF:</label>
+                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="complemento">Complemento:</label>
+                                <input type="text" id="complemento" name="complement" placeholder="Complemento" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                     </div>
 

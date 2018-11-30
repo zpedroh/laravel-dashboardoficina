@@ -24,7 +24,7 @@
                             <th>ID</th>
                             <th>Nome</th>
                             <th></th>
-                            <th></th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -35,10 +35,11 @@
                             <td>{{$brand['id']}}</td>
                             <td>{{$brand['name']}}</td>
                             <td>
-                                <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$brand->id}}" data-info="{{$brand->id}}, {{$brand->name}}">Editar</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger delete-confirm" value="{{ route('brands.destroy', $brand['id']) }}" type="button">Deletar</button>
+                                <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$brand->id}}" data-info="{{$brand->id}}, {{$brand->name}}"><span class="fa fa-edit"></span></a>
+                                {{--<button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$brand->id}}" data-info="{{$brand->id}}, {{$brand->name}}">Editar</button>--}}
+                                
+                                <a class="btn-xs btn-danger delete-confirm" href="{{ route('brands.destroy', $brand['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                                {{--<button class="btn btn-danger delete-confirm" value="{{ route('brands.destroy', $brand['id']) }}" type="button">Deletar</button>--}}
                             </td>
                         </tr>
 
@@ -61,7 +62,7 @@
 
                                             <div class="form-group">
                                                 <label for="name">Nome:</label>
-                                                <input type="text" name="name" placeholder="Nome" value="{{$brand->name}}" class="form-control">
+                                                <input type="text" name="name" placeholder="Nome" value="{{$brand->name}}" class="form-control" required>
                                             </div>
 
                                             <div class="modal-footer">
@@ -104,19 +105,14 @@
             <div class="modal-body">
 
                 <form method="POST" action="{{ route('brands.create') }}">
-
                     @csrf
-
                     <div class="form-group">
                         <label for="name">Nome:</label>
-                        <input type="text" name="name" placeholder="Nome da Marca" class="form-control">
+                        <input type="text" name="name" placeholder="Nome da Marca" class="form-control" required>
                     </div>
-
                     <div class="modal-footer">
-
-                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-
                     </div>
                 </form>
             </div>

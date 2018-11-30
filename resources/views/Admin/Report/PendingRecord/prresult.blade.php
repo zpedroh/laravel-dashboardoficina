@@ -1,23 +1,28 @@
 @extends('adminlte::page') 
-@section('title', 'BS') 
+@section('title', 'Relatorio') 
 @section('content_header')
-<h1>Notas Pendentes</h1>
+<h1>Pedidos Periodo</h1>
 @stop 
 @section('content')
 
 <div class="box">
     <div class="box-header">
-        Resultado
+        
     </div>  
     
         <div class="box-body">
+
+            <div class="box-header">
+
+            </div>
 
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="report_table">
 
                     <thead>
                         <th>Cliente</th>
-                        <th>Nota</th>
+                        <th>Pedido</th>
+                        <th>Status</th>
                         <th>Valor</th>
                     </thead>
                     <tbody>
@@ -27,6 +32,17 @@
                             <tr>
                                 <td>{{$result['name']}}</td>
                                 <td>{{$result['record']}}</td>
+                                <td>                  
+                                    @if($result['status'] == 1)
+                                        <span class="label label-warning">Aberto</span> 
+                                        @elseif($result['status'] == 2)
+                                        <span class="label label-primary">Pendente</span> 
+                                        @elseif($result['status'] == 3)
+                                        <span class="label label-success">Paga</span>
+                                        @else
+                                        <span class="label label-danger">Cancelada</span> 
+                                    @endif
+                                </td>
                                 <td>R$ {{$result['record_total']}}</td>
                             </tr>
     

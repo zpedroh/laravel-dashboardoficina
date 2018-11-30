@@ -22,7 +22,6 @@
                 <th>ID</th>
                 <th>Nome</th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -34,10 +33,12 @@
                 <td>{{$category['name']}}</td>
       
                 <td>
-                  <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$category->id}}" data-info="{{$category->id}}, {{$category->name}}">Editar</button>
-                </td>
-                <td>
-                  <button class="btn btn-danger delete-confirm" value="{{ route('categories.destroy', $category['id']) }}" type="button">Deletar</button>
+                  <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$category->id}}" data-info="{{$category->id}}, {{$category->name}}"><span class="fa fa-edit"></span></a>
+                  {{--<button class="btn-xs btn-primary" type="button" data-toggle="modal" data-target="#modal-edit{{$category->id}}" data-info="{{$category->id}}, {{$category->name}}">Editar</button>--}}
+
+                  <a class="btn-xs btn-danger delete-confirm" href="{{ route('categories.destroy', $category['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+
+                  {{--<button class="btn btn-danger delete-confirm" value="{{ route('categories.destroy', $category['id']) }}" type="button">Deletar</button>--}}
                 </td>
               </tr>
       
@@ -60,7 +61,7 @@
       
                         <div class="form-group">
                           <label for="name">Nome:</label>
-                        <input type="text" name="name" placeholder="Nome da Categoria" class="form-control" value="{{$category->name}}">
+                        <input type="text" name="name" placeholder="Nome da Categoria" class="form-control" value="{{$category->name}}" required>
                         </div>
       
                         <div class="modal-footer">
@@ -109,12 +110,12 @@
 
           <div class="form-group">
             <label for="name">Nome:</label>
-            <input type="text" name="name" placeholder="Nome da Categoria" class="form-control">
+            <input type="text" name="name" placeholder="Nome da Categoria" class="form-control" required>
           </div>
 
           <div class="modal-footer">
             <div class="form-group">
-              <button type="submit" class="btn btn-success">Cadastrar</button>
+              <button type="submit" class="btn btn-primary">Cadastrar</button>
               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
             </div>
           </div>

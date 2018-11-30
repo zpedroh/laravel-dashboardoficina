@@ -1,7 +1,11 @@
 
-$('.delete-confirm').on('click', function () {
+$('.delete-confirm').on('click', function (e) {
+    
+    e.preventDefault();
 
     var url = $(this).val();
+
+    var deletar = $(this).attr("href");
     
     swal({
         title: "Você tem certeza que deseja apagar este registro?",
@@ -17,14 +21,7 @@ $('.delete-confirm').on('click', function () {
 
         function (isConfirm) {
             if (isConfirm) {
-                swal({
-                    title: "Apagado",
-                    text: "O registro foi apagado com sucesso",
-                    type: "success"
-                },
-                    function (isConfirm) {
-                        window.location = url;
-                    });
+                window.location = deletar;
             }
             else {
                 swal("Cancelado", "O registro não foi apagado", "error");

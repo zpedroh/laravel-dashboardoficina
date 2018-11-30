@@ -22,9 +22,7 @@
                 <th>Status</th>
                 <th>Total</th>
                 <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+  
               </tr>
             </thead>
             <tbody>
@@ -34,7 +32,7 @@
               <tr>
                 <td>{{$clientrecord->id}}</td>
                 <td>{{$clientrecord->getClient->name}}</td>
-                <td>{{$clientrecord->created_at->format('d-m-y')}}</td>
+                <td>{{$clientrecord->created_at->format('d-m-Y')}}</td>
                 <td>
                   @if($clientrecord->status == 1)
                   <span class="label label-warning">Aberta</span> @elseif($clientrecord->status == 2)
@@ -42,22 +40,14 @@
                   <span class="label label-success">Paga</span> @else
                   <span class="label label-danger">Cancelada</span> @endif
                 </td>
-                <td>{{$clientrecord->record_total}}</td>
+                <td>R$ {{$clientrecord->record_total}}</td>
       
                 <td>
-                  <a class="btn-warning btn-xs" data-toggle="modal" data-target="#record-content{{$clientrecord['id']}}">
-                      <span class="glyphicon glyphicon-folder-open"></span>
-                    </a>
+                  <a class="btn-primary btn-xs" data-toggle="modal" data-target="#record-content{{$clientrecord['id']}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                  <a class="btn-xs btn-warning" type="submit" href="{{ route('records.edit', $clientrecord['id'])}}"><span class="fa fa-edit"></span></a>
+                  <a class="btn-xs btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                  <a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn-xs btn-default"><i class="fa fa-file-pdf-o"></i></a>
                 </td>
-                <td>
-                  <a href="{{ route('records.edit', $clientrecord['id'])}}">
-                      <button class="btn btn-edit" type="submit">Editar</button>
-                    </a>
-                </td>
-                <td>
-                  <button class="btn btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button">Deletar</button>
-                </td>
-                <td><a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i></a></td>
               </tr>
     
               {{--Modal Edit--}}
@@ -128,10 +118,6 @@
   });
 
 </script>
-
-
-
-
 
 
 @stop

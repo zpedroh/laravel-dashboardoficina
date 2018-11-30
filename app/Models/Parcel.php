@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Parcel extends Model
 {
@@ -18,6 +19,15 @@ class Parcel extends Model
     public function getRecord()
     {
         return $this->hasOne('App\Models\ClientRecord', 'id', 'client_record_id');
+    }
+
+    public function getDateFormattedAttribute()
+    {
+        if($this->date == null){
+            return "";
+        } else {
+            return Carbon::createFromFormat('Y-m-d', $this->date)->format('d/m/Y');
+        }  
     }
 
 }

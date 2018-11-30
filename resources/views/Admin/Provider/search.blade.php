@@ -100,8 +100,7 @@
                                 <th>CNPJ</th>
                                 <th>Telefone</th>
                                 <th></th>
-                                <th></th>
-                                <th></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -112,13 +111,15 @@
                                 <td>{{$provider->cnpj}}</td>
                                 <td>{{$provider->telephone}}</td>
                                 <td>
-                                    <a class="btn-warning btn-xs" data-toggle="modal" data-target="#provider-items{{$provider['id']}}"><span class="glyphicon glyphicon-folder-open"></span></a>
-                                </td>  
-                                <td>
-                                    <a href="{{ route('providers.edit', $provider['id']) }}"><button class="btn btn-edit"  type="button">Editar</button></a>
-                                </td>
-                                <td>
+                                    <a class="btn-primary btn-xs" data-toggle="modal" data-target="#provider-items{{$provider['id']}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+  
+                                    <a class="btn-xs btn-warning"  type="button" href="{{ route('providers.edit', $provider['id']) }}"><span class="fa fa-edit"></span></a>
+                                    
+                                    <a class="btn-xs btn-danger delete-confirm" href="{{ route('providers.destroy', $provider['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                                    {{--
+                                    <button class="btn btn-edit"  type="button">Editar</button>
                                     <button class="btn btn-danger delete-confirm" value="{{ route('providers.destroy', $provider['id']) }}" type="button">Deletar</button>
+                                    --}}
                                 </td>
                             </tr>
             
@@ -185,17 +186,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" name="name" placeholder="Nome" class="form-control">
+                                <label for="name">Nome:</label>
+                                <input type="text" name="name" placeholder="Nome" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="cnpj" name="cnpj" placeholder="CNPJ" class="form-control">
+                                <label for="cnpj">CNPJ:</label>
+                                <input type="text" id="cnpj" name="cnpj" placeholder="CNPJ" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control">
+                                <label for="telephone">Telefone:</label>
+                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -203,48 +207,53 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="zipcode">CEP:</label>
-                                <input type="text" name="zipcode" id="cep" placeholder="CEP" class="form-control">
+                                <input type="text" name="zipcode" id="cep" placeholder="CEP" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" name="street" id="rua" placeholder="Rua" class="form-control">
+                                <input type="text" name="street" id="rua" placeholder="Rua" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input type="text" name="number" placeholder="Número" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" name="country" placeholder="País" class="form-control">
+                                    <label for="number">Nº:</label>
+                                <input type="text" name="number" placeholder="Número" class="form-control" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" id="rua" name="district" placeholder="Bairro" class="form-control">
+                                <label for="rua">Rua:</label>
+                                <input type="text" id="rua" name="district" placeholder="Bairro" class="form-control" required>
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control">
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control">
+                                <label for="uf">UF:</label>
+                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="complement">Complemento:</label>
+                                <input type="text" name="complement" placeholder="Complemento" class="form-control" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
 
                     </div>
@@ -258,45 +267,7 @@
 </div>
 <!-- /.modal -->
 
-<div class="modal fade" id="modal-edit">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Produtos do Fornecedor</h4>
-            </div>
 
-            <div class="modal-body">
-                <form method="get" action="{{route('providers.update', $provider->id)}}">
-                    @csrf {{--
-                    <input name="_method" type="hidden" value="PATCH"> class="col-md-6"--}}
-
-                    <table class="table table-bordered table-dark">
-                        <thead>
-                            <tr>
-                                <th>Produto</th>
-                                <th>Marca</th>
-                                <th>Preço</th>
-                            </tr>
-                        </thead>
-                        <tbody>{{-- @foreach($provideritem as $provideritem)
-                            <tr>
-                                <td>{{$provideritem->id}}</td>
-                                <td>{{$provideritem->getItem->name}}</td>
-                                <td>{{$provideritem->price}}</td>
-
-                            </tr>
-                            @endforeach--}}
-                        </tbody>
-                    </table>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
 <script type="text/javascript" language="javascript">
     jQuery(document).ready(function () {
@@ -340,3 +311,48 @@
 
 
 @stop
+
+
+{{--
+
+<div class="modal fade" id="modal-edit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Produtos do Fornecedor</h4>
+            </div>
+
+            <div class="modal-body">
+                <form method="get" action="{{route('providers.update', $provider->id)}}">
+                    @csrf 
+                    <input name="_method" type="hidden" value="PATCH"> class="col-md-6"
+
+                    <table class="table table-bordered table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Marca</th>
+                                    <th>Preço</th>
+                                </tr>
+                            </thead>
+                            <tbody>@foreach($provideritem as $provideritem)
+                                <tr>
+                                    <td>{{$provideritem->id}}</td>
+                                    <td>{{$provideritem->getItem->name}}</td>
+                                    <td>{{$provideritem->price}}</td>
+    
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+--}}

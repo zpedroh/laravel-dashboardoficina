@@ -15,7 +15,7 @@
                 <div class="col-md-8">
                     <div class="form-group">
                         <select class="form-control select-client" id="client_select" name="client_select" required>
-                            <option value="Selecione um Cliente"></option>
+                            <option value="">Selecione um Cliente</option>
                             @foreach($client as $client)
                                 <option value="{{ $client->id }}">{{ $client->name }}</option>
                             @endforeach                   
@@ -71,7 +71,7 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="button" class="btn btn-warning add-item">+</button>
+                            <button type="button" class="btn btn-warning add-item"><i class="glyphicon glyphicon-plus-sign"></i></button>
                         </div>
                     </div>
                 </div>                
@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="button" class="btn btn-warning add-service">+</button>
+                            <button type="button" class="btn btn-warning add-service"><i class="glyphicon glyphicon-plus-sign"></i></button>
                         </div>
                     </div>
                 </div>
@@ -122,24 +122,28 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-2"></div>
                     <div class="col-md-1"></div>
-                    <div class="col-xs-3">                        
-                        <input style="align-self: auto" class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
-                        <input style="align-self: auto" class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
+                    <div class="col-xs-3">         
+                        {{--style="align-self: auto"--}}
+                                       
+                        <input  class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
+                        <input class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
                     </div>     
                 </div>
 
                 <div class="row" style="margin-top:1%;" >
 
                     <div class="col-md-4">
+                        <label for="paymentmethod_id">Forma de Pagamento:</label>
                         <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
                             <option value="">Selecione a Forma de Pagamento</option>
                             @foreach($paymentmethod as $method)
-                                <option value="{{ $method->id }}">{{ $method->type}} {{$method->period }} Dias</option>
+                                <option value="{{ $method->id }}">{{ $method->type}}</option>
                             @endforeach                   
                         </select>
                     </div>
 
                     <div class="col-md-4">
+                        <label for="status_id">Status:</label>
                         <select class="form-control" id="status_id" name="status_id">
                             <option value="">Selecione o Status</option>
                             <option value="1">Aberto</option> 
@@ -150,7 +154,7 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success form-control pull-right">Criar</button>
+                            <button type="submit" class="btn btn-primary form-control pull-right" style="margin-top: 11%;">Criar</button>
                         </div>
                     </div>
                 </div>
@@ -176,71 +180,81 @@
                     @csrf
                     <input type="hidden" name="client_register_record" value="2">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" name="name" placeholder="Nome" class="form-control">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Nome:</label>
+                                    <input type="text" name="name" placeholder="Nome" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cpf">CPF:</label>
+                                    <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="telephone">Telefone:</label>
+                                    <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control" required>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="cep">CEP:</label>
+                                    <input type="text" id="cep" name="zipcode" placeholder="CEP" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="rua">Rua:</label>
+                                    <input type="text" id="rua" name="street" placeholder="Rua" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="numero">Nº:</label>
+                                    <input type="text" id="numero" name="number" placeholder="Número" class="form-control" required>
+                                </div>
+                            </div>
+    
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="bairro">Bairro:</label>
+                                    <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control" required>
+                                </div>
+    
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="cidade">Cidade:</label>
+                                    <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="uf">UF:</label>
+                                    <input type="text" id="uf" name="state" placeholder="Estado" class="form-control" required>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="complemento">Complemento:</label>
+                                    <input type="text" id="complemento" name="complement" placeholder="Complemento" class="form-control">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" id="cep" name="zipcode" placeholder="CEP" class="form-control">
-                            </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" id="rua" name="street" placeholder="Rua" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input type="text" id="numero" name="number" placeholder="Número" class="form-control">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input type="text" id="complemento" name="complement" placeholder="Complemento" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control">
-                            </div>
-
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Salvar</button>
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
-                    </div>
-
-                </form>
+    
+                    </form>
             </div>
         </div>
         <!-- /.modal-content -->

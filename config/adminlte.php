@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'black',
+    'skin' => 'purple',
 
     /*
     |--------------------------------------------------------------------------
@@ -190,12 +190,12 @@ return [
             'icon' => 'history',
             'submenu'=>[
                 [
-                'text' => 'Mais Vendidos por Periodo',
+                'text' => 'Vendidos por Periodo',
                 'url'  => 'admin/report/bseller',
                 'icon' => 'history',
                 ],
                 [
-                'text' => 'Maiores Clientes por Periodo',
+                'text' => 'Acumulado Clientes por Periodo',
                 'url'  => 'admin/report/bclient',
                 'icon' => 'history',
                 ],/*
@@ -205,7 +205,7 @@ return [
                 'icon' => 'history',
                 ],*/
                 [
-                'text' => 'Pedidos Pendentes por Periodo',
+                'text' => 'Pedidos por Periodo',
                 'url'  => 'admin/report/precord',
                 'icon' => 'history',
                 ],

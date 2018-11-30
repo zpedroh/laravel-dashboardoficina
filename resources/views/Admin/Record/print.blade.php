@@ -89,7 +89,7 @@
         {{$clientrecord->getClient->getAdress->street}} {{$clientrecord->getClient->getAdress->number}}<br>
         {{$clientrecord->getClient->getAdress->city}}<br>
           CPF: {{$clientrecord->getClient->cpf}}<br>
-          Phone: {{$clientrecord->getClient->telephone}}<br>
+          Telefone: {{$clientrecord->getClient->telephone}}<br>
           {{--Email: john.doe@example.com--}}
         </address>
       </div>
@@ -206,7 +206,7 @@
             </tr>
             <tr>
               <th>Total:</th>
-              <td>R$ {{$clientrecord->record_total - $clientrecord->record_total}}</td>
+              <td>R$ {{$clientrecord->record_total - $clientrecord->discount}}</td>
             </tr>
           </table>
         </div>

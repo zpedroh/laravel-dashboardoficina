@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
-@section('title', 'BS') 
+@section('title', 'Relatorio') 
 @section('content_header')
-<h1>Notas Pendentes</h1>
+<h1>Pedidos Periodo</h1>
 @stop 
 @section('content')
 

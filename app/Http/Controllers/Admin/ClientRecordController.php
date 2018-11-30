@@ -80,7 +80,6 @@ class ClientRecordController extends Controller
         {
             $discount = 0;
         }
-        //dd($request->all(), $request->client_id);
         
         $record = [
 
@@ -125,8 +124,8 @@ class ClientRecordController extends Controller
                     $movimentCreate = [
                         'mov_type' => 2,
                         'client_record_id' => $clientrecord->id,
-                        'item_id'  => $clientrecorditem->item_id,
-                        'quantity' => $clientrecorditem->quantity
+                        'item_id'          => $clientrecorditem->item_id,
+                        'quantity'         => $clientrecorditem->quantity
                     ];
                     
                     //Cria saida de estoque se a nota estiver fechada ou paga
@@ -431,7 +430,7 @@ class ClientRecordController extends Controller
             'value'             => $request->value,
             'date'              => $request->date,
             'payment_method_id' => $request->paymentmethod_id,
-            'duedate'           => $paymentmethod->duedate,
+            //'duedate'           => $paymentmethod->duedate,
             'period'            => $paymentmethod->period,
             'status'            => $request->status,
             'parcel_number'     => $number->parcel_number + 1
@@ -462,12 +461,9 @@ class ClientRecordController extends Controller
         ];
 
         $parcel->update($parcelupdate);
-        $parcel->save();
-
-        
+        $parcel->save();        
 
         return redirect('admin/home')->with('Okay');
-
     }
 
     public function parcelsDestroy($id)

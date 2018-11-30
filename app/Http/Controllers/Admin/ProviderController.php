@@ -141,21 +141,32 @@ class ProviderController extends Controller
         );
 
         return redirect('admin/provider/search')->with($notification);
-    }
-
-    
+    }    
 
     public function providersDestroy($id)
     {
-        $provider = $this->provider->find($id);
-        $provider->delete();
+        $provider = $this->provider->find($id);        
 
-        $notification = array(
-            'message' => 'Fornecedor Deletado!' , 
-            'alert-type' => 'success'
-        );
+        $verif = $this->provideritem->get()->where('provider_id', '=', $provider->id)->first();
+
+        if($verif)
+        {
+            $notification = array(
+                'message' => 'Fornecedor em uso!' , 
+                'alert-type' => 'error'
+            );
+        }
+        else
+        {
+            $provider->delete();
+
+            $notification = array(
+                'message' => 'Fornecedor Deletado!' , 
+                'alert-type' => 'success'
+            );
+        } 
         
-        return redirect('admin/home')->with($notification);
+        return redirect('admin/provider/search')->with($notification);
     }   
 
     public function pitemsCreate(Request $request)
