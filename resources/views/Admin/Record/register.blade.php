@@ -78,7 +78,6 @@
 
                 <div class="row">
                     <div class="col-md-6">
-
                         <div class="form-group">
                             <select class="form-control select-service" id="service_id" name="service_id">
                             <option value="">Selecione um Serviço</option>
@@ -119,15 +118,27 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-2"></div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-2"></div>
                     <div class="col-md-1"></div>
-                    <div class="col-xs-3">         
-                        {{--style="align-self: auto"--}}
-                                       
-                        <input  class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3">
+                        <label for="discount">Desconto:</label>
                         <input class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
+                    </div>
+                    <div class="col-xs-3">         
+                        <label for="record_total">Total:</label>                        
+                        <input  class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
                     </div>     
+                </div>
+                
+                <div class="row" class="form-group" style="margin-top: 1%;">
+                    <div class="col-md-4">
+                        <label for="prevision">Previsão:</label>
+                        <input type="text" name="prevision" id="prevision" class="form-control">                        
+                    </div>
+                    <div class="col-md-4">
+                            <label for="conclusion">Conclusão:</label>
+                            <input type="text" name="conclusion" id="conclusion" class="form-control">
+                    </div>
                 </div>
 
                 <div class="row" style="margin-top:1%;" >
@@ -160,7 +171,7 @@
                 </div>
             </form>
         </div>
-        </div>
+        
     </div>
 </div>
 
@@ -278,6 +289,41 @@
         });        
     });
 </script>
+
+<script type="text/javascript" language="javascript">
+    jQuery(document).ready(function () {
+          $("#content").dataTable(
+            {
+            language:{
+        "sEmptyTable": "",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+    }
+          }
+          );
+    });
+
+</script>
+
+<script type="text/javascript" src="{{ asset('js/record/record.js')}}"></script>
 
 <script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
 

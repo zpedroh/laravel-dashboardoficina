@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => '',
+    'dashboard_url' => 'admin/home',
 
     'logout_url' => 'redirect',
 
@@ -121,7 +121,7 @@ return [
             'icon' => 'suitcase',
             'submenu'=>[
                 [
-                'text' => 'Itens',
+                'text' => 'Produtos',
                 'url'  => 'admin/item/search',
                 'icon' => 'lock',
                 ],
@@ -190,7 +190,7 @@ return [
             'icon' => 'history',
             'submenu'=>[
                 [
-                'text' => 'Vendidos por Periodo',
+                'text' => 'Produtos Vendidos Periodo',
                 'url'  => 'admin/report/bseller',
                 'icon' => 'history',
                 ],
@@ -208,6 +208,16 @@ return [
                 'text' => 'Pedidos por Periodo',
                 'url'  => 'admin/report/precord',
                 'icon' => 'history',
+                ],
+                [
+                    'text' => 'Pedidos em Atendimento',
+                    'url'  => 'admin/report/pservice',
+                    'icon' => 'history',
+                ],
+                [
+                    'text' => 'Serviços por Cliente',
+                    'url'  => 'admin/report/cservice',
+                    'icon' => 'history',
                 ],
             ],
         ],             

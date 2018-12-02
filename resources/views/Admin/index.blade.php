@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Home') 
 @section('content_header')
-<h1>Dashboard</h1>
+<h1>Inicio</h1>
 
 @stop 
 @section('content')
@@ -16,7 +16,7 @@
                     <div class="inner">
                         <h3>@if($record_quantity > 0) {{$record_quantity}} @else 0 @endif</h3>
     
-                        <p>Novas Notas</p>
+                        <p>Pedidos Registrados</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>

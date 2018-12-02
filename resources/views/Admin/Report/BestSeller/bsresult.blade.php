@@ -1,12 +1,13 @@
 @extends('adminlte::page') 
 @section('title', 'BS') 
 @section('content_header')
-<h1>Vendidos Periodo</h1>
+<h1>Produtos Vendidos Periodo</h1>
 @stop 
 @section('content')
 
 <div class="box">
     <div class="box-header">
+        <p> <strong> Periodo:</strong> {{$start}} à {{$end}}</p>
     </div>
     
     <div class="box-body">

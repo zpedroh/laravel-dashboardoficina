@@ -1,68 +1,43 @@
 @extends('adminlte::page') 
 @section('title', 'Relatorio') 
 @section('content_header')
-<h1>Pedidos Periodo</h1>
+<h1>Serviços por Cliente</h1>
 @stop 
 @section('content')
 
 <div class="box">
     <div class="box-header">
-        <p><strong>Filtros:</strong></p>
         <p> <strong> Periodo:</strong> {{$start}} à {{$end}}</p>
-        @isset($filter_status)
-            <p><strong>Status:</strong> @foreach($filter_status as $status) {{$status}} @endforeach</p>
-        @endisset
-        @isset($filtered_client)
-            <p><strong>Clientes:</strong> @foreach($filtered_client as $client) {{$client['client_id']}} | {{$client['client_name']}}@endforeach</p>
-        @endisset
-    </div>  
-    
+    </div>
+        
         <div class="box-body">
-
-            <div class="box-header">
-
-            </div>
 
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="report_table">
 
                     <thead>
                         <th>Cliente</th>
-                        <th>Pedido</th>
-                        <th>Status</th>
-                        <th>Valor</th>
+                        <th>Serviço</th>
+                        <th>Quantidade</th>
                     </thead>
                     <tbody>
                         @isset($result)
-                        @foreach($result as $result)
-
-                            <tr>
-                                <td>{{$result['name']}}</td>
-                                <td>{{$result['record']}}</td>
-                                <td>                  
-                                    @if($result['status'] == 1)
-                                        <span class="label label-warning">Aberto</span> 
-                                        @elseif($result['status'] == 2)
-                                        <span class="label label-primary">Pendente</span> 
-                                        @elseif($result['status'] == 3)
-                                        <span class="label label-success">Paga</span>
-                                        @else
-                                        <span class="label label-danger">Cancelada</span> 
-                                    @endif
-                                </td>
-                                <td>R$ {{$result['record_total']}}</td>
-                            </tr>
-    
-                        @endforeach
+                            @foreach($result as $result)
+                                @if($result['quantity'] > 0)
+                                    <tr>
+                                        <td>{{$result['client_name']}}</td>
+                                        <td>{{$result['service_name']}}</td>
+                                        <td>{{$result['quantity']}}</td>
+                                    </tr>    
+                                @endif
+                            @endforeach
                         @endisset
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </div>
-
 
 <script type="text/javascript" language="javascript">
     jQuery(document).ready(function () {

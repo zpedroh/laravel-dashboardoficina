@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ClientRecord extends Model
 {
     protected $table = 'tb_client_records';
-    protected $fillable = ['client_id', 'user_id', 'record_total', 'status', 'plaque'];    
+    protected $fillable = ['client_id', 'user_id', 'record_total', 'status', 'plaque', 'prevision', 'conclusion'];    
     protected $primaryKey = 'id'; 
  
 

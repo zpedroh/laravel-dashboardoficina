@@ -356,10 +356,10 @@ class ClientRecordController extends Controller
             $parcel->save();
         }
 
-        if($status == 3)
+        if($status == 3 or $status == 2)
         {
             $clientrecorditem = $this->clientrecorditem->all()->where('client_record_id', '=', $clientrecord->id)->where('status', '<>', $status);
-
+            
             foreach($clientrecorditem as $ritem)
             {
                 $movimentCreate = [
@@ -375,10 +375,18 @@ class ClientRecordController extends Controller
                 $itemstock->quantity = $itemstock->quantity - $ritem->quantity;
                 $itemstock->save();
             }
+
+            $clientrecord->status = $status;
+            $clientrecord->save();
         }
         else
         {
+            $moviments = $this->moviment->all()->where('client_record_id', '=', $clientrecord->id);
 
+            foreach($moviments as $moviment)
+            {
+                $moviment->delete();
+            }
         }
 
         $clientrecord->status = $status;

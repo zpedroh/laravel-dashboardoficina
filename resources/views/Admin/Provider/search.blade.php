@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Fornecedor') 
 @section('content_header')
-<h1>Fornecedor</h1>
+<h1>Fornecedores</h1>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -121,9 +121,7 @@
                                     <button class="btn btn-danger delete-confirm" value="{{ route('providers.destroy', $provider['id']) }}" type="button">Deletar</button>
                                     --}}
                                 </td>
-                            </tr>
-            
-            
+                            </tr>          
             
                             <div class="modal fade" id="provider-items{{$provider['id']}}">
                                 <div class="modal-dialog">
@@ -144,9 +142,9 @@
                                             <li>Nº:{{$provider->getAdress->number}}</li>
                                             <li>Complemento:{{$provider->getAdress->complement}}</li>
                                             
-                                            <h4>Itens do Fornecedor</h4>
+                                            <h4>Produtos do Fornecedor</h4>
                                             @foreach($provider->getPItems as $pitem)
-                                                <li>Item: {{$pitem->getItem->name}} Valor: {{$pitem->value}}</li>
+                                                <li>Descrição: {{$pitem->getItem->name}} Valor: {{$pitem->value}}</li>
                                             @endforeach                                    
                                             
                                         </div>
@@ -212,6 +210,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="rua">Rua:</label>
                                 <input type="text" name="street" id="rua" placeholder="Rua" class="form-control" required>
                             </div>
                         </div>
@@ -225,8 +224,8 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="rua">Rua:</label>
-                                <input type="text" id="rua" name="district" placeholder="Bairro" class="form-control" required>
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control" required>
                             </div>
 
                         </div>
@@ -244,7 +243,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-9">
                             <div class="form-group">
                                 <label for="complement">Complemento:</label>
                                 <input type="text" name="complement" placeholder="Complemento" class="form-control" required>

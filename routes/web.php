@@ -180,6 +180,16 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
 
     Route::get('/report/precord', 'ReportController@precordReport')->name('reports.pr');
     Route::post('/report/precord', 'ReportController@precordGet')->name('precord.result');
+
+    //ClientServices
+
+    Route::get('/report/cservice', 'ReportController@cserviceReport')->name('reports.cs');
+    Route::post('/report/cservice', 'ReportController@cserviceGet')->name('cservice.result');
+
+    //ClientServices
+
+    Route::get('/report/pservice', 'ReportController@pserviceReport')->name('reports.ps');
+    Route::post('/report/pservice', 'ReportController@pserviceGet')->name('pservice.result');
     
 });
 

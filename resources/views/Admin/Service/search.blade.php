@@ -61,12 +61,14 @@
                         <div class="col-md-6">
 
                           <div class="form-group">
-                            <input type="text" name="name" placeholder="Nome" value="{{$service->name}}" class="form-control" required>
+                            <label for="name">Descrição:</label>
+                            <input type="text" name="name" placeholder="Descrição" value="{{$service->name}}" class="form-control" required>
                           </div>
                         </div>
 
                         <div class="col-md-6">
                           <div class="form-group">
+                            <label for="price">Preço:</label>
                             <input type="text" name="price" id="price" placeholder="Preço" value="{{$service->price}}" class="form-control" required>
                           </div>
                         </div>
@@ -113,12 +115,14 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <input type="text" name="name" placeholder="Nome" class="form-control" required>
+                <label for="name">Descrição:</label>
+                <input type="text" name="name" placeholder="Descrição" class="form-control" required>
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group">
+                <label for="price">Preço:</label> 
                 <input type="text" id="price_create" name="price" placeholder="Preço" class="form-control" required>
               </div>
             </div>

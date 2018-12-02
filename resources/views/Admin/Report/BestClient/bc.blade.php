@@ -11,24 +11,21 @@
             @csrf
 
             <div class="input-group input-group-sm">
-                    <span class="input-group-btn">
+                    
 
                         <div class="col-sm-4">
-                            <label for="date-start"> Data inicio:</label>
+                            <label for="date_start"> Data inicio:</label>
                             <input type="date" id="start" name="date_start" class="form-control">
                         </div>
                         <div class="col-sm-4">
-                            <label for="date-end"> Data fim:</label>
+                            <label for="date_end"> Data fim:</label>
                             <input type="date" id="end" name="date_end" class="form-control">
                         </div>
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-info btn-flat">Go!</button>
+                        <div class="col-xs-4" style="margin-top: 4%;">
+                            <button type="submit" class="btn btn-info btn-flat"><span class="fa fa-search"></span></button>
                         </div>
-                </span>
+                
             </div>
-
-
-
         </form>
     </div>
    
@@ -46,10 +43,14 @@
     jQuery(document).ready(function () {
           $("#report_table").dataTable();
     });
-
 </script>
 
-
+{{--<script>
+$(function() {
+    $('input[name="date_start"]').daterangepicker();
+});
+</script>
+--}}
 
 
 

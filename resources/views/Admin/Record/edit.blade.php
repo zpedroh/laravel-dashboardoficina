@@ -170,7 +170,7 @@
                             <div class="col-md-2"></div>
                             <div class="col-md-1"></div>
                             <div class="col-xs-3">                        
-                                <input style="align-self: auto" class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" value="{{ $clientrecord->record_total }}" disabled>
+                                <input style="align-self: auto" class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" value="R$ {{ $clientrecord->record_total }}" disabled>
                                 <input style="align-self: auto" class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
                             </div>     
                         </div>
@@ -197,7 +197,7 @@
                             
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success form-control pull-right">Salvar</button>
+                                    <button type="submit" class="btn btn-primary form-control pull-right">Salvar</button>
                                 </div>
                             </div>
                         </div>
@@ -283,7 +283,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <div class="form-group">
-                                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                                        <button type="submit" class="btn btn-primary">Salvar</button>
                                                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                                                     </div>
                                                 </div>
@@ -371,7 +371,7 @@
         });
     </script>
 
-
+<script type="text/javascript" src="{{ asset('js/record/record.js')}}"></script>
 <script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
 
 <script>

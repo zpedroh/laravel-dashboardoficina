@@ -7,6 +7,7 @@
 
 <div class="box">
     <div class="box-header">
+    <p> <strong> Periodo:</strong> {{$start}} à {{$end}}</p>
 
     </div>
         

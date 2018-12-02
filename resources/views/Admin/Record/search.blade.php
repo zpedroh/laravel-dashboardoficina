@@ -35,10 +35,13 @@
                 <td>{{$clientrecord->created_at->format('d-m-Y')}}</td>
                 <td>
                   @if($clientrecord->status == 1)
-                  <span class="label label-warning">Aberta</span> @elseif($clientrecord->status == 2)
-                  <span class="label label-primary">Pendente</span> @elseif($clientrecord->status == 3)
-                  <span class="label label-success">Paga</span> @else
-                  <span class="label label-danger">Cancelada</span> @endif
+                    <span class="label label-warning">Aberto</span> 
+                  @elseif($clientrecord->status == 2)
+                    <span class="label label-primary">Pendente</span> 
+                  @elseif($clientrecord->status == 3)
+                    <span class="label label-success">Pago</span> 
+                  @else
+                    <span class="label label-danger">Cancelado</span> @endif
                 </td>
                 <td>R$ {{$clientrecord->record_total}}</td>
       
@@ -58,7 +61,7 @@
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">Editar Item</h4>
+                      <h4 class="modal-title">Conteudo do Pedido</h4>
                     </div>
                     <div class="modal-body">    
                       @foreach($clientrecord->getItems as $clientrecorditem)

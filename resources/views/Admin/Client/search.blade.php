@@ -16,15 +16,15 @@
 
             function limpa_formulário_cep() {
                 // Limpa valores do formulário de cep.
-                $("#rua").val("");
-                $("#bairro").val("");
-                $("#cidade").val("");
-                $("#uf").val("");
-                $("#ibge").val("");
+                $(".rua").val("");
+                $(".bairro").val("");
+                $(".cidade").val("");
+                $(".uf").val("");
+                //$("#ibge").val("");
             }
             
             //Quando o campo cep perde o foco.
-            $("#cep").blur(function() {
+            $(".cep").blur(function() {
 
                 //Nova variável "cep" somente com dígitos.
                 var cep = $(this).val().replace(/\D/g, '');
@@ -39,10 +39,10 @@
                     if(validacep.test(cep)) {
 
                         //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#rua").val("...");
-                        $("#bairro").val("...");
-                        $("#cidade").val("...");
-                        $("#uf").val("...");
+                        $(".rua").val("...");
+                        $(".bairro").val("...");
+                        $(".cidade").val("...");
+                        $(".uf").val("...");
                         //$("#ibge").val("...");
 
                         //Consulta o webservice viacep.com.br/
@@ -50,10 +50,10 @@
 
                             if (!("erro" in dados)) {
                                 //Atualiza os campos com os valores da consulta.
-                                $("#rua").val(dados.logradouro);
-                                $("#bairro").val(dados.bairro);
-                                $("#cidade").val(dados.localidade);
-                                $("#uf").val(dados.uf);
+                                $(".rua").val(dados.logradouro);
+                                $(".bairro").val(dados.bairro);
+                                $(".cidade").val(dados.localidade);
+                                $(".uf").val(dados.uf);
                                 //$("#ibge").val(dados.ibge);
                             } //end if.
                             else {
@@ -140,13 +140,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="cpf">CPF:</label>                                                    
-                                                <input type="text" id="cpf" name="cpf" placeholder="CPF" value="{{$client->cpf}}" class="form-control" required>
+                                                <input type="text" name="cpf" placeholder="CPF" value="{{$client->cpf}}" class="form-control cpf" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="telephone">Telefone:</label>                                                    
-                                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" value="{{$client->telephone}}" class="form-control" required>
+                                                <input type="text" name="telephone" placeholder="Telefone" value="{{$client->telephone}}" class="form-control telephone" required>
                                             </div>
                                         </div>
                                     </div>
@@ -154,19 +154,19 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="cep">CEP:</label>                                                    
-                                                <input type="text" id="cep" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control" required>
+                                                <input type="text" name="zipcode" placeholder="CEP" value="{{$client->getAdress->zipcode}}" class="form-control cep" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="rua">Rua:</label>                                                   
-                                                <input type="text" id="rua" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control" required>
+                                                <input type="text" name="street" placeholder="Rua" value="{{$client->getAdress->street}}" class="form-control rua" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="numero">Nº:</label>                                                    
-                                                <input type="text" id="numero" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control" required>
+                                                <input type="text" name="number" placeholder="Número" value="{{$client->getAdress->number}}" class="form-control" required>
                                             </div>
                                         </div>
                                     </div>
@@ -174,27 +174,27 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label for="bairro">Bairro:</label>                                                    
-                                                <input type="text" name="district" placeholder="Bairro" value="{{$client->getAdress->district}}" class="form-control" required>
+                                                <input type="text" name="district" placeholder="Bairro" value="{{$client->getAdress->district}}" class="form-control bairro" required>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label for="cidade">Cidade:</label>                                                    
-                                                <input type="text" id="cidade" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control" required>
+                                                <input type="text" name="city" placeholder="Cidade" value="{{$client->getAdress->city}}" class="form-control cidade" required>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label for="uf">UF:</label>
-                                                <input type="text" id="uf" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control" required>
+                                                <input type="text" name="state" placeholder="Estado" value="{{$client->getAdress->state}}" class="form-control uf" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-9">
                                             <div class="form-group">
                                                 <label for="complemento">Complemento:</label>                                                    
-                                                <input type="text" id="complement" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}" class="form-control">
+                                                <input type="text" name="complement" placeholder="Complemento" value="{{$client->getAdress->complement}}" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -284,13 +284,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cpf">CPF:</label>
-                                <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control" required>
+                                <input type="text" name="cpf" placeholder="CPF" class="form-control cpf" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="telephone">Telefone:</label>
-                                <input type="text" id="telephone" name="telephone" placeholder="Telefone" class="form-control" required>
+                                <input type="text" name="telephone" placeholder="Telefone" class="form-control telephone" required>
                             </div>
                         </div>
                     </div>
@@ -298,19 +298,19 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="cep">CEP:</label>
-                                <input type="text" id="cep" name="zipcode" placeholder="CEP" class="form-control" required>
+                                <input type="text" name="zipcode" placeholder="CEP" class="form-control cep" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="rua">Rua:</label>
-                                <input type="text" id="rua" name="street" placeholder="Rua" class="form-control" required>
+                                <input type="text" name="street" placeholder="Rua" class="form-control rua" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="numero">Nº:</label>
-                                <input type="text" id="numero" name="number" placeholder="Número" class="form-control" required>
+                                <input type="text" name="number" placeholder="Número" class="form-control" required>
                             </div>
                         </div>
 
@@ -319,28 +319,28 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="bairro">Bairro:</label>
-                                <input type="text" id="bairro" name="district" placeholder="Bairro" class="form-control" required>
+                                <input type="text" name="district" placeholder="Bairro" class="form-control bairro" required>
                             </div>
 
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="cidade">Cidade:</label>
-                                <input type="text" id="cidade" name="city" placeholder="Cidade" class="form-control" required>
+                                <input type="text" name="city" placeholder="Cidade" class="form-control cidade" required>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="uf">UF:</label>
-                                <input type="text" id="uf" name="state" placeholder="Estado" class="form-control" required>
+                                <input type="text" name="state" placeholder="Estado" class="form-control uf" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-9">
                             <div class="form-group">
                                 <label for="complemento">Complemento:</label>
-                                <input type="text" id="complemento" name="complement" placeholder="Complemento" class="form-control">
+                                <input type="text" name="complement" placeholder="Complemento" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -348,7 +348,6 @@
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -389,18 +388,13 @@
           );
     });
 </script>
-
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
-
-    $("#cpf").mask("999.999.999-99");
-    $(".cpf").mask("999.999.999-99");
-    $("#telephone").mask("(99) 9999999-99");
-    $(".telephone").mask("(99) 9999999-99");
-
-    
-});
-
+        //$("#cpf2").mask("999.999.999-99");
+        $(".cpf").mask("999.999.999-99");
+        //$("#telephone").mask("(99) 9999999-99");
+        $(".telephone").mask("(99)9999999-99");
+    });
 </script>
 
 

@@ -201,11 +201,11 @@ class ProviderController extends Controller
         $provideritem->save();
 
         $notification = array(
-            'message' => 'Fornecedor Deletado!' , 
+            'message' => 'Produto do Fornecedor atuliazado!' , 
             'alert-type' => 'success'
         );
         
-        return redirect('admin/home')->with($notification);
+        return redirect(route('providers.edit', $provideritem->provider_id))->with($notification);
     } 
     public function pitemsDestroy($id)
     {
@@ -213,10 +213,10 @@ class ProviderController extends Controller
         $provideritem->delete();
 
         $notification = array(
-            'message' => 'Item do Fornecedor Deletado!' , 
+            'message' => 'Produto do Fornecedor Deletado!' , 
             'alert-type' => 'success'
         );
         
-        return redirect('admin/home')->with($notification);
+        return redirect(route('providers.edit', $provideritem->provider_id))->with($notification);
     }   
 }

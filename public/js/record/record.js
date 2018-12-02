@@ -4,9 +4,10 @@ $(function () {
 
     var total = $('#record_total').val();
 
+    total = total.replace('R$',"");
+
     if(total != '')
     {
-
         total = parseFloat(total);
 
         sub_total = total;
@@ -14,12 +15,12 @@ $(function () {
     //create
     $('.add-item').on('click', function () {
 
-        var url = window.location.href;
+        var url        = window.location.href;
         var product_id = $('#item_id').val();
-        var amount = $('#item_amount').val();
-        var wrapper = $('#content');
+        var amount     = $('#item_amount').val();
+        var wrapper    = $('#content');
         
-        if(amount != null && amount > 0 )
+        if(amount != null && amount > 0 && product_id != '')
         {
             $.ajax({
                 url: url + '/' + product_id + '/consulta-item/' + amount,
@@ -80,11 +81,22 @@ $(function () {
         }  
         else
         {
-            swal({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Quantidade vazia ou menor que 1!',
-                })
+            if(product_id == '')
+            {
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Produto não selecionado!',
+                    })
+            }
+            else
+            {
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Quantidade vazia ou menor que 1!',
+                    })
+            }
         }      
     });
 
@@ -98,7 +110,7 @@ $(function () {
         var total = $('#record_total').val();
 
         //var total = $('#record_total').val();
-        if(amount != null && amount > 0 )
+        if(amount != null && amount > 0 && service_id != '')
         {
             $.ajax({
                 url: url + '/' + service_id + '/consulta-service/' + amount,
@@ -144,18 +156,26 @@ $(function () {
         }
         else
         {
-            swal({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Quantidade vazia ou menor que 1!',
-            })
+            if(service_id == '')
+            {
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Serviço não selecionado!',
+                    })
+            }
+            else
+            {
+                swal({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Quantidade vazia ou menor que 1!',
+                    })
+            }
         }
 
     });
     //fim create
-
-
-
 
     $('.remove').on('click', function () {
         //var x = $(this).attr("id");
@@ -187,8 +207,6 @@ $(function () {
 
         $('#record_total').val("R$ " + sub_total.toFixed(2));
     });
-
-
 
     $('.select-client').on('change', function () {
 

@@ -33,8 +33,10 @@ class ReportController extends Controller
     protected $result;
     protected $provideritem;
     protected $provider;
+    protected $service;
+    protected $clientrecordservice;
 
-    public function __construct(Item $item, ItemStock $item_stock, Brand $brand, Moviment $moviment, ClientRecord $clientrecord, Parcel $parcel, Client $client, Provider $provider, ProviderItem $provideritem)
+    public function __construct(Item $item, ItemStock $item_stock, Brand $brand, Moviment $moviment, ClientRecord $clientrecord, Parcel $parcel, Client $client, Provider $provider, ProviderItem $provideritem, Service $service, Clientrecordservice $clientrecordservice)
     {
         $this->item          = $item;
         $this->item_stock    = $item_stock; 
@@ -45,6 +47,8 @@ class ReportController extends Controller
         $this->client        = $client;
         $this->provider      = $provider;
         $this->provideritem  = $provideritem;
+        $this->service       = $service;
+        $this->clientrecordservice       = $clientrecordservice;
     } 
 
     public function bsellerReport()
@@ -56,8 +60,8 @@ class ReportController extends Controller
     {
         $item =  $this->item->all();
 
-        #$start = $request->date_start->format('d/m/Y');
-        #$end = $request->date_end->format('d/m/Y');
+        $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+        $end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
         
         foreach($item as $item)
         {
@@ -83,7 +87,7 @@ class ReportController extends Controller
             ];
         }
 
-        return view('admin.report.bestseller.bsresult', compact('result'));
+        return view('admin.report.bestseller.bsresult', compact('result', 'start', 'end'));
     }
 
     public function bclientReport()
@@ -96,8 +100,8 @@ class ReportController extends Controller
     {
         $client =  $this->client->all();
 
-       # $start = $request->date_start->format('d/m/Y');
-       # $end = $request->date_end->format('d/m/Y');
+       $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+       $end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
         
         foreach($client as $client)
         {
@@ -105,8 +109,6 @@ class ReportController extends Controller
             $value = 0;
 
             $clientrecord = $this->clientrecord->all()->where('client_id', '=', $client->id);
-
-            ///$brand = $this->brand->findOrFail($item->brand_id);
 
             foreach($clientrecord as $clientrecord)
             {
@@ -125,7 +127,7 @@ class ReportController extends Controller
             ];
         }
 
-        return view('admin.report.bestclient.bcresult', compact('result'));
+        return view('admin.report.bestclient.bcresult', compact('result', 'start', 'end'));
     }
 
     public function pitemReport()
@@ -139,42 +141,219 @@ class ReportController extends Controller
     {
         dd($request->all());
 
-       # $start = $request->date_start->format('d/m/Y');
-       # $end = $request->date_end->format('d/m/Y');
+        $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+        $end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
 
 
         return view('admin.report.bestclient.piresult', compact('provider'));      
     }   
     public function precordReport()
     {        
-        return view('admin.report.pendingrecord.pr');
+        $client =  $this->client->all();
+
+        return view('admin.report.pendingrecord.pr', compact('client'));
     }
 
     public function precordGet(Request $request)
     {
+        $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+        $end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
+
+        $filter_status = $request->status;
+        $filter_client = $request->clients;
+
+        #dd($request->all(),$filter_client, $filter_status);
+
+        $clientrecord = $this->clientrecord->all();
+
+        foreach($clientrecord as $clientrecord)
+        {
+            if($clientrecord->created_at->format('Y-m-d') >= $request->date_start and $clientrecord->created_at->format('Y-m-d') <= $request->date_end)
+            { 
+                if(isset($request->clients))
+                {
+                    foreach($request->clients as $client)
+                    {
+                        if($clientrecord->client_id == $client)
+                        {
+                            if(isset($request->status))
+                            {
+                                foreach($request->status as $status)
+                                {
+                                    if($clientrecord->status == $status)
+                                    {
+                                        $client = $this->client->findOrFail($clientrecord->client_id);
+
+                                        $result[] = [
+                                            'id'           => $client->id,
+                                            'name'         => $client->name,
+                                            'record'       => $clientrecord->id,
+                                            'status'       => $clientrecord->status,
+                                            'record_total' => $clientrecord->record_total
+                                        ]; 
+                                    }                                
+                                }
+                            } 
+                            else #status
+                            {
+                                #dd('oio');
+                                $client = $this->client->findOrFail($clientrecord->client_id);
+                                
+                                $result[] = [
+                                    'id'           => $client->id,
+                                    'name'         => $client->name,
+                                    'record'       => $clientrecord->id,
+                                    'status'       => $clientrecord->status,
+                                    'record_total' => $clientrecord->record_total
+                                ]; 
+                            }  
+                        }                                         
+                    }  
+                }
+                else #client
+                {
+                    if(isset($request->status))
+                    {
+                        #dd('status');
+                        foreach($request->status as $status)
+                        {
+                            if($clientrecord->status == $status)
+                            {
+                                $client = $this->client->findOrFail($clientrecord->client_id);
+
+                                $result[] = [
+                                    'id'           => $client->id,
+                                    'name'         => $client->name,
+                                    'record'       => $clientrecord->id,
+                                    'status'       => $clientrecord->status,
+                                    'record_total' => $clientrecord->record_total
+                                ]; 
+                            }                                
+                        }
+                    } 
+                    else #status
+                    {
+                        #dd('nada');
+                        $client = $this->client->findOrFail($clientrecord->client_id);
+
+                        $result[] = [
+                            'id'           => $clientrecord->id,
+                            'name'         => $client->name,
+                            'record'       => $clientrecord->id,
+                            'status'       => $clientrecord->status,
+                            'record_total' => $clientrecord->record_total
+                        ]; 
+                    }  
+                }
+            }
+        }
+        #dd($filter_client);
+
+        foreach($filter_client as $filter_client)
+        {
+            $client = $this->client->findOrFail($filter_client);
+
+            $filtered_client[] = 
+            [
+                'client_id' => $client->id,
+                'client_name' =>$client->name,
+            ];
+        }
+
+        return view('admin.report.pendingrecord.prresult', compact('result', 'start', 'end', 'filter_status', 'filtered_client'));
+        
+    }
+
+    public function cserviceReport()
+    {        
+        return view('admin.report.clientservices.cs');
+    }
+
+    public function cserviceGet(Request $request)
+    {
+        #dd($request->all());
+        #$clientrecordservice = $this->clientrecordservice->all();
         $client =  $this->client->all();
 
-       # $start = $request->date_start->format('d/m/Y');
-        #$end = $request->date_end->format('d/m/Y');
+        $service = $this->service->all();
+
+        $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+        $end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
         
         foreach($client as $client)
         {
-            $clientrecord = $this->clientrecord->all()->where('client_id', '=', $client->id)->where('status', '<', 3);
-
-            foreach($clientrecord as $clientrecord)
+            $clientrecord = $this->clientrecord->all()->where('client_id', '=', $client->id);
+            
+            if(isset($clientrecord))
             {
-                if($clientrecord->created_at->format('Y-m-d') >= $request->date_start and $clientrecord->created_at->format('Y-m-d') <= $request->date_end)
-                {                        
+                foreach($service as $serv)
+                {
+                    $quantity = 0;     
+                    $count = 0;          
+    
+                    foreach($clientrecord as $record)
+                    {
+                        #dd($record->created_at);
+                        if($record->created_at->format('Y-m-d') >= $request->date_start and $record->created_at->format('Y-m-d') <= $request->date_end)
+                        {
+                            #dd($clientrecord);
+                            $count = $this->clientrecordservice->get()->where('client_record_id', '=', $record->id)->where('service_id', '=', $serv->id)->sum('quantity');
+    
+                            $quantity = $quantity + $count;
+                        }  
+                        
+                    }
+                    #dd($quantity);
                     $result[] = [
-                        'id'           => $client->id,
-                        'name'         => $client->name,
-                        'record'       => $clientrecord->id,
-                        'status'       => $clientrecord->status,
-                        'record_total' => $clientrecord->record_total
-                    ];   
-                }
-            }   
+    
+                        'client_id'    => $client->id,
+                        'client_name'  => $client->name,
+                        'service_id'   => $serv->id,
+                        'service_name' => $serv->name,
+                        'quantity'     => $quantity
+                    ];
+                } 
+            }
         }
-        return view('admin.report.pendingrecord.prresult', compact('result'));
+        
+        return view('admin.report.clientservices.csresult', compact('result', 'start', 'end'));
+    }
+
+    public function pserviceReport()
+    {        
+        return view('admin.report.pendingservices.ps');
+    }
+
+    public function pserviceGet(Request $request)
+    {
+
+        #dd('hi');
+
+        $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+        #$end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
+        
+        $clientrecord = $this->clientrecord->all()->where('prevision', '<=', $start)->where('conclusion', '=', null);
+
+        foreach($clientrecord as $clientrecord)
+        {
+            $client = $this->client->findOrFail($clientrecord->client_id);
+
+            $clientrecordservice = $this->all()->where('client_record_id', '=', $clientrecord->id);
+
+            foreach($clientrecordservice as $clientrecordservice)
+            {
+                $service = $this->service->findOrFail($clientrecordservice->service_id);
+                #Exibi: numero do pedido, nome do serviço, nome do cliente, e data de previsão
+                $result[] = [
+
+                    'client_record_id'  => $clientrecord->id,
+                    'client_name'       => $client->name,
+                    'service_name'      => $service->name,
+                    'prevision'         => $clientrecord->prevision
+                ];
+            } 
+        }
+
+        return view('admin.report.pendingservices.psresult', compact('result', 'start'));
     }
 }

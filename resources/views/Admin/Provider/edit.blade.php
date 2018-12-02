@@ -190,7 +190,7 @@
                                     <td>
                                         
                                         <a class="btn-xs btn-warning" type="button" data-toggle="modal" data-target="#modal-edit{{$pitem->id}}" data-info="{{$pitem->id}}, {{$pitem->getItem->name}}, {{$pitem->getItem->getBrand->name}}, {{$pitem->value}}"><span class="fa fa-edit"></span></a>
-                                        <a class="btn-xs btn-danger delete-confirm" value="{{ route('pitems.destroy', $pitem['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                                        <a class="btn-xs btn-danger delete-confirm" href="{{ route('pitems.destroy', $pitem['id']) }}" type="button"><span class="fa fa-trash"></span></a>
                                         {{--
                                         <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#modal-edit{{$pitem->id}}" data-info="{{$pitem->id}}, {{$pitem->getItem->name}}, {{$pitem->getItem->getBrand->name}}, {{$pitem->value}}">Editar</button>
                                         <button class="btn btn-danger delete-confirm" value="{{ route('pitems.destroy', $pitem['id']) }}" type="button">Deletar</button>

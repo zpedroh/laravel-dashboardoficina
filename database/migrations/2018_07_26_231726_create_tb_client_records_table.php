@@ -21,6 +21,8 @@ class CreateTbClientRecordsTable extends Migration
             $table->decimal('discount')->default('0');
             $table->integer('status')->default('1');
             $table->string('plaque', 7)->nullable();
+            $table->date('prevision')->nullable();
+            $table->date('conclusion')->nullable();
             $table->timestamps();
         });
 
