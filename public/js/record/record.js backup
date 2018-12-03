@@ -2,10 +2,6 @@ $(function () {
 
     var sub_total = 0;
 
-
-    var tot_item   = 0;
-    var tot_serv   = 0;
-
     var total = $('#record_total').val();
 
     total = total.replace('R$',"");
@@ -22,8 +18,7 @@ $(function () {
         var url        = window.location.href;
         var product_id = $('#item_id').val();
         var amount     = $('#item_amount').val();
-        var wrapper    = $('#content_item');
-
+        var wrapper    = $('#content');
         
         if(amount != null && amount > 0 && product_id != '')
         {
@@ -36,19 +31,15 @@ $(function () {
                     if(data.stock >= data.quantity)
                     {
     
-                        $(wrapper).append('<tr><td>' + data.name + '</td> <td>' + data.brand + '</td> <td>' + data.quantity + '</td> <td> R$ ' + data.price + '</td> <td> R$ ' + data.total_price.toFixed(2) + '</td> <input type="hidden" name="item_id[]" value="' + data.id + '"><input type="hidden" name="item_quantity[]" value="' + data.quantity + '">' + '<input type="hidden" name="subtotal" class="item" value="' + data.total_price + '"> ' + '<td><a class="btn btn-danger btn-xs remove" id="' + data.id + data.total_price + '"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a></td>');
+                        $(wrapper).append('<tr><td>' + data.name + '</td> <td>' + data.quantity + '</td> <td> R$ ' + data.price + '</td> <td> R$ ' + data.total_price.toFixed(2) + '</td> <input type="hidden" name="item_id[]" value="' + data.id + '"><input type="hidden" name="item_quantity[]" value="' + data.quantity + '">' + '<input type="hidden" name="subtotal" value="' + data.total_price + '"> ' + '<td><a class="btn btn-danger btn-xs remove" id="' + data.id + data.total_price + '"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a></td>');
     
                         //alert(sub_total + 'çç' + data.total_price);
     
                         sub_total += data.total_price;
-
-                        $('#total_item').val("R$ " + getitemSoma().toFixed(2));
     
                         $('.remove').on('click', function () {
                             //var x = $(this).attr("id");
                             //var amount = document.getElementById("amount").value;
-
-                            $('#total_item').val("R$ " + getitemSoma().toFixed(2));
     
                             $(this).parents('tr').remove();
     
@@ -64,7 +55,8 @@ $(function () {
                             document.getElementById("soma").innerHTML = "R$ " + tot.toFixed(2);
     
                             $('#record_total').val("R$ " + sub_total.toFixed(2));
-                        });    
+                        });
+    
                     }
                     else
                     {
@@ -113,7 +105,7 @@ $(function () {
         var url = window.location.href;
         var service_id = $('#service_id').val();
         var amount = $('#service_amount').val();
-        var wrapper = $('#content_service');
+        var wrapper = $('#content');
 
         var total = $('#record_total').val();
 
@@ -125,19 +117,15 @@ $(function () {
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
-                    $(wrapper).append('<tr><td>' + data.name + '</td> <td>' + data.quantity + '</td> <td>' + data.quantity + '</td> <td> R$ ' + data.price + '</td> <td> R$ ' + data.total_price.toFixed(2) + '</td> <input type="hidden" name="service_id[]" value="' + data.id + '"><input type="hidden" name="service_quantity[]" value="' + data.quantity + '">' + '<input type="hidden" name="subtotal" class="service" value="' + data.total_price + '"> ' + '<td><a class="btn btn-danger btn-xs remove" id="' + data.id + data.total_price + '"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a></td> </tr>');
+                    $(wrapper).append('<tr><td>' + data.name + '</td> <td>' + data.quantity + '</td> <td> R$ ' + data.price + '</td> <td> R$ ' + data.total_price.toFixed(2) + '</td> <input type="hidden" name="service_id[]" value="' + data.id + '"><input type="hidden" name="service_quantity[]" value="' + data.quantity + '">' + '<input type="hidden" name="subtotal" value="' + data.total_price + '"> ' + '<td><a class="btn btn-danger btn-xs remove" id="' + data.id + data.total_price + '"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a></td> </tr>');
     
                     sub_total += data.total_price;
-
-                    $('#total_service').val("R$ " + getsrvSoma().toFixed(2));
     
                     $('.remove').on('click', function () {
                         //var x = $(this).attr("id");
                         //var amount = document.getElementById("amount").value;
     
                         $(this).parents('tr').remove();
-
-                        $('#total_service').val("R$ " + getsrvSoma().toFixed(2));
     
                         var arr = document.getElementsByName('subtotal');
                         //alert(arr.length);
@@ -242,29 +230,3 @@ $(function () {
     });
 });
 
-function getsrvSoma(){
-
-    var arr = document.getElementsByClassName('service');
-    //alert(arr.length);
-    var tot = 0;
-    for (var i = 0; i < arr.length; i++) {
-        if (parseFloat(arr[i].value))
-            tot += parseFloat(arr[i].value);
-        }
-
-    return tot;
-
-};
-
-function getitemSoma(){
-
-    var arr = document.getElementsByClassName('item');
-    //alert(arr.length);
-    var tot = 0;
-    for (var i = 0; i < arr.length; i++) {
-        if (parseFloat(arr[i].value))
-            tot += parseFloat(arr[i].value);
-        }
-
-    return tot;
-};

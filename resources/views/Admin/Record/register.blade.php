@@ -2,11 +2,10 @@
 @section('title', 'Item') 
 @section('content_header')
 <h1>Cadastrar Pedido</h1>
-
 @stop 
 @section('content')
 
-<div class="col-md-8">
+<div class="col-md-18">
 
     <div class="box">
         <div class="box-header">
@@ -51,7 +50,7 @@
 
                 <div class="form-group">
                 <div class="row">
-                    <div class="col-md-6">                  
+                    <div class="col-md-3">                  
 
                         <div class="form-group">
                             <select class="form-control select-item" id="item_id" name="item_id">
@@ -62,22 +61,20 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-1">
                         <div class="form-group">
                             {{-- <label for="name">Quantidade</label>--}}
                             <input type="number" class="form-control" id="item_amount" name="quantity_item" placeholder="Qtd">
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <button type="button" class="btn btn-warning add-item"><i class="glyphicon glyphicon-plus-sign"></i></button>
                         </div>
                     </div>
-                </div>                
-
-                <div class="row">
-                    <div class="col-md-6">
+                
+                    <div class="col-md-3">
                         <div class="form-group">
                             <select class="form-control select-service" id="service_id" name="service_id">
                             <option value="">Selecione um Serviço</option>
@@ -87,58 +84,79 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-1">
                         <div class="form-group">
                             {{--style="overflow-y:auto;" <label for="name">Quantidade </label>--}}
                             <input type="number" class="form-control" id="service_amount" name="quantity_service" placeholder="Qtd">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
                             <button type="button" class="btn btn-warning add-service"><i class="glyphicon glyphicon-plus-sign"></i></button>
                         </div>
                     </div>
                 </div>
-               {{-- 
-                <div class="table-responsive"></div>--}}
-                    <table class="table table-striped table-bordered" id="content">
-                        <thead>
-                            <th>Descrição</th>
-                            <th>Quantidade</th>
-                            <th>Preço(un)</th>
-                            <th>Valor Total</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
                 
+                <div class="table-responsive">
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered" id="content_item">
+                            <thead>
+                                <th>Descrição</th>
+                                <th>Marca</th>
+                                <th>Quantidade</th>
+                                <th>Preço(un)</th>
+                                <th>Valor Total</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <label for="total_item">Total Produtos:</label>
+                            <input type="text" name="total_item" id="total_item" class="form-control pull-right" value="R$ 0.00" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <table class="table table-striped table-bordered" id="content_service">
+                            <thead>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>Preço(un)</th>
+                                <th>Valor Total</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4">
+                            <label for="total_service">Total Serviço:</label>
+                            <input type="text" name="total_service" id="total_service" class="form-control pull-right" value="R$ 0.00" disabled>
+                        </div>
+                    </div>
+                </div>
 
                 <input type="hidden" id="amount">
                 <input type="hidden" id="soma">
+                <div class="row"><p></p></div>
+                <div class="row"><p></p></div>
+                <div class="row"> 
 
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-3">
-                        <label for="discount">Desconto:</label>
-                        <input class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
-                    </div>
-                    <div class="col-xs-3">         
-                        <label for="record_total">Total:</label>                        
-                        <input  class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
-                    </div>     
-                </div>
-                
-                <div class="row" class="form-group" style="margin-top: 1%;">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label for="prevision">Previsão:</label>
-                        <input type="text" name="prevision" id="prevision" class="form-control">                        
+                        <input type="date" name="prevision" id="prevision" class="form-control">                        
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                             <label for="conclusion">Conclusão:</label>
-                            <input type="text" name="conclusion" id="conclusion" class="form-control">
+                            <input type="date" name="conclusion" id="conclusion" class="form-control">
                     </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3">
+                            <label for="discount">Desconto:</label>
+                            <input class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
+                        </div>
+                        <div class="col-xs-3">         
+                            <label for="record_total">Total:</label>                        
+                            <input  class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" disabled>
+                        </div>    
                 </div>
 
                 <div class="row" style="margin-top:1%;" >
@@ -165,13 +183,12 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary form-control pull-right" style="margin-top: 11%;">Criar</button>
+                            <button type="submit" class="btn btn-primary form-control pull-right" style="margin-top: 7%;">Criar</button>
                         </div>
                     </div>
                 </div>
             </form>
-        </div>
-        
+        </div>        
     </div>
 </div>
 
@@ -288,39 +305,6 @@
             language: "pt-BR",
         });        
     });
-</script>
-
-<script type="text/javascript" language="javascript">
-    jQuery(document).ready(function () {
-          $("#content").dataTable(
-            {
-            language:{
-        "sEmptyTable": "",
-        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sInfoThousands": ".",
-        "sLengthMenu": "_MENU_ resultados por página",
-        "sLoadingRecords": "Carregando...",
-        "sProcessing": "Processando...",
-        "sZeroRecords": "Nenhum registro encontrado",
-        "sSearch": "Pesquisar",
-        "oPaginate": {
-            "sNext": "Próximo",
-            "sPrevious": "Anterior",
-            "sFirst": "Primeiro",
-            "sLast": "Último"
-        },
-        "oAria": {
-            "sSortAscending": ": Ordenar colunas de forma ascendente",
-            "sSortDescending": ": Ordenar colunas de forma descendente"
-        }
-    }
-          }
-          );
-    });
-
 </script>
 
 <script type="text/javascript" src="{{ asset('js/record/record.js')}}"></script>

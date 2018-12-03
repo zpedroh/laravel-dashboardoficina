@@ -15,6 +15,7 @@ use App\Models\Item;
 use App\Models\ItemStock;
 use App\Models\Service;
 use App\Models\Moviment;
+use App\Models\Brand;
 use Carbon\carbon;
 
 class ClientRecordController extends Controller
@@ -29,8 +30,9 @@ class ClientRecordController extends Controller
     protected $paymentmethod;
     protected $parcel;
     protected $moviments;
+    protected $brand;
 
-    public function __construct(Client $client, ClientRecord $clientrecord, ClientRecordItem $clientrecorditem, ClientRecordService $clientrecordservice, Item $items, ItemStock $itemstock, Service $services, PaymentMethod $paymentmethod, Parcel $parcel, Moviment $moviments)
+    public function __construct(Client $client, ClientRecord $clientrecord, ClientRecordItem $clientrecorditem, ClientRecordService $clientrecordservice, Item $items, ItemStock $itemstock, Service $services, PaymentMethod $paymentmethod, Parcel $parcel, Moviment $moviments, Brand $brand)
     {
         $this->client               = $client;
         $this->clientrecord         = $clientrecord;
@@ -42,6 +44,7 @@ class ClientRecordController extends Controller
         $this->paymentmethod        = $paymentmethod;
         $this->parcel               = $parcel;
         $this->moviment             = $moviments;
+        $this->brand                = $brand;
     }
 
 
@@ -513,11 +516,14 @@ class ClientRecordController extends Controller
     {
         $item = $this->item->findOrFail($product_id);
 
+        $brand = $this->brand->findOrFail($item->brand_id);
+
         $itemstock = $this->itemstock->get()->where('item_id', '=', $item->id)->first();
 
         $data = [
             'id'          => $item->id,
             'name'        => $item->name,
+            'brand'       => $brand->name,
             'price'       => $item->price,
             'total_price' => $item->price * $amount,
             'quantity'    => $amount,
@@ -530,11 +536,15 @@ class ClientRecordController extends Controller
     public function getProduct2($record_id,$product_id, $amount)
     {
         $item = $this->item->findOrFail($product_id);
+
+        $brand = $this->brand->findOrFail($item->brand_id);
+
         $itemstock = $this->itemstock->get()->where('item_id', '=', $item->id)->first();
 
         $data = [
             'id'          => $item->id,
             'name'        => $item->name,
+            'brand'       => $brand->name,
             'price'       => $item->price,
             'total_price' => $item->price * $amount,
             'quantity'    => $amount,
