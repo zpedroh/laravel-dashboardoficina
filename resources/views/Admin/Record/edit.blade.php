@@ -1,15 +1,15 @@
 @extends('adminlte::page') 
 @section('title', 'Item') 
 @section('content_header')
-<h1>Editar Pedido Nº {{ $clientrecord->id }}</h1>
+<h1>Editar Nota Nº {{ $clientrecord->id }}</h1>
 
 @stop 
 @section('content')
 
-<div class="col-md-9">
+<div class="col-md-18">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Pedido</a></li>
+            <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Nota</a></li>
             <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Parcelas</a></li>
         </ul>
         <div class="tab-content">
@@ -60,144 +60,182 @@
                         <input type="hidden" id="amount" value="{{ $clientrecord->record_total }}">
                         <input type="hidden" id="soma" value="{{ $clientrecord->record_total }}">
         
-                        <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">                  
-        
-                                <div class="form-group">
-                                    <select class="form-control select-item" id="item_id" name="item_id">
-                                        <option value="">Selecione um Produto</option>
-                                        @foreach($items as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->getBrand->name }}</option>
-                                        @endforeach                   
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
-                                    {{-- <label for="name">Quantidade</label>--}}
-                                    <input type="number" class="form-control" id="item_amount" name="quantity_item" placeholder="Qtd">
-                                </div>
-                            </div>
-        
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-warning add-item"><i class="glyphicon glyphicon-plus-sign"></i></button>
-                                </div>
-                            </div>
-                        </div>                
-        
-                        <div class="row">
-                            <div class="col-md-6">
-        
-                                <div class="form-group">
-                                    <select class="form-control select-service" id="service_id" name="service_id">
-                                    <option value="">Selecione um Serviço</option>
-                                    @foreach($services as $service)
-                                        <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                    @endforeach                   
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xs-2">
-                                <div class="form-group">
-                                    {{--style="overflow-y:auto;" <label for="name">Quantidade </label>--}}
-                                    <input type="number" class="form-control" id="service_amount" name="quantity_service" placeholder="Qtd">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-warning add-service"><i class="glyphicon glyphicon-plus-sign"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    {{-- 
-                        <div class="table-responsive"></div>--}}
-                            <table class="table table-striped table-bordered" id="content">
-                                <thead>
-                                    <th>Descrição</th>
-                                    <th>Quantidade</th>
-                                    <th>Preço(un)</th>
-                                    <th>Valor Total</th>
-                                </thead>
-                                <tbody>
-                                        @foreach($clientrecord->getItems as $recorditem)
-                                        <tr>
-                                            <td>{{$recorditem->getItem->name}}</td>
-                                            <td>{{$recorditem->quantity}}</td>
-                                            <td>R$ {{$recorditem->getItem->price}}</td>
-                                            <td>R$ {{$recorditem->item_total}}</td>
-            
-                                            <td>
-                                                <a class="btn btn-danger btn-xs remove" id="{{$recorditem->getItem->id}} {{$recorditem->item_total}}"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a>
-                                            </td>
-            
-                                            <td>
-                                                <input type="hidden" name="item_id[]" value="{{$recorditem->getItem->id}}">
-                                                <input type="hidden" name="item_quantity[]" value="{{$recorditem->quantity}}">
-                                                <input type="hidden" name="subtotal" value="{{$recorditem->item_total}}">
-                                            </td>
-                                        </tr>
-                                        @endforeach 
-                                        @if(isset($clientrecord->getServices)) 
-                                        @foreach($clientrecord->getServices as $recordservice)
-                                        <tr>
-                                            <td>{{$recordservice->getService->name}}</td>
-                                            <td>{{$recordservice->quantity}}</td>
-                                            <td>R$ {{$recordservice->getService->price}}</td>
-                                            <td>R$ {{$recordservice->service_total}}</td>
-            
-                                            <input type="hidden" name="service_id[]" value="{{$recordservice->getservice->id}}">
-                                            <input type="hidden" name="service_quantity[]" value="{{$recordservice->quantity}}">
-                                            <input type="hidden" name="subtotal" value="{{$recordservice->service_total}}">
-                                            <td>
-                                                <a class="btn btn-danger btn-xs remove" id="{{$recordservice->getservice->id}} {{$recordservice->service_total}}">
-                                                                <span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a>
-                                            </td>
-                                        </tr>
-                                        @endforeach @endif
-                                </tbody>
-                            </table>
                         
-        
-                        <input type="hidden" id="amount">
-                        <input type="hidden" id="soma">
-        
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2"></div>
-                            <div class="col-md-1"></div>
-                            <div class="col-xs-3">                        
-                                <input style="align-self: auto" class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" value="R$ {{ $clientrecord->record_total }}" disabled>
-                                <input style="align-self: auto" class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
-                            </div>     
-                        </div>
-        
-                        <div class="row" style="margin-top:1%;" >
-        
-                            <div class="col-md-4">
-                                <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
-                                    <option value="">Selecione a Forma de Pagamento</option>
-                                    @foreach($paymentmethod as $method)
-                                        <option value="{{ $method->id }}">{{ $method->type}} {{$method->period }} Dias</option>
-                                    @endforeach                   
-                                </select>
-                            </div>
-        
-                            <div class="col-md-4">
-                                <select class="form-control" id="status_id" name="status_id">
-                                    <option value="">Selecione o Status</option>
-                                    <option value="1">Aberto</option> 
-                                    <option value="2">Fechado</option> 
-                                    <option value="3">Paga</option>                 
-                                </select>
-                            </div>
+                                <div class="row">
+                                    <div class="col-md-3">                  
+                
+                                        <div class="form-group">
+                                            <select class="form-control select-item" id="item_id" name="item_id">
+                                                <option value="">Selecione um Produto</option>
+                                                @foreach($items as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->getBrand->name }}</option>
+                                                @endforeach                   
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <div class="form-group">
+                                            {{-- <label for="name">Quantidade</label>--}}
+                                            <input type="number" class="form-control" id="item_amount" name="quantity_item" placeholder="Qtd">
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-warning add-item"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <select class="form-control select-service" id="service_id" name="service_id">
+                                            <option value="">Selecione um Serviço</option>
+                                            @foreach($services as $service)
+                                                <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                            @endforeach                   
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1">
+                                        <div class="form-group">
+                                            {{--style="overflow-y:auto;" <label for="name">Quantidade </label>--}}
+                                            <input type="number" class="form-control" id="service_amount" name="quantity_service" placeholder="Qtd">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-warning add-service"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <div class="col-md-6">
+                                        <table class="table table-striped table-bordered" id="content_item">
+                                            <thead>
+                                                <th>Descrição</th>
+                                                <th>Marca</th>
+                                                <th>Quantidade</th>
+                                                <th>Preço(un)</th>
+                                                <th>Valor Total</th>
+                                            </thead>
+                                            <tbody>
+                                                    @foreach($clientrecord->getItems as $recorditem)
+                                                    <tr>
+                                                        <td>{{$recorditem->getItem->name}}</td>
+                                                        <td>{{$recorditem->getItem->getBrand->name}}</td>
+                                                        <td>{{$recorditem->quantity}}</td>
+                                                        <td>R$ {{$recorditem->getItem->price}}</td>
+                                                        <td>R$ {{$recorditem->item_total}}</td>
+                        
+                                                        <td>
+                                                            <a class="btn btn-danger btn-xs remove" id="{{$recorditem->getItem->id}} {{$recorditem->item_total}}"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a>
+                                                        </td>
+                        
+                                                        <td>
+                                                            <input type="hidden" name="item_id[]" value="{{$recorditem->getItem->id}}">
+                                                            <input type="hidden" name="item_quantity[]" value="{{$recorditem->quantity}}">
+                                                            <input type="hidden" class="item" name="subtotal" value="{{$recorditem->item_total}}">
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach 
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-8"></div>
+                                        <div class="col-md-4">
+                                            <label for="total_item">Total Produtos:</label>
+                                            <input type="text" name="total_item" id="total_item" class="form-control pull-right" value="R$ 0.00" disabled>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <table class="table table-striped table-bordered" id="content_service">
+                                            <thead>
+                                                <th>Descrição</th>
+                                                <th>Quantidade</th>
+                                                <th>Preço(un)</th>
+                                                <th>Valor Total</th>
+                                            </thead>
+                                            <tbody>
+                                                    
+                                                    @if(isset($clientrecord->getServices)) 
+                                                    @foreach($clientrecord->getServices as $recordservice)
+                                                    <tr>
+                                                        <td>{{$recordservice->getService->name}}</td>
+                                                        <td>{{$recordservice->quantity}}</td>
+                                                        <td>R$ {{$recordservice->getService->price}}</td>
+                                                        <td>R$ {{$recordservice->service_total}}</td>
+                        
+                                                        <input type="hidden" name="service_id[]" value="{{$recordservice->getservice->id}}">
+                                                        <input type="hidden" name="service_quantity[]" value="{{$recordservice->quantity}}">
+                                                        <input type="hidden" class="service" name="subtotal" value="{{$recordservice->service_total}}">
+                                                        <td>
+                                                            <a class="btn btn-danger btn-xs remove" id="{{$recordservice->getservice->id}} {{$recordservice->service_total}}">
+                                                                            <span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach @endif
+
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-8"></div>
+                                        <div class="col-md-4">
+                                            <label for="total_service">Total Serviço:</label>
+                                            <input type="text" name="total_service" id="total_service" class="form-control pull-right" value="R$ 0.00" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <input type="hidden" id="amount">
+                                <input type="hidden" id="soma">
+                                <div class="row"><p></p></div>
+                                <div class="row"><p></p></div>
+                                <div class="row"> 
+                
+                                    <div class="col-md-2">
+                                        <label for="prevision">Previsão:</label>
+                                        <input type="date" name="prevision" id="prevision" class="form-control">                        
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label for="conclusion">Conclusão:</label>
+                                            <input type="date" name="conclusion" id="conclusion" class="form-control">
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-3">
+                                            <label for="discount">Desconto:</label>
+                                            <input class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto" value="R$ {{ $clientrecord->discount }}">
+                                        </div>
+                                        <div class="col-xs-3">         
+                                            <label for="record_total">Total:</label>                        
+                                            <input  class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" value="R$ {{ $clientrecord->record_total }}" disabled>
+                                        </div>    
+                                </div>
+                
+                                <div class="row" style="margin-top:1%;" >
+                
+                                    <div class="col-md-4">
+                                        <label for="paymentmethod_id">Forma de Pagamento:</label>
+                                        <select class="form-control" id="paymentmethod_id" name="paymentmethod_id" required>
+                                            <option value="">Selecione a Forma de Pagamento</option>
+                                            @foreach($paymentmethod as $method)
+                                                <option value="{{ $method->id }}">{{ $method->type}}</option>
+                                            @endforeach                   
+                                        </select>
+                                    </div>
+                <div class="col-md-4"></div>
+     {{--                               <div class="col-md-4">
+                                        <label for="status_id">Status:</label>
+                                        <select class="form-control" id="status_id" name="status_id">
+                                            <option value="">Selecione o Status</option>
+                                            <option value="1">Aberto</option> 
+                                            <option value="2">Fechado</option> 
+                                            <option value="3">Paga</option>                 
+                                        </select>
+                                    </div>--}}
                             
-                            <div class="col-md-4">
+                            <div class="col-md-4" >
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary form-control pull-right">Salvar</button>
+                                    <button type="submit" class="btn btn-primary form-control pull-right" style="margin-top: 7%;">Salvar</button>
                                 </div>
                             </div>
                         </div>
@@ -207,6 +245,11 @@
                 </div>
             </div>
             <!-- /.tab-pane -->
+
+
+
+
+
             <div class="tab-pane" id="tab_2">
                 
                 <div class="table-responsive">
@@ -380,11 +423,169 @@
 </script>
 
 @stop
+<!--
+{{--
+bckup 2
+
+<form method="GET" action="{{ route('records.update', $clientrecord->id) }}">
+                        @csrf
+        
+                        <input type="hidden" name="user_id" value={{Auth::user()->id}}>
+
+                        <input type="hidden" id="amount" value="{{ $clientrecord->record_total }}">
+                        <input type="hidden" id="soma" value="{{ $clientrecord->record_total }}">
+        
+                        <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">                  
+        
+                                <div class="form-group">
+                                    <select class="form-control select-item" id="item_id" name="item_id">
+                                        <option value="">Selecione um Produto</option>
+                                        @foreach($items as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->getBrand->name }}</option>
+                                        @endforeach                   
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    {{-- <label for="name">Quantidade</label>--}}
+                                    <input type="number" class="form-control" id="item_amount" name="quantity_item" placeholder="Qtd">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-warning add-item"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                </div>
+                            </div>
+                        </div>                
+        
+                        <div class="row">
+                            <div class="col-md-6">
+        
+                                <div class="form-group">
+                                    <select class="form-control select-service" id="service_id" name="service_id">
+                                    <option value="">Selecione um Serviço</option>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                    @endforeach                   
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    {{--style="overflow-y:auto;" <label for="name">Quantidade </label>--}}
+                                    <input type="number" class="form-control" id="service_amount" name="quantity_service" placeholder="Qtd">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-warning add-service"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    {{-- 
+                        <div class="table-responsive"></div>--}}
+                            <table class="table table-striped table-bordered" id="content">
+                                <thead>
+                                    <th>Descrição</th>
+                                    <th>Quantidade</th>
+                                    <th>Preço(un)</th>
+                                    <th>Valor Total</th>
+                                </thead>
+                                <tbody>
+                                        @foreach($clientrecord->getItems as $recorditem)
+                                        <tr>
+                                            <td>{{$recorditem->getItem->name}}</td>
+                                            <td>{{$recorditem->quantity}}</td>
+                                            <td>R$ {{$recorditem->getItem->price}}</td>
+                                            <td>R$ {{$recorditem->item_total}}</td>
+            
+                                            <td>
+                                                <a class="btn btn-danger btn-xs remove" id="{{$recorditem->getItem->id}} {{$recorditem->item_total}}"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a>
+                                            </td>
+            
+                                            <td>
+                                                <input type="hidden" name="item_id[]" value="{{$recorditem->getItem->id}}">
+                                                <input type="hidden" name="item_quantity[]" value="{{$recorditem->quantity}}">
+                                                <input type="hidden" name="subtotal" value="{{$recorditem->item_total}}">
+                                            </td>
+                                        </tr>
+                                        @endforeach 
+                                        @if(isset($clientrecord->getServices)) 
+                                        @foreach($clientrecord->getServices as $recordservice)
+                                        <tr>
+                                            <td>{{$recordservice->getService->name}}</td>
+                                            <td>{{$recordservice->quantity}}</td>
+                                            <td>R$ {{$recordservice->getService->price}}</td>
+                                            <td>R$ {{$recordservice->service_total}}</td>
+            
+                                            <input type="hidden" name="service_id[]" value="{{$recordservice->getservice->id}}">
+                                            <input type="hidden" name="service_quantity[]" value="{{$recordservice->quantity}}">
+                                            <input type="hidden" name="subtotal" value="{{$recordservice->service_total}}">
+                                            <td>
+                                                <a class="btn btn-danger btn-xs remove" id="{{$recordservice->getservice->id}} {{$recordservice->service_total}}">
+                                                                <span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach @endif
+                                </tbody>
+                            </table>
+                        
+        
+                        <input type="hidden" id="amount">
+                        <input type="hidden" id="soma">
+        
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-1"></div>
+                            <div class="col-xs-3">                        
+                                <input style="align-self: auto" class="form-control pull-right" type="text" name="total" id="record_total" placeholder="Total" value="R$ {{ $clientrecord->record_total }}" disabled>
+                                <input style="align-self: auto" class="form-control pull-right" type="text" name="discount" id="discount" placeholder="Desconto">
+                            </div>     
+                        </div>
+        
+                        <div class="row" style="margin-top:1%;" >
+        
+                            <div class="col-md-4">
+                                <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
+                                    <option value="">Selecione a Forma de Pagamento</option>
+                                    @foreach($paymentmethod as $method)
+                                        <option value="{{ $method->id }}">{{ $method->type}} {{$method->period }} Dias</option>
+                                    @endforeach                   
+                                </select>
+                            </div>
+        
+                            <div class="col-md-4">
+                                <select class="form-control" id="status_id" name="status_id">
+                                    <option value="">Selecione o Status</option>
+                                    <option value="1">Aberto</option> 
+                                    <option value="2">Fechado</option> 
+                                    <option value="3">Paga</option>                 
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary form-control pull-right">Salvar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+    
+    --}}
+
 
 
 
 {{--
-    
+bckp 1
     <form method="GET" action="{{ route('records.update', $clientrecord->id) }}">
                 @csrf
 

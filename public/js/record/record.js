@@ -125,7 +125,7 @@ $(function () {
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
-                    $(wrapper).append('<tr><td>' + data.name + '</td> <td>' + data.quantity + '</td> <td>' + data.quantity + '</td> <td> R$ ' + data.price + '</td> <td> R$ ' + data.total_price.toFixed(2) + '</td> <input type="hidden" name="service_id[]" value="' + data.id + '"><input type="hidden" name="service_quantity[]" value="' + data.quantity + '">' + '<input type="hidden" name="subtotal" class="service" value="' + data.total_price + '"> ' + '<td><a class="btn btn-danger btn-xs remove" id="' + data.id + data.total_price + '"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a></td> </tr>');
+                    $(wrapper).append('<tr><td>' + data.name + '</td> <td>' + data.quantity + '</td> <td> R$ ' + data.price + '</td> <td> R$ ' + data.total_price.toFixed(2) + '</td> <input type="hidden" name="service_id[]" value="' + data.id + '"><input type="hidden" name="service_quantity[]" value="' + data.quantity + '">' + '<input type="hidden" name="subtotal" class="service" value="' + data.total_price + '"> ' + '<td><a class="btn btn-danger btn-xs remove" id="' + data.id + data.total_price + '"><span class="fa fa-trash"></span>&nbsp&nbsp;Excluir</a></td> </tr>');
     
                     sub_total += data.total_price;
 

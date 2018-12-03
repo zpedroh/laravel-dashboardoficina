@@ -73,7 +73,7 @@
                     
                                         <input type="hidden" value="{{$item->id}}">
                     
-                                        <label for="name">Name:</label>
+                                        <label for="name">Nome:</label>
                                         <input type="text" class="form-control" name="name" value="{{$item->name}}" required>
                                         <label for="category">Categoria:</label>
                                         <select class="form-control" name="category" value="{{$item->getCategory->id}}" required>
@@ -141,7 +141,7 @@
                 <form method="POST" action="{{ route('items.create') }}">
                     @csrf
 
-                    <label for="name">Name:</label>
+                    <label for="name">Nome:</label>
                     <input type="text" name="name" placeholder="Nome do Item" class="form-control" required>
                     <label for="category">Categoria:</label>
                     <select class="form-control" name="category" required>

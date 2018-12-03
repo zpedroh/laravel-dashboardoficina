@@ -48,7 +48,7 @@
                 <td>
                   <a class="btn-primary btn-xs" data-toggle="modal" data-target="#record-content{{$clientrecord['id']}}"><span class="glyphicon glyphicon-eye-open"></span></a>
                   <a class="btn-xs btn-warning" type="submit" href="{{ route('records.edit', $clientrecord['id'])}}"><span class="fa fa-edit"></span></a>
-                  <a class="btn-xs btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                  {{--<a class="btn-xs btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button"><span class="fa fa-trash"></span></a>--}}
                   <a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn-xs btn-default"><i class="fa fa-file-pdf-o"></i></a>
                 </td>
               </tr>
