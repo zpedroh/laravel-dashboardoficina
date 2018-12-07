@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
-@section('title', 'Item') 
+@section('title', 'Notas') 
 @section('content_header')
-<h1>Cadastrar Pedido</h1>
+<h1>Cadastrar Nota</h1>
 @stop 
 @section('content')
 
@@ -166,7 +166,7 @@
                         <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
                             <option value="">Selecione a Forma de Pagamento</option>
                             @foreach($paymentmethod as $method)
-                                <option value="{{ $method->id }}">{{ $method->type}}</option>
+                                <option value="{{ $method->id }}">{{ $method->type}} | {{ $method->parcel}} | {{ $method->period}}</option>
                             @endforeach                   
                         </select>
                     </div>

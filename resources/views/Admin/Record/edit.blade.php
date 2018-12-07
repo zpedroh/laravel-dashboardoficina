@@ -1,5 +1,5 @@
 @extends('adminlte::page') 
-@section('title', 'Item') 
+@section('title', 'Notas') 
 @section('content_header')
 <h1>Editar Nota Nº {{ $clientrecord->id }}</h1>
 
@@ -31,7 +31,7 @@
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">                                    
-                                    <li><a href="{{ route('status.update', [$clientrecord['id'], 2])}}">Fechada</a></li>
+                                    @if($clientrecord->status == 1) <li><a href="{{ route('status.update', [$clientrecord['id'], 2])}}">Fechada</a></li> @endif
                                     <li><a href="{{ route('status.update', [$clientrecord['id'], 3])}}">Paga</a></li>
                                     <li><a href="{{ route('status.update', [$clientrecord['id'], 4])}}">Cancelada</a></li>
                                 </ul>
@@ -195,11 +195,11 @@
                 
                                     <div class="col-md-2">
                                         <label for="prevision">Previsão:</label>
-                                        <input type="date" name="prevision" id="prevision" class="form-control">                        
+                                    <input type="date" name="prevision" id="prevision" value="{{$clientrecord->prevision}}" class="form-control">                        
                                     </div>
                                     <div class="col-md-2">
                                             <label for="conclusion">Conclusão:</label>
-                                            <input type="date" name="conclusion" id="conclusion" class="form-control">
+                                            <input type="date" name="conclusion" id="conclusion" value="{{$clientrecord->prevision}}" class="form-control">
                                     </div>
                                     <div class="col-md-2"></div>
                                     <div class="col-md-3">

@@ -155,7 +155,7 @@
           jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
         </p> -->
       <div class="col-xs-6">
-        <p class="lead">Parcelas do Pedido:</p>
+        <p class="lead">Parcelas do Nota:</p>
         <div class="col-xs-12 table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -192,7 +192,7 @@
       </div>
       <!-- /.col -->
       <div class="col-xs-6">
-        <p class="lead">Total Pedido</p>
+        <p class="lead">Total Nota</p>
 
         <div class="table-responsive">
           <table class="table">

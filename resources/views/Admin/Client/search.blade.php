@@ -1,5 +1,5 @@
 @extends('adminlte::page') 
-@section('title', 'Cliente') 
+@section('title', 'Clientes') 
 @section('content_header')
 <h1>Clientes</h1>
 
@@ -232,10 +232,10 @@
                                 <li>Nº: {{$client->getAdress->number}}</li>
                                 <li>Complemento: {{$client->getAdress->complement}}</li>
                                 @if($client->getRecords <> '')
-                                <h4>Pedidos em Aberto</h4>
+                                <h4>Notas em Aberto</h4>
                                 @foreach($client->getRecords as $recordopen) 
                                     @if($recordopen->status < '3') 
-                                        <li>Número: {{$recordopen->id}} Total: {{$recordopen->record_total}}</li>
+                                        <li> <strong>Nº:</strong>  {{$recordopen->id}} <strong> | Total:</strong> R$ {{$recordopen->record_total}}</li>
                                     @endif 
                                 @endforeach
                                 @endif

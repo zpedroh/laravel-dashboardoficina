@@ -1,5 +1,5 @@
 @extends('adminlte::page') 
-@section('title', 'Formas de Pagamentos') 
+@section('title', 'Formas de Pagamento') 
 @section('content_header')
 
 <h1>Formas de Pagamento</h1>
@@ -7,6 +7,7 @@
 @stop 
 @section('content')
 
+<div class="col-md-8">
 <div class="box">
   <div class="box-header">
     <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
@@ -163,7 +164,7 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
+</div>
 <script type="text/javascript" language="javascript">
   jQuery(document).ready(function () {
         $("#payment_method_table").dataTable(

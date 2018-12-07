@@ -47,6 +47,7 @@ class ItemController extends Controller
         $tdate = date('m-y');
         $begin = Carbon::now()->startOfMonth();
         $end   = Carbon::now()->endOfMonth();
+        #$yesterday = Carbon::now()->subDays(1);
         
         $itemexit = $this->moviment->whereBetween('created_at',[$begin,$end])->get()->where('mov_type', '=', 2)->sum('quantity');
 
@@ -69,6 +70,15 @@ class ItemController extends Controller
                 $payedpercent = number_format($payedpercent, 2, ',', '');
             }
         } 
+
+        #$updaterecord = $this->clientrecord->all()->where('created_at', '=', $yesterday)->whereIn('status', '=', [1,2]);
+
+        #dd($updaterecord);
+        #foreach($updaterecord as $updaterecord)
+        #{
+            
+            #$updaterecord->status =
+        #}
 
         $item = $this->item->orderBy('name', 'asc')->get();
 

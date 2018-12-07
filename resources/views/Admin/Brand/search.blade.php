@@ -1,5 +1,5 @@
 @extends('adminlte::page') 
-@section('title', 'Marca') 
+@section('title', 'Marcas') 
 @section('content_header')
 
 <h1>Marcas</h1>

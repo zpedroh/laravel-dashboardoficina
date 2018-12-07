@@ -1,5 +1,5 @@
 @extends('adminlte::page') 
-@section('title', 'Fornecedor') 
+@section('title', 'Fornecedores') 
 @section('content_header')
 <h1>Fornecedores</h1>
 

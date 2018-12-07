@@ -16,7 +16,7 @@
                     <div class="inner">
                         <h3>@if($record_quantity > 0) {{$record_quantity}} @else 0 @endif</h3>
     
-                        <p>Notas Registrados</p>
+                        <p>Notas Registradas</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>

@@ -1,8 +1,8 @@
 @extends('adminlte::page') 
-@section('title', 'Item') 
+@section('title', 'Notas') 
 @section('content_header')
 
-<h1>Pedidos</h1>
+<h1>Notas</h1>
 
 @stop 
 @section('content')
@@ -63,7 +63,7 @@
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">Conteudo do Pedido</h4>
+                      <h4 class="modal-title">Conteudo do Nota</h4>
                     </div>
                     <div class="modal-body">                
                         
