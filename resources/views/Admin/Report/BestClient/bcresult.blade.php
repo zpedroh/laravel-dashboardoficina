@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Relatorio') 
 @section('content_header')
-<h1>Acumulado Clientes</h1>
+<h1>Total Vendas por Cliente</h1>
 @stop 
 @section('content')
 
@@ -17,14 +17,16 @@
                 <table class="table table-striped table-bordered" id="report_table">
 
                     <thead>
+                        <th>ID Cliente</th>
                         <th>Cliente</th>
-                        <th>Pedidos</th>
+                        <th>Notas</th>
                         <th>Valor Total</th>
                     </thead>
                     <tbody>
                         @isset($result)
                             @foreach($result as $result)
                                 <tr>
+                                    <td>{{$result['id']}}</td>
                                     <td>{{$result['name']}}</td>
                                     <td>{{$result['records']}}</td>
                                     <td>R$ {{$result['value']}}</td>

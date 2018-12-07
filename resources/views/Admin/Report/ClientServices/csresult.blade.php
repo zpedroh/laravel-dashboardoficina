@@ -16,6 +16,7 @@
                 <table class="table table-striped table-bordered" id="report_table">
 
                     <thead>
+                        <th>ID Cliente</th>
                         <th>Cliente</th>
                         <th>Serviço</th>
                         <th>Quantidade</th>
@@ -25,6 +26,7 @@
                             @foreach($result as $result)
                                 @if($result['quantity'] > 0)
                                     <tr>
+                                        <td>{{$result['client_id']}}</td>
                                         <td>{{$result['client_name']}}</td>
                                         <td>{{$result['service_name']}}</td>
                                         <td>{{$result['quantity']}}</td>

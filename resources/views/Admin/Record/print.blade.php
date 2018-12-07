@@ -62,7 +62,7 @@
     <div class="row">
       <div class="col-xs-12">
         <h2 class="page-header">
-          <i class="fa fa-globe"></i> Baixim Motos | Pedido: {{$clientrecord->id}}
+          <i class="fa fa-globe"></i> Baixim Motos | Nota: {{$clientrecord->id}}
         <small class="pull-right">Data: {{$clientrecord->created_at->format('d/m/y')}}</small>
         </h2>
       </div>
@@ -202,7 +202,7 @@
             </tr>
             <tr>
               <th>Desconto</th>
-              <td>R$ {{$clientrecord->record_total}}</td>
+              <td>R$ {{$clientrecord->discount}}</td>
             </tr>
             <tr>
               <th>Total:</th>

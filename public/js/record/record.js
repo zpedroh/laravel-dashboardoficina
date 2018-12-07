@@ -117,6 +117,9 @@ $(function () {
 
         var total = $('#record_total').val();
 
+        $('#prevision').attr('disabled', false);
+        $('#conclusion').attr('disabled', false);
+
         //var total = $('#record_total').val();
         if(amount != null && amount > 0 && service_id != '')
         {
@@ -192,7 +195,7 @@ $(function () {
     $('.remove').on('click', function () {
         //var x = $(this).attr("id");
         //var amount = document.getElementById("amount").value;
-
+        debugger
         $(this).parents('tr').remove();
 
         var arr = document.getElementsByName('subtotal');
@@ -252,6 +255,12 @@ function getsrvSoma(){
             tot += parseFloat(arr[i].value);
         }
 
+    if(tot <= 0)
+    {
+        $('#prevision').attr('disabled', true);
+        $('#conclusion').attr('disabled', true);
+    }
+
     return tot;
 
 };
@@ -264,7 +273,29 @@ function getitemSoma(){
     for (var i = 0; i < arr.length; i++) {
         if (parseFloat(arr[i].value))
             tot += parseFloat(arr[i].value);
-        }
+    } 
 
     return tot;
 };
+
+/*
+$('#create').on('click', function (e) {
+    
+    alert('item');
+
+    var item = document.getElementsByClassName('item');
+    var serv = document.getElementsByClassName('service');
+
+    
+
+    if(item && serv == '')
+    {
+        e.preventDefault();
+
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Selecione ao menos um item!',
+            })
+    }
+});*/

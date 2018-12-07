@@ -167,12 +167,12 @@ return [
             'icon' => 'book',
             'submenu'=>[
                 [
-                'text' => 'Novo Pedido',
+                'text' => 'Nova Nota',
                 'url'  => 'admin/record/register',
                 'icon' => 'shopping-cart',
                 ],
                 [
-                'text' => 'Pedidos em Aberto',
+                'text' => 'Notas em Aberto',
                 'url'  => 'admin/record/search',
                 'icon' => 'book',
                 ],
@@ -195,7 +195,7 @@ return [
                 'icon' => 'history',
                 ],
                 [
-                'text' => 'Acumulado Clientes por Periodo',
+                'text' => 'Total Vendas por Cliente',
                 'url'  => 'admin/report/bclient',
                 'icon' => 'history',
                 ],/*
@@ -205,12 +205,12 @@ return [
                 'icon' => 'history',
                 ],*/
                 [
-                'text' => 'Pedidos por Periodo',
+                'text' => 'Notas por Periodo',
                 'url'  => 'admin/report/precord',
                 'icon' => 'history',
                 ],
                 [
-                    'text' => 'Pedidos em Atendimento',
+                    'text' => 'Notas em Atendimento',
                     'url'  => 'admin/report/pservice',
                     'icon' => 'history',
                 ],

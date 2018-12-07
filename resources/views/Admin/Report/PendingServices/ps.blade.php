@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Relatorio') 
 @section('content_header')
-<h1>Serviços Pendentes</h1>
+<h1>Notas em Atendimento</h1>
 @stop 
 @section('content')
 
@@ -11,23 +11,24 @@
             @csrf
             <div class="input-group input-group-sm">
             
-                <span class="input-group-btn">
-                    <label for="date-start">Até Dia:</label>
-                    <div class="col-sm-4">                            
+                
+                    
+                    <div class="col-sm-10">         
+                            <label for="date-start">Até Dia:</label>                   
                         <input type="date" id="date_start" name="date_start" class="form-control" required>
                     </div>
                     {{--<label for="date-end"> Data fim:</label>
                     <div class="col-sm-4">                            
                         <input type="date" id="date_end" name="date_end" placeholder="Data Fim" class="form-control" required>
                     </div>--}}
-                    <div class="col-xs-4">
+                    <div class="col-xs-2" style="margin-top: 8%;">
                         <button type="submit" class="btn btn-info btn-flat"><span class="fa fa-search"></span></button>
                     </div>
-                </span>                              
+                                            
             </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 
 
 

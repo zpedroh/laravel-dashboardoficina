@@ -188,6 +188,8 @@
 </div>
 <!-- /.modal -->
 
+<script src="{{ asset('DataTable/DataTables-1.10.18/datatables.min.js') }}"></script>
+
 <script src="{{ asset('js/mask/jquery.maskMoney.min.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript" language="javascript">

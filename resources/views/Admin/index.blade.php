@@ -16,7 +16,7 @@
                     <div class="inner">
                         <h3>@if($record_quantity > 0) {{$record_quantity}} @else 0 @endif</h3>
     
-                        <p>Pedidos Registrados</p>
+                        <p>Notas Registrados</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -125,7 +125,7 @@
 
                                                         <input type="hidden" value="{{$item->id}}">
 
-                                                        <label for="name">Name:</label>
+                                                        <label for="name">Nome:</label>
                                                         <input type="text" class="form-control" name="name" value="{{$item->name}}" disabled>
 
                                                         <label for="quantity">Quantidade à Adicionar:</label>

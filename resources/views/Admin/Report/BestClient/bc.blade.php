@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
-@section('title', 'BS') 
+@section('title', 'Relatorio') 
 @section('content_header')
-<h1>Acumulado Clientes</h1>
+<h1>Total Vendas por Cliente</h1>
 @stop 
 @section('content')
 

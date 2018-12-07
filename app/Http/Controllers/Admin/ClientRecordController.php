@@ -47,9 +47,7 @@ class ClientRecordController extends Controller
         $this->brand                = $brand;
     }
 
-
     #Records
-    
 
     public function recordPrint($id)
     {
@@ -83,114 +81,128 @@ class ClientRecordController extends Controller
         {
             $discount = 0;
         }
-        
-        $record = [
 
-            'client_id'     => $request->client_id,
-            'user_id'       => $request->user_id,
-            'record_total'  => "0",
-            'status'        => $request->status_id,
-            'discount'      => $discount
-        ];
-
-        $clientrecord = $this->clientrecord->create($record);
-
-        $totalRecord = 0;
-
-        //adicionando itens da nota
-
-        if($request->item_id <> '')
-        {
-            foreach ($request->item_id as $key => $item)
-            {
-                $items     = $this->item->findOrFail($item);
-                $itemstock = $this->itemstock->where('item_id','=', $items->id)->first();
-
-                $dataitem = [
-                    'item_id'          => $items->id,
-                    'client_record_id' => $clientrecord->id,
-                    'quantity'         => $request->item_quantity[$key],
-                    'item_total'       => $request->item_quantity[$key] * $items->price
-                ];
-
-                $totalRecord = $totalRecord + ($request->item_quantity[$key] * $items->price);
-
-                $clientrecorditem = $this->clientrecorditem->create($dataitem);
-
-                if($request->status_id > 1)
-                {
-
-                    $itemstock->quantity = $itemstock->quantity - $request->item_quantity[$key];
-
-                    $itemstock->save();
-
-                    $movimentCreate = [
-                        'mov_type' => 2,
-                        'client_record_id' => $clientrecord->id,
-                        'item_id'          => $clientrecorditem->item_id,
-                        'quantity'         => $clientrecorditem->quantity
-                    ];
-                    
-                    //Cria saida de estoque se a nota estiver fechada ou paga
-                    $moviments = $this->moviment->create($movimentCreate);
-                }
-            }
-        }
-        
-        //Adicionando serviços da nota
-        if($request->service_id <> '')
-        { 
-            foreach ($request->service_id as $key => $service)
-            {
-                $services = $this->service->findOrFail($service);
-
-                $dataservice = [
-                    'service_id'       => $service,
-                    'client_record_id' => $clientrecord->id,
-                    'quantity'         => $request->service_quantity[$key],
-                    'service_total'    => $request->service_quantity[$key] * $services->price
-                ];
-
-                $totalRecord = $totalRecord + ($request->service_quantity[$key] * $services->price);
-
-                $clientrecordservice = $this->clientrecordservice->create($dataservice);
-            }
-        }
-        //Atualiza total da nota
-        
-        $clientrecord->record_total = $totalRecord - $discount;
-        $clientrecord->save();
-
-        $paymentmethod = $this->paymentmethod->findOrFail($request->paymentmethod_id);
-
-        $x = 1;
-
-        while( $x <= $paymentmethod->parcel)
-        {
+        if(isset($request->item_id) || isset($request->service_id))
+        {           
             
-            $parceldate = Carbon::now()->addDays($paymentmethod->period * $x);
+            $record = [
 
-            $parcelData = [
-                'client_record_id'  => $clientrecord->id,
-                'payment_method_id' => $paymentmethod->id,
-                'status'            => $request->status_id,
-                'value'             => $totalRecord / $paymentmethod->parcel,
-                'date'              => $parceldate,
-                'number'            => $x,
-                'parcel_number'     => $paymentmethod->parcel                          
+                'client_id'     => $request->client_id,
+                'user_id'       => $request->user_id,
+                'record_total'  => "0",
+                'status'        => $request->status_id,
+                'discount'      => $discount,
+                'prevision'     => $request->prevision,
+                'conclusion'    => $request->conclusion
             ];
 
-            $parcel = $this->parcel->create($parcelData);
+            $clientrecord = $this->clientrecord->create($record);
 
-            $x = $x + 1;
-        };
+            $totalRecord = 0;
+
+            //adicionando itens da nota
+
+            if($request->item_id <> '')
+            {
+                foreach ($request->item_id as $key => $item)
+                {
+                    $items     = $this->item->findOrFail($item);
+                    $itemstock = $this->itemstock->where('item_id','=', $items->id)->first();
+
+                    $dataitem = [
+                        'item_id'          => $items->id,
+                        'client_record_id' => $clientrecord->id,
+                        'quantity'         => $request->item_quantity[$key],
+                        'item_total'       => $request->item_quantity[$key] * $items->price
+                    ];
+
+                    $totalRecord = $totalRecord + ($request->item_quantity[$key] * $items->price);
+
+                    $clientrecorditem = $this->clientrecorditem->create($dataitem);
+
+                    if($request->status_id > 1)
+                    {
+
+                        $itemstock->quantity = $itemstock->quantity - $request->item_quantity[$key];
+
+                        $itemstock->save();
+
+                        $movimentCreate = [
+                            'mov_type' => 2,
+                            'client_record_id' => $clientrecord->id,
+                            'item_id'          => $clientrecorditem->item_id,
+                            'quantity'         => $clientrecorditem->quantity
+                        ];
+                        
+                        //Cria saida de estoque se a nota estiver fechada ou paga
+                        $moviments = $this->moviment->create($movimentCreate);
+                    }
+                }
+            }
+            
+            //Adicionando serviços da nota
+            if($request->service_id <> '')
+            { 
+                foreach ($request->service_id as $key => $service)
+                {
+                    $services = $this->service->findOrFail($service);
+
+                    $dataservice = [
+                        'service_id'       => $service,
+                        'client_record_id' => $clientrecord->id,
+                        'quantity'         => $request->service_quantity[$key],
+                        'service_total'    => $request->service_quantity[$key] * $services->price
+                    ];
+
+                    $totalRecord = $totalRecord + ($request->service_quantity[$key] * $services->price);
+
+                    $clientrecordservice = $this->clientrecordservice->create($dataservice);
+                }
+            }
+            //Atualiza total da nota
+            
+            $clientrecord->record_total = $totalRecord - $discount;
+            $clientrecord->save();
+
+            $paymentmethod = $this->paymentmethod->findOrFail($request->paymentmethod_id);
+
+            $x = 1;
+
+            while( $x <= $paymentmethod->parcel)
+            {
+                
+                $parceldate = Carbon::now()->addDays($paymentmethod->period * $x);
+
+                $parcelData = [
+                    'client_record_id'  => $clientrecord->id,
+                    'payment_method_id' => $paymentmethod->id,
+                    'status'            => $request->status_id,
+                    'value'             => $totalRecord / $paymentmethod->parcel,
+                    'date'              => $parceldate,
+                    'number'            => $x,
+                    'parcel_number'     => $paymentmethod->parcel                          
+                ];
+
+                $parcel = $this->parcel->create($parcelData);
+
+                $x = $x + 1;
+            };
+
+            $notification = array(
+                'message' => 'Pedido Criado!' , 
+                'alert-type' => 'success'
+            );
+
+            return redirect('admin/home')->with($notification);
+        }
 
         $notification = array(
-            'message' => 'Pedido Criado!' , 
-            'alert-type' => 'success'
+            'message' => 'Nenhum item adicionado!' , 
+            'alert-type' => 'error'
         );
 
-        return redirect('admin/home')->with($notification);
+        return redirect()->back()->with($notification);
+        
     } 
 
     public function recordsEdit($id)
@@ -208,141 +220,172 @@ class ClientRecordController extends Controller
     {        
         $clientrecord = $this->clientrecord->findOrFail($id);
 
+        if($request->prevision != null)
+        {
+            $clientrecord->prevision = $request->prevision;
+            $clientrecord->save();
+        }
+        if($request->conclusion != null)
+        {
+            $clientrecord->conclusion = $request->conclusion;
+            $clientrecord->save();
+        }
+
+
         $totalRecord = 0;
 
-        $clientrecorditem = $this->clientrecorditem->get()->where('client_record_id', '=', $clientrecord->id)->first();
-        $clientrecordservice = $this->clientrecordservice->get()->where('client_record_id', '=', $clientrecord->id)->first();
-
-        //Limpa Itens e Serviços da nota
-        while($clientrecorditem <> null or $clientrecordservice <> null)
-        {  
-
-            if($clientrecorditem <> null)
-            {
-                $clientrecorditem->delete();
-            }
-            if($clientrecordservice <> null)
-            {
-                $clientrecordservice->delete();
-            }
-            
-            $clientrecorditem = $this->clientrecorditem->get()->where('clientrecorditem->client_record_id', '=', $clientrecord->id)->first();
-            $clientrecordservice = $this->clientrecordservice->get()->where('clientrecordservice->client_record_id', '=', $clientrecord->id)->first();
-        };
-
-        $moviments = $this->moviment->get()->where('client_record_id', '=', $clientrecord->id)->first();
-        $parcel = $this->parcel->get()->where('client_record_id', '=', $clientrecord->id)->first();
-
-        //Limpa Parcelas e Movimentos da Nota
-        while($moviments <> null or $parcel <> null)
+        if($clientrecord->status > 1)
         {
-            
-            if($moviments <> null)
-            {
-                $moviments->delete();
-            }
-            if($parcel <> null)
-            {
-                $parcel->delete();
-            }           
-            $moviments = $this->moviment->get()->where('client_record_id', '=', $clientrecord->id)->first();
-            $parcel = $this->parcel->get()->where('client_record_id', '=', $clientrecord->id)->first();            
+            $notification = array(
+                'message' => 'Nota já Fechada!' , 
+                'alert-type' => 'error'
+            );
+    
+            return redirect()->back()->with($notification); 
         }
 
-        //Recria o conteudo da nota com todas as suas funçoes
-
-        if($request->item_id <> '')
+        if(isset($request->item_id) || isset($request->service_id))
         {
-            foreach ($request->item_id as $key => $item)
-            {
-                $items     = $this->item->findOrFail($item);
-                $itemstock = $this->itemstock->where('item_id','=', $items->id)->first();
 
-                $dataitem = [
-                    'item_id'          => $items->id,
-                    'client_record_id' => $clientrecord->id,
-                    'quantity'         => $request->item_quantity[$key],
-                    'item_total'       => $request->item_quantity[$key] * $items->price
-                ];
+            $clientrecorditem = $this->clientrecorditem->get()->where('client_record_id', '=', $clientrecord->id)->first();
+            $clientrecordservice = $this->clientrecordservice->get()->where('client_record_id', '=', $clientrecord->id)->first();
 
-                $totalRecord = $totalRecord + ($request->item_quantity[$key] * $items->price);
+            //Limpa Itens e Serviços da nota
+            while($clientrecorditem <> null or $clientrecordservice <> null)
+            {  
 
-                $clientrecorditem = $this->clientrecorditem->create($dataitem);
-
-                if($request->status_id > 1)
+                if($clientrecorditem <> null)
                 {
+                    $clientrecorditem->delete();
+                }
+                if($clientrecordservice <> null)
+                {
+                    $clientrecordservice->delete();
+                }
+                
+                $clientrecorditem = $this->clientrecorditem->get()->where('clientrecorditem->client_record_id', '=', $clientrecord->id)->first();
+                $clientrecordservice = $this->clientrecordservice->get()->where('clientrecordservice->client_record_id', '=', $clientrecord->id)->first();
+            };
 
-                    $itemstock->quantity = $itemstock->quantity - $request->item_quantity[$key];
+            $moviments = $this->moviment->get()->where('client_record_id', '=', $clientrecord->id)->first();
+            $parcel = $this->parcel->get()->where('client_record_id', '=', $clientrecord->id)->first();
 
-                    $itemstock->save();
+            //Limpa Parcelas e Movimentos da Nota
+            while($moviments <> null or $parcel <> null)
+            {
+                
+                if($moviments <> null)
+                {
+                    $moviments->delete();
+                }
+                if($parcel <> null)
+                {
+                    $parcel->delete();
+                }           
+                $moviments = $this->moviment->get()->where('client_record_id', '=', $clientrecord->id)->first();
+                $parcel = $this->parcel->get()->where('client_record_id', '=', $clientrecord->id)->first();            
+            }
 
-                    $movimentCreate = [
-                        'mov_type' => 2,
+            //Recria o conteudo da nota com todas as suas funçoes
+
+            if($request->item_id <> '')
+            {
+                foreach ($request->item_id as $key => $item)
+                {
+                    $items     = $this->item->findOrFail($item);
+                    $itemstock = $this->itemstock->where('item_id','=', $items->id)->first();
+
+                    $dataitem = [
+                        'item_id'          => $items->id,
                         'client_record_id' => $clientrecord->id,
-                        'item_id'          => $clientrecorditem->item_id,
-                        'quantity'         => $clientrecorditem->quantity
+                        'quantity'         => $request->item_quantity[$key],
+                        'item_total'       => $request->item_quantity[$key] * $items->price
                     ];
-                    
-                    //Cria saida de estoque se a nota estiver fechada ou paga
-                    $moviments = $this->moviment->create($movimentCreate);
+
+                    $totalRecord = $totalRecord + ($request->item_quantity[$key] * $items->price);
+
+                    $clientrecorditem = $this->clientrecorditem->create($dataitem);
+
+                    if($request->status_id > 1)
+                    {
+
+                        $itemstock->quantity = $itemstock->quantity - $request->item_quantity[$key];
+
+                        $itemstock->save();
+
+                        $movimentCreate = [
+                            'mov_type' => 2,
+                            'client_record_id' => $clientrecord->id,
+                            'item_id'          => $clientrecorditem->item_id,
+                            'quantity'         => $clientrecorditem->quantity
+                        ];
+                        
+                        //Cria saida de estoque se a nota estiver fechada ou paga
+                        $moviments = $this->moviment->create($movimentCreate);
+                    }
                 }
             }
-        }
-        //Adicionando serviços da nota
-        if($request->service_id <> '')
-        { 
-            foreach ($request->service_id as $key => $service)
-            {
-                $services = $this->service->findOrFail($service);
+            //Adicionando serviços da nota
+            if($request->service_id <> '')
+            { 
+                foreach ($request->service_id as $key => $service)
+                {
+                    $services = $this->service->findOrFail($service);
 
-                $dataservice = [
-                    'service_id'       => $service,
-                    'client_record_id' => $clientrecord->id,
-                    'quantity'         => $request->service_quantity[$key],
-                    'service_total'    => $request->service_quantity[$key] * $services->price
+                    $dataservice = [
+                        'service_id'       => $service,
+                        'client_record_id' => $clientrecord->id,
+                        'quantity'         => $request->service_quantity[$key],
+                        'service_total'    => $request->service_quantity[$key] * $services->price
+                    ];
+
+                    $totalRecord = $totalRecord + ($request->service_quantity[$key] * $services->price);
+
+                    $clientrecordservice = $this->clientrecordservice->create($dataservice);
+                }
+            }
+            //Atualiza total da nota
+
+            $clientrecord->record_total = $totalRecord;
+            $clientrecord->save();
+
+            $paymentmethod = $this->paymentmethod->findOrFail($request->paymentmethod_id);
+
+            $x = 1;
+
+            while( $x <= $paymentmethod->parcel)
+            {
+                $parceldate = Carbon::now()->addDays($paymentmethod->period * $x);
+
+                $parcelData = [
+                    'client_record_id'  => $clientrecord->id,
+                    'payment_method_id' => $paymentmethod->id,
+                    'status'            => $request->status_id,
+                    'value'             => $totalRecord / $paymentmethod->parcel,
+                    'date'              => $parceldate,
+                    'number'            => $x,
+                    'parcel_number'     => $paymentmethod->parcel                          
                 ];
 
-                $totalRecord = $totalRecord + ($request->service_quantity[$key] * $services->price);
+                $parcel = $this->parcel->create($parcelData);
 
-                $clientrecordservice = $this->clientrecordservice->create($dataservice);
-            }
+                $x = $x + 1;
+            };
+
+            $notification = array(
+                'message' => 'Nota Atualizado!' , 
+                'alert-type' => 'success'
+            );
+
+            return redirect(route('records.search'))->with($notification);
         }
-        //Atualiza total da nota
-
-        $clientrecord->record_total = $totalRecord;
-        $clientrecord->save();
-
-        $paymentmethod = $this->paymentmethod->findOrFail($request->paymentmethod_id);
-
-        $x = 1;
-
-        while( $x <= $paymentmethod->parcel)
-        {
-            $parceldate = Carbon::now()->addDays($paymentmethod->period * $x);
-
-            $parcelData = [
-                'client_record_id'  => $clientrecord->id,
-                'payment_method_id' => $paymentmethod->id,
-                'status'            => $request->status_id,
-                'value'             => $totalRecord / $paymentmethod->parcel,
-                'date'              => $parceldate,
-                'number'            => $x,
-                'parcel_number'     => $paymentmethod->parcel                          
-            ];
-
-            $parcel = $this->parcel->create($parcelData);
-
-            $x = $x + 1;
-        };
 
         $notification = array(
-            'message' => 'Pedido Atualizado!' , 
-            'alert-type' => 'success'
+            'message' => 'Nenhum item adicionado!' , 
+            'alert-type' => 'error'
         );
 
-        return redirect(route('records.search'))->with($notification);
-
-        //return redirect(route('records.edit', $clientrecord->id));        
+        return redirect()->back()->with($notification);       
     }
 
     public function statusUpdate($id, $status)
@@ -400,18 +443,27 @@ class ClientRecordController extends Controller
             'alert-type' => 'success'
         );
 
+        $notification = array(
+            'message' => 'Nota Atualizada!' , 
+            'alert-type' => 'success'
+        );
+
         return redirect(route('records.search'))->with($notification);
     }
 
     public function recordsDestroy($id)
     {
-        
         $clientrecord = $this->clientrecord->findOrFail($id);
 
         if($clientrecord->status < 3)
         {
-            $record->delete();
-            return redirect('admin/home')->with('success','Information has been  deleted');
+            $notification = array(
+                'message' => 'Nota Deletada!' , 
+                'alert-type' => 'success'
+            );
+
+            $clientrecord->delete();
+            return redirect('admin/home')->with($notification);
         }
         else
         {
@@ -472,9 +524,27 @@ class ClientRecordController extends Controller
         ];
 
         $parcel->update($parcelupdate);
-        $parcel->save();        
+        $parcel->save();     
 
-        return redirect('admin/home')->with('Okay');
+        $notification = array(
+            'message' => 'Parcela Atualizada!' , 
+            'alert-type' => 'success'
+        );
+        
+        $pending = $this->parcel->get()->where('client_record_id', '=', $parcel->client_record_id)->where('status', '<>', 3)->first();
+
+        if($pending == false)
+        {
+            $clientrecord = $this->clientrecord->findOrFail($parcel->client_record_id);
+
+            $clientrecord->status = 3;
+
+            $clientrecord->save();
+
+            return redirect(route('records.search'));
+        }
+
+        return redirect(route('records.edit', $parcel->client_record_id))->with($notification);
     }
 
     public function parcelsDestroy($id)
@@ -505,7 +575,12 @@ class ClientRecordController extends Controller
 
         $parcel->delete();
 
-        return redirect('record/search');
+        $notification = array(
+            'message' => 'Parcela deletada!' , 
+            'alert-type' => 'success'
+        );
+
+        return redirect('record/search')->with($notification);
     }
 
 

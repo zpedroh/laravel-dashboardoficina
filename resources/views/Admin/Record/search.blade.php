@@ -32,12 +32,12 @@
               <tr>
                 <td>{{$clientrecord->id}}</td>
                 <td>{{$clientrecord->getClient->name}}</td>
-                <td>{{$clientrecord->created_at->format('d-m-Y')}}</td>
+                <td>{{$clientrecord->created_at->format('d/m/Y')}}</td>
                 <td>
                   @if($clientrecord->status == 1)
                     <span class="label label-warning">Aberto</span> 
                   @elseif($clientrecord->status == 2)
-                    <span class="label label-primary">Pendente</span> 
+                    <span class="label label-primary">Fechada</span> 
                   @elseif($clientrecord->status == 3)
                     <span class="label label-success">Pago</span> 
                   @else
@@ -48,7 +48,9 @@
                 <td>
                   <a class="btn-primary btn-xs" data-toggle="modal" data-target="#record-content{{$clientrecord['id']}}"><span class="glyphicon glyphicon-eye-open"></span></a>
                   <a class="btn-xs btn-warning" type="submit" href="{{ route('records.edit', $clientrecord['id'])}}"><span class="fa fa-edit"></span></a>
-                  {{--<a class="btn-xs btn-danger delete-confirm" value="{{ route('records.destroy', $clientrecord['id']) }}" type="button"><span class="fa fa-trash"></span></a>--}}
+                  @if($clientrecord->status == 1)
+                    <a class="btn-xs btn-danger delete-confirm" href="{{ route('records.destroy', $clientrecord['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                  @endif
                   <a href="{{route('record.print', $clientrecord->id)}}" target="_blank" class="btn-xs btn-default"><i class="fa fa-file-pdf-o"></i></a>
                 </td>
               </tr>
@@ -63,17 +65,21 @@
                       <span aria-hidden="true">&times;</span></button>
                       <h4 class="modal-title">Conteudo do Pedido</h4>
                     </div>
-                    <div class="modal-body">    
-                      @foreach($clientrecord->getItems as $clientrecorditem)
-                      <li>
-                        {{$clientrecorditem->getItem->name}} {{$clientrecorditem->quantity}} {{$clientrecorditem->item_total}}
-      
-                      </li>
-                      @endforeach @foreach($clientrecord->getServices as $clientrecordservice)
-                      <li>
-                        {{$clientrecordservice->getservice->name}} {{$clientrecordservice->quantity}} {{$clientrecordservice->service_total}}
-                      </li>      
-                      @endforeach
+                    <div class="modal-body">                
+                        
+                        @foreach($clientrecord->getItems as $clientrecorditem)
+                        <li>
+                            <strong>Produto:</strong> {{$clientrecorditem->getItem->name}} | <strong>Marca:</strong> {{$clientrecorditem->getItem->getBrand->name}} | <strong>Qtd:</strong> {{$clientrecorditem->quantity}} | <strong>Total:</strong> R$ {{$clientrecorditem->item_total}}
+                        </li>
+                        @endforeach 
+                      
+                      @isset($clientrecord->getServices)
+                        @foreach($clientrecord->getServices as $clientrecordservice)
+                        <li>
+                          <strong>Serviço:</strong> {{$clientrecordservice->getservice->name}} | <strong>Qtd:</strong> {{$clientrecordservice->quantity}} | <strong>Total:</strong> R$ {{$clientrecordservice->service_total}}
+                        </li>      
+                        @endforeach
+                      @endisset
                     </div>
                   </div>
                   <!-- /.modal-content -->

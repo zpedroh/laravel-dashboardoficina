@@ -1,5 +1,5 @@
 @extends('adminlte::page') 
-@section('title', 'BS') 
+@section('title', 'Relatorio') 
 @section('content_header')
 <h1>Produtos Vendidos Periodo</h1>
 @stop 

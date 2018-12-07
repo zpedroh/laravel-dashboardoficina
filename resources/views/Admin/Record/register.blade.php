@@ -56,7 +56,7 @@
                             <select class="form-control select-item" id="item_id" name="item_id">
                                 <option value="">Selecione um Produto</option>
                                 @foreach($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }} - {{ $item->getBrand->name }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }} | {{ $item->getBrand->name }}</option>
                                 @endforeach                   
                             </select>
                         </div>
@@ -142,11 +142,11 @@
 
                     <div class="col-md-2">
                         <label for="prevision">Previsão:</label>
-                        <input type="date" name="prevision" id="prevision" class="form-control">                        
+                        <input type="date" name="prevision" id="prevision" class="form-control" disabled required>                        
                     </div>
                     <div class="col-md-2">
                             <label for="conclusion">Conclusão:</label>
-                            <input type="date" name="conclusion" id="conclusion" class="form-control">
+                            <input type="date" name="conclusion" id="conclusion" class="form-control" disabled>
                     </div>
                     <div class="col-md-2"></div>
                     <div class="col-md-3">
@@ -183,7 +183,7 @@
                     
                     <div class="col-md-4">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary form-control pull-right" style="margin-top: 7%;">Criar</button>
+                            <button type="submit" id="create" class="btn btn-primary form-control pull-right" style="margin-top: 7%;">Criar</button>
                         </div>
                     </div>
                 </div>

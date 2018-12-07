@@ -246,7 +246,7 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <label for="complement">Complemento:</label>
-                                <input type="text" name="complement" placeholder="Complemento" class="form-control" required>
+                                <input type="text" name="complement" placeholder="Complemento" class="form-control">
                             </div>
                         </div>
                     </div>

@@ -26,11 +26,12 @@
 
                             <div class="pull-right">
                                 <button type="button" class="btn btn-default">Status</button>
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="padding-top: 14%; padding-bottom: 14%;">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
-                                <ul class="dropdown-menu" role="menu">
+                                <ul class="dropdown-menu" role="menu">                                    
+                                    <li><a href="{{ route('status.update', [$clientrecord['id'], 2])}}">Fechada</a></li>
                                     <li><a href="{{ route('status.update', [$clientrecord['id'], 3])}}">Paga</a></li>
                                     <li><a href="{{ route('status.update', [$clientrecord['id'], 4])}}">Cancelada</a></li>
                                 </ul>
@@ -60,7 +61,7 @@
                         <input type="hidden" id="amount" value="{{ $clientrecord->record_total }}">
                         <input type="hidden" id="soma" value="{{ $clientrecord->record_total }}">
         
-                        
+                        <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-3">                  
                 
@@ -112,14 +113,14 @@
                                 <div class="table-responsive">
                                     <div class="col-md-6">
                                         <table class="table table-striped table-bordered" id="content_item">
-                                            <thead>
+                                            <thead style="font-size: 13px;">
                                                 <th>Descrição</th>
                                                 <th>Marca</th>
                                                 <th>Quantidade</th>
                                                 <th>Preço(un)</th>
                                                 <th>Valor Total</th>
                                             </thead>
-                                            <tbody>
+                                            <tbody style="font-size: 13px;">
                                                     @foreach($clientrecord->getItems as $recorditem)
                                                     <tr>
                                                         <td>{{$recorditem->getItem->name}}</td>
@@ -150,13 +151,13 @@
                                     
                                     <div class="col-md-6">
                                         <table class="table table-striped table-bordered" id="content_service">
-                                            <thead>
+                                            <thead style="font-size: 13px;">
                                                 <th>Descrição</th>
                                                 <th>Quantidade</th>
                                                 <th>Preço(un)</th>
                                                 <th>Valor Total</th>
                                             </thead>
-                                            <tbody>
+                                            <tbody style="font-size: 13px;">
                                                     
                                                     @if(isset($clientrecord->getServices)) 
                                                     @foreach($clientrecord->getServices as $recordservice)
@@ -261,11 +262,10 @@
                     <table class="table table-stripped">
                         <thead>
                             <th>Numero</th>
-                            <th>Status</th>
-                            <th>Data de Vencimento</th>
+                            <th>Status</th>                            
                             <th>Forma de Pagamento</th>
                             <th>Periodo</th>
-                            <th>Vencimento</th>
+                            <th>Data de Vencimento</th>
                             <th>Valor</th>
                             <th></th>
                         </thead>
@@ -284,10 +284,9 @@
                                         <span class="label label-danger">Cancelada</span>
                                     @endif                                 
                                 </td>
-                                <td>{{$parcel->date}}</td>
                                 <td>{{$parcel->getMethod->type}}</td>
                                 <td>{{$parcel->getMethod->period}}</td>
-                                <td>{{$parcel->date}}</td>
+                                <td>{{$parcel->date_formatted}}</td>
                                 <td>R$ {{$parcel->value}}</td>
                                 <td>
                                     @if($parcel->status < 3)
@@ -308,17 +307,18 @@
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Entrada de Estoque</h4>
+                                            <h4 class="modal-title">Editar Parcela</h4>
                                         </div>
 
                                         <div class="modal-body">
                                             <form method="get" action="{{route('parcels.update', $parcel->id)}}">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="name" value="{{$parcel->number}}" disabled>
-
+                                                    <label for="number">Nº:</label>
+                                                    <input type="text" class="form-control" name="number" value="{{$parcel->number}}" disabled>
+                                                    <label for="date">Data Vencimento:</label>
                                                     <input type="date" class="form-control" name="date" value="{{$parcel->date}}">
-
+                                                    <label for="status">Status:</label>
                                                     <select name="status" id="status" class="form-control">
                                                             <option value="2">Pendente</option>
                                                             <option value="3">Paga</option>

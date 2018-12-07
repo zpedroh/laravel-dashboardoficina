@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Relatorio') 
 @section('content_header')
-<h1>Serviços Pendentes</h1>
+<h1>Notas em Atendimento</h1>
 @stop 
 @section('content')
 
@@ -16,7 +16,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="report_table">
                     <thead>
-                        <th>Nº Pedido</th>
+                        <th>Nota Nº</th>
                         <th>Cliente</th>
                         <th>Serviço</th>
                         <th>Previsão</th>
@@ -29,7 +29,7 @@
                                 <td>{{$result['client_record_id']}}</td>
                                 <td>{{$result['client_name']}}</td>
                                 <td>{{$result['service_name']}}</td>
-                                <td>R$ {{$result['prevision']}}</td>
+                                <td>{{$result['prevision']}}</td>
                             </tr>
     
                         @endforeach

@@ -1,7 +1,7 @@
 @extends('adminlte::page') 
 @section('title', 'Relatorio') 
 @section('content_header')
-<h1>Pedidos por Periodo</h1>
+<h1>Notas por Periodo</h1>
 @stop 
 @section('content')
 
@@ -11,19 +11,21 @@
             @csrf
             <div class="input-group input-group-sm">
             
-                <span class="input-group-btn">
-                    <label for="date-start"> Data inicio:</label>
-                    <div class="col-sm-4">                            
+                
+                    
+                    <div class="col-sm-4">  
+                        <label for="date-start"> Data inicio:</label>                          
                         <input type="date" id="date_start" name="date_start" class="form-control" required>
                     </div>
-                    <label for="date-end"> Data fim:</label>
-                    <div class="col-sm-4">                            
+                    
+                    <div class="col-sm-4">    
+                        <label for="date-end"> Data fim:</label>                        
                         <input type="date" id="date_end" name="date_end" placeholder="Data Fim" class="form-control" required>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-4" style="margin-top: 4%">
                         <button type="submit" class="btn btn-info btn-flat"><span class="fa fa-search"></span></button>
                     </div>
-                </span>                              
+                                          
             </div>
             <div class="row" style="margin: 0.1%;">
 
@@ -31,7 +33,7 @@
                     <label for="status">Clientes:</label>
                     <select id="status" class="form-control js-example-basic-multiple1" name="clients[]" multiple="multiple">
                         @foreach($client as $client)
-                            <option value="{{ $client->id }}">{{ $client->id }} | {{ $client->name }}</option>                         
+                            <option value="{{ $client->id }}" style="color:black;">{{ $client->id }} | {{ $client->name }}</option>                         
                         @endforeach
                     </select>
                 </div>
