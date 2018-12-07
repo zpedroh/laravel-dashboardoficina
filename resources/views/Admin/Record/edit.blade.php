@@ -217,9 +217,9 @@
                                     <div class="col-md-4">
                                         <label for="paymentmethod_id">Forma de Pagamento:</label>
                                         <select class="form-control" id="paymentmethod_id" name="paymentmethod_id" required>
-                                            <option value="">Selecione a Forma de Pagamento</option>
+                                            <option value="">Selecione a Forma de Pagamento (Metodo/Parcelas/Periodo)</option>
                                             @foreach($paymentmethod as $method)
-                                                <option value="{{ $method->id }}">{{ $method->type}}</option>
+                                                <option value="{{ $method->id }}">{{ $method->type}} | {{ $method->parcel}} | {{ $method->period}}</option>
                                             @endforeach                   
                                         </select>
                                     </div>
@@ -380,7 +380,7 @@
                         <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
                                             <option value="">Selecione a Forma de Pagamento</option>
                                             @foreach($paymentmethod as $method)
-                                                <option value="{{ $method->id }}">{{ $method->type}}</option>
+                                                <option value="{{ $method->id }}">{{ $method->type}} | {{ $method->parcel}} | {{ $method->period}}</option>
                                             @endforeach                   
                                     </select>
 

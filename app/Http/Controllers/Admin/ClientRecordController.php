@@ -231,6 +231,7 @@ class ClientRecordController extends Controller
             $clientrecord->save();
         }
 
+        #dd('1');
 
         $totalRecord = 0;
 
@@ -270,6 +271,8 @@ class ClientRecordController extends Controller
             $moviments = $this->moviment->get()->where('client_record_id', '=', $clientrecord->id)->first();
             $parcel = $this->parcel->get()->where('client_record_id', '=', $clientrecord->id)->first();
 
+            #dd('2');
+
             //Limpa Parcelas e Movimentos da Nota
             while($moviments <> null or $parcel <> null)
             {
@@ -285,6 +288,8 @@ class ClientRecordController extends Controller
                 $moviments = $this->moviment->get()->where('client_record_id', '=', $clientrecord->id)->first();
                 $parcel = $this->parcel->get()->where('client_record_id', '=', $clientrecord->id)->first();            
             }
+
+            #dd('3');
 
             //Recria o conteudo da nota com todas as suas funçoes
 
@@ -325,6 +330,9 @@ class ClientRecordController extends Controller
                     }
                 }
             }
+
+            #dd('4');
+
             //Adicionando serviços da nota
             if($request->service_id <> '')
             { 
@@ -344,6 +352,9 @@ class ClientRecordController extends Controller
                     $clientrecordservice = $this->clientrecordservice->create($dataservice);
                 }
             }
+
+            #dd('5');
+
             //Atualiza total da nota
 
             $clientrecord->record_total = $totalRecord;
@@ -353,6 +364,8 @@ class ClientRecordController extends Controller
 
             $x = 1;
 
+            #dd('6');
+
             while( $x <= $paymentmethod->parcel)
             {
                 $parceldate = Carbon::now()->addDays($paymentmethod->period * $x);
@@ -360,7 +373,7 @@ class ClientRecordController extends Controller
                 $parcelData = [
                     'client_record_id'  => $clientrecord->id,
                     'payment_method_id' => $paymentmethod->id,
-                    'status'            => $request->status_id,
+                    'status'            => $clientrecord->status,
                     'value'             => $totalRecord / $paymentmethod->parcel,
                     'date'              => $parceldate,
                     'number'            => $x,
@@ -377,7 +390,8 @@ class ClientRecordController extends Controller
                 'alert-type' => 'success'
             );
 
-            return redirect(route('records.search'))->with($notification);
+            #return redirect(route('records.search'))->with($notification);
+            return redirect(route('records.edit', $parcel->client_record_id))->with($notification);
         }
 
         $notification = array(
@@ -455,7 +469,7 @@ class ClientRecordController extends Controller
     {
         $clientrecord = $this->clientrecord->findOrFail($id);
 
-        if($clientrecord->status < 3)
+        if($clientrecord->status <> 3)
         {
             $notification = array(
                 'message' => 'Nota Deletada!' , 
