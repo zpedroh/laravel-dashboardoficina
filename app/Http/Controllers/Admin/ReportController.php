@@ -354,8 +354,9 @@ class ReportController extends Controller
     public function pserviceGet(Request $request)
     {
 
-        $start = Carbon::createFromFormat('Y-m-d', $request->date_start)->format('d/m/Y');
+        $start = Carbon::createFromFormat('Y-m-d', $request->date_start);
         #$end = Carbon::createFromFormat('Y-m-d', $request->date_end)->format('d/m/Y');
+
         
         $clientrecord = $this->clientrecord->all()->where('prevision', '<=', $start)->where('conclusion', '=', null);
         
