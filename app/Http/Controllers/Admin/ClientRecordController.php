@@ -563,6 +563,8 @@ class ClientRecordController extends Controller
 
     public function parcelsDestroy($id)
     {
+       # dd('oi');
+
         $record = $this->parcel->findOrFail($id);
 
         $number = $this->parcel->orderBy('id', 'desc')->where('client_record_id', '=', $record->client_record_id)->get()->first();
@@ -571,30 +573,45 @@ class ClientRecordController extends Controller
 
         $quantity = $this->parcel->all()->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->count();
 
-        $newValue = ($value) / ($quantity - 1);
+        
 
         #dd($newValue,$value);
 
         $parcel = $this->parcel->get()->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->first();
+        
+        $lastparcel = $this->parcel->orderBy('id', 'desc')->where('client_record_id', '=', $record->client_record_id)->where('status', '<', 3)->where('id', '<>', $parcel->id)->get()->first();
 
-        while($parcel <> null)
-        {
-            $parcel->value = $newValue;
-            $parcel->save();
+        if($lastparcel <> null)
+        { 
+            $newValue = ($value) / ($quantity - 1);
 
-            $parcel = $this->parcel->get()->where('id', '=', $parcel->id + 1)->where('status', '<', 3)->first();
+            while($parcel <> null)
+            {
+                $parcel->value = $newValue;
+                $parcel->save();
+
+                $parcel = $this->parcel->get()->where('id', '=', $parcel->id + 1)->where('status', '<', 3)->first();
+            }
+
+            $parcel = $this->parcel->findOrFail($id);
+
+            $parcel->delete();
+
+            $notification = array(
+                'message' => 'Parcela deletada!' , 
+                'alert-type' => 'success'
+            );
+
+            return redirect(route('records.edit', $parcel->client_record_id))->with($notification);
         }
-
-        $parcel = $this->parcel->findOrFail($id);
-
-        $parcel->delete();
-
-        $notification = array(
-            'message' => 'Parcela deletada!' , 
-            'alert-type' => 'success'
-        );
-
-        return redirect('record/search')->with($notification);
+        else
+        {
+            $notification = array(
+                'message' => 'A ultima parcela não pode ser deletada!' , 
+                'alert-type' => 'error'
+            );
+            return redirect(route('records.edit', $parcel->client_record_id))->with($notification);
+        }
     }
 
 

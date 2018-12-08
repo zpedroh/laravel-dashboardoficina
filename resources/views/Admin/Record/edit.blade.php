@@ -217,7 +217,7 @@
                                     <div class="col-md-4">
                                         <label for="paymentmethod_id">Forma de Pagamento:</label>
                                         <select class="form-control" id="paymentmethod_id" name="paymentmethod_id" required>
-                                            <option value="">Selecione a Forma de Pagamento (Metodo/Parcelas/Periodo)</option>
+                                            <option value="">(Metodo/Parcelas/Periodo)</option>
                                             @foreach($paymentmethod as $method)
                                                 <option value="{{ $method->id }}">{{ $method->type}} | {{ $method->parcel}} | {{ $method->period}}</option>
                                             @endforeach                   
@@ -296,7 +296,7 @@
                                 </td>
                                 <td>
                                     @if($parcel->status < 3)         
-                                        <a class="btn-xs btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button"><span class="fa fa-trash"></span></a>
+                                        <a class="btn-xs btn-danger delete-confirm" href="{{ route('parcels.destroy', $parcel['id']) }}" type="button"><span class="fa fa-trash"></span></a>
                                         {{--<button class="btn-xs btn-danger delete-confirm" value="{{ route('parcels.destroy', $parcel['id']) }}" type="button">Delete</button>--}}
                                     @endif
                                 </td>
@@ -370,25 +370,28 @@
 
                         <input type="hidden" name="record_id" id="record_id" value="{{$clientrecord->id}}">
 
-                        <input type="date" class="form-control" name="date" placeholder="Data">
+                        <label for="date">Data de Vencimento:</label>
+                        <input type="date" class="form-control" id="date" name="date" placeholder="Data">
 
+                        <label for="status">Status:</label>
                         <select name="status" id="status" class="form-control">
                                         <option value="2">Pendente</option>
                                         <option value="3">Paga</option>
                                     </select>
 
+                        <label for="paymentmethod_id">Forma de Pagamento:</label>
                         <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
-                                            <option value="">Selecione a Forma de Pagamento</option>
+                                            <option value="">(Metodo/Parcelas/Periodo)</option>
                                             @foreach($paymentmethod as $method)
                                                 <option value="{{ $method->id }}">{{ $method->type}} | {{ $method->parcel}} | {{ $method->period}}</option>
                                             @endforeach                   
                                     </select>
-
+                        <label for="value">Valor:</label>
                         <input type="text" class="form-control" name="value" id="value">
                     </div>
                     <div class="modal-footer">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success">Salvar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
                         </div>
                     </div>
@@ -420,6 +423,7 @@
 <script>
     $("#record_total").maskMoney({prefix: 'R$ ', thousands:' ', decimal: '.'});
     $("#discount").maskMoney({prefix: 'R$ ', thousands:' ', decimal: '.'});
+    $("#value").maskMoney({prefix: 'R$ ', thousands:' ', decimal: '.'});
 </script>
 
 @stop
