@@ -22,5 +22,16 @@ class clientseeder extends Seeder
             'street'=>'1',
             'number'=>'1',
         ]);
+        DB::table('tb_adress')->insert([
+            'name'=>'Teste',
+            'cpf'=>'1',
+            'country'=>'1',
+            'state'=>'1',
+            'zipcode'=>'1',
+            'city'=>'1',
+            'district'=>'1',
+            'street'=>'1',
+            'number'=>'1',
+        ]);
     }
 }

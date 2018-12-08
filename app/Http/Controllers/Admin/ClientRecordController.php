@@ -104,6 +104,7 @@ class ClientRecordController extends Controller
 
             if($request->item_id <> '')
             {
+                #dd($request->item_id);
                 foreach ($request->item_id as $key => $item)
                 {
                     $items     = $this->item->findOrFail($item);
@@ -189,11 +190,11 @@ class ClientRecordController extends Controller
             };
 
             $notification = array(
-                'message' => 'Pedido Criado!' , 
+                'message' => 'Nota Criada!' , 
                 'alert-type' => 'success'
             );
 
-            return redirect('admin/home')->with($notification);
+            return redirect('admin/record/search')->with($notification);
         }
 
         $notification = array(
@@ -453,7 +454,7 @@ class ClientRecordController extends Controller
         $clientrecord->save();
 
         $notification = array(
-            'message' => 'Status do Pedido Atualizado!' , 
+            'message' => 'Status da Nota Atualizado!' , 
             'alert-type' => 'success'
         );
 

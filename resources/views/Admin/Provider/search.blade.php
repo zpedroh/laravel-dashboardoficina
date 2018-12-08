@@ -133,19 +133,23 @@
             
                                         <div class="modal-body">
                                             
-                                            <h4>Endereço</h4>
-                                            <li>Cep: {{$provider->getAdress->zipcode}}</li>
-                                            <li>Cidade: {{$provider->getAdress->city}}</li>
-                                            <li>Estado(UF):{{$provider->getAdress->state}}</li>
-                                            <li>Bairro:{{$provider->getAdress->district}}</li>
-                                            <li>Rua:{{$provider->getAdress->street}}</li>
-                                            <li>Nº:{{$provider->getAdress->number}}</li>
-                                            <li>Complemento:{{$provider->getAdress->complement}}</li>
-                                            
-                                            <h4>Produtos do Fornecedor</h4>
+                                            <h4><strong>Endereço</strong></h4>
+
+                                            <p>Rua:{{$provider->getAdress->street}}, Nº:{{$provider->getAdress->number}} <br>
+                                            Bairro:{{$provider->getAdress->district}} - Cidade: {{$provider->getAdress->city}} - Cep: {{$provider->getAdress->zipcode}}<br>
+                                            Estado:{{$provider->getAdress->state}}<br>
+                                            Complemento:{{$provider->getAdress->complement}}
+                                            </p>
+
+                                            @if(isset($provider->getPItems->id))
+                                            <h4><strong>Produtos do Fornecedor</strong></h4>
+                                           
                                             @foreach($provider->getPItems as $pitem)
-                                                <li>Descrição: {{$pitem->getItem->name}} Valor: {{$pitem->value}}</li>
-                                            @endforeach                                    
+                                            <p>Descrição: {{$pitem->getItem->name}} <br>
+                                                Valor: R$ {{$pitem->value}}
+                                                </p>
+                                            @endforeach  
+                                            @endif                                  
                                             
                                         </div>
                                         <div class="modal-footer">

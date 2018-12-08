@@ -223,22 +223,20 @@
 
                             <div class="modal-body">                            
 
-                                <h4>Endereço</h4>
-                                <li>Cep: {{$client->getAdress->zipcode}}</li>
-                                <li>Cidade: {{$client->getAdress->city}}</li>
-                                <li>Estado(UF): {{$client->getAdress->state}}</li>
-                                <li>Bairro: {{$client->getAdress->district}}</li>
-                                <li>Rua: {{$client->getAdress->street}}</li>
-                                <li>Nº: {{$client->getAdress->number}}</li>
-                                <li>Complemento: {{$client->getAdress->complement}}</li>
-                                @if($client->getRecords <> '')
-                                <h4>Notas em Aberto</h4>
+                                <h4> <strong>Endereço</strong> </h4>
+                                <p>Rua:{{$client->getAdress->street}}, Nº:{{$client->getAdress->number}} <br>
+                                    Bairro:{{$client->getAdress->district}} - Cidade: {{$client->getAdress->city}} - Cep: {{$client->getAdress->zipcode}}<br>
+                                    Estado:{{$client->getAdress->state}}<br>
+                                    Complemento:{{$client->getAdress->complement}}
+                                    </p>
+                                @if($client->getRecords <> null)
+                                <h4> <strong>Notas em Aberto</strong> </h4>
                                 @foreach($client->getRecords as $recordopen) 
                                     @if($recordopen->status < '3') 
-                                        <li> <strong>Nº:</strong>  {{$recordopen->id}} <strong> | Total:</strong> R$ {{$recordopen->record_total}}</li>
+                                        <p> Nº: {{$recordopen->id}} | Total: R$ {{$recordopen->record_total}}
                                     @endif 
                                 @endforeach
-                                @endif
+                                @endif                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>

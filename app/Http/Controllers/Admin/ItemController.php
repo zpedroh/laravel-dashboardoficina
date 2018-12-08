@@ -48,10 +48,14 @@ class ItemController extends Controller
         $begin = Carbon::now()->startOfMonth();
         $end   = Carbon::now()->endOfMonth();
         #$yesterday = Carbon::now()->subDays(1);
+
+        #dd($begin, $end);
         
         $itemexit = $this->moviment->whereBetween('created_at',[$begin,$end])->get()->where('mov_type', '=', 2)->sum('quantity');
 
-        $parcels = $this->parcel->orderBy('id')->whereBetween('created_at',[$begin,$end])->get()->where('status', '<', 3);
+        $parcels = $this->parcel->orderBy('id')->whereBetween('date',[$begin,$end])->get()->where('status', '<', 3);
+
+        #dd($parcels);
 
         $client_quantity = $this->client->whereBetween('created_at',[$begin,$end])->count();
 
@@ -81,14 +85,9 @@ class ItemController extends Controller
         #}
 
         $item = $this->item->orderBy('name', 'asc')->get();
-
-        $notification = array(
-            'message' => 'I am a successful message!', 
-            'alert-type' => 'success'
-        );
         
 
-        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent', 'itemexit'))->with($notification);
+        return view('admin.index', compact('item', 'parcels', 'tdate', 'record_quantity', 'client_quantity', 'payedpercent', 'itemexit'));
     }
 
     public function itemsRegister()
@@ -131,7 +130,7 @@ class ItemController extends Controller
         $moviments = $this->moviment->create($movimentCreate);
 
         $notification = array(
-            'message' => 'Item Registrado!' , 
+            'message' => 'Produto Registrado!' , 
             'alert-type' => 'success'
         );
 
@@ -203,7 +202,7 @@ class ItemController extends Controller
         $item_stock->save();
 
         $notification = array(
-            'message' => 'Item Atualizado!' , 
+            'message' => 'Produto Atualizado!' , 
             'alert-type' => 'success'
         );
 

@@ -85,10 +85,11 @@
             <div class="col-md-6">
                 <strong> Produtos com baixo estoque:</strong>
                 <div class="table-responsive">
+                    <div style="overflow: auto; height: 500px">
                     <table class="table table-hover">
                         <thead>
                             <th>Nome</th>
-                            <th>Categoria</th>
+                            <th>Modelo</th>
                             <th>Marca</th>
                             <th>Localizaçao</th>
                             <th>Estoque</th>
@@ -100,7 +101,7 @@
 
                                     <tr>
                                         <td>{{$item->name}}</td>
-                                        <td>{{$item->getCategory->name}}</td>
+                                        <td>{{$item->model}}</td>
                                         <td>{{$item->getBrand->name}}</td>
                                         <td>{{$item->location}}</td>
                                         <td>{{$item->getItemStock->quantity}}</td>
@@ -154,12 +155,14 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
         @endisset 
 
         @isset($parcels)
             <div class="col-md-6">
                 <div class="table-responsive">
+                    <div style="overflow: auto; height: 500px">
                     <table class="table table-hover">
                         <strong>Parcelas Pendentes do Mês:</strong>
 
@@ -187,6 +190,7 @@
                             @endforeach 
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         @endisset

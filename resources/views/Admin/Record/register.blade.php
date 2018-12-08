@@ -56,7 +56,7 @@
                             <select class="form-control select-item" id="item_id" name="item_id">
                                 <option value="">Selecione um Produto</option>
                                 @foreach($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }} | {{ $item->getBrand->name }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }} | {{ $item->getBrand->name }} | {{ $item->model }}</option>
                                 @endforeach                   
                             </select>
                         </div>
@@ -163,7 +163,7 @@
 
                     <div class="col-md-4">
                         <label for="paymentmethod_id">Forma de Pagamento:</label>
-                        <select class="form-control" id="paymentmethod_id" name="paymentmethod_id">
+                        <select class="form-control" id="paymentmethod_id" name="paymentmethod_id" required>
                             <option value="">(Metodo/Parcelas/Periodo)</option>
                             @foreach($paymentmethod as $method)
                                 <option value="{{ $method->id }}">{{ $method->type}} | {{ $method->parcel}} | {{ $method->period}}</option>
@@ -173,7 +173,7 @@
 
                     <div class="col-md-4">
                         <label for="status_id">Status:</label>
-                        <select class="form-control" id="status_id" name="status_id">
+                        <select class="form-control" id="status_id" name="status_id" required>
                             <option value="">Selecione o Status</option>
                             <option value="1">Aberto</option> 
                             <option value="2">Fechado</option> 

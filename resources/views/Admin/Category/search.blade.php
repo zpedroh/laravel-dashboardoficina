@@ -7,7 +7,7 @@
 @section('content')
 
 
-<div class="col-md-8">
+
   <div class="box">
     <div class="box-header">
         <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#modal-default">
@@ -87,7 +87,7 @@
 
     </div>
   </div>
-</div>
+
 
 
 

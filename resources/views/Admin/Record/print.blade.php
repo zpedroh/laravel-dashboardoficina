@@ -181,7 +181,7 @@
                       @endif
                     </td>
                     <td>
-                      {{$parcel->date}}
+                      {{$parcel->date_formatted}}
                     </td>
                   </tr>      
 
