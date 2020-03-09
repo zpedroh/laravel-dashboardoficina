@@ -3,6 +3,7 @@ $(function () {
 
     $('#add').on('click', function () {
 
+
         var url = window.location.href;
         var id = $('#produto_id').val();
         var qty = $('#qty').val();

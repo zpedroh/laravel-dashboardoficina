@@ -19,6 +19,8 @@ $(function () {
     //create
     $('.add-item').on('click', function () {
 
+        alert('')
+
         var url        = window.location.href;
         var product_id = $('#item_id').val();
         var amount     = $('#item_amount').val();
